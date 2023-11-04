@@ -1,4 +1,5 @@
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
@@ -14,8 +15,9 @@ class User(db.Model, SerializerMixin):
     pfp = db.Column(db.String)
     created = db.Column(db.DateTime, default = datetime.utcnow)
 
-    #favorites = db.relationship()
-    #posts = db.relationship()
+    reviews = db.relationship('Review', backref = 'user_reviews')
+    favorites = db.relationship('Favorite', backref = 'user_favorites')
+    posts = db.relationship('Game', backref='created_by')
 
     @hybrid_property
     def password_hash(self):
@@ -44,8 +46,8 @@ class Game(db.Model, SerializerMixin):
     playcount = db.Column(db.Integer)
     score = db.Column(db.Integer, default =0)
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
-    
-    #favorited_by = db.relationship() 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    favorited_by = db.relationship('Favorite', backref='game_favorites') 
      
 class Review(db.Model, SerializerMixin):
 
@@ -55,4 +57,10 @@ class Review(db.Model, SerializerMixin):
     score = db.Column(db.Integer)
     created = db.Column(db.DateTime, default = datetime.utcnow)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+
+
+class Favorite(db.Model, SerializerMixin):
+    __tablename__ = 'favorites'
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))

@@ -68,7 +68,6 @@ class Profile(Resource):
         db.session.commit()
         return '', 204
 
-class 
 # Views go here!
 api.add_resource(Home, '/')
 
