@@ -7,6 +7,15 @@ export default function Banner() {
     const [loginform, toggleLoginForm] = useState(false)
     const [signupform,toggleSignupForm] = useState(false)
 
+    function handleLogin(data){
+        console.log('sending login req', data)
+
+    }
+
+    function handleSignUp(data){
+        console.log('sendinag signup req:', data)
+    }
+
     return (
         <div>
           <img alt ='bun_byte_logo' src='../images/bba_logo.png'/>
@@ -16,8 +25,8 @@ export default function Banner() {
           <h3>/</h3>
           <h3 onClick={()=> toggleSignupForm(true)} >Sign Up</h3>
           </Fragment>
-          {loginform === false ? null: <LoginForm toggleLoginForm={toggleLoginForm}/>}
-          {signupform ===false? null: <SignUpForm toggleSignupForm={toggleSignupForm}/>}
+          {loginform === false || signupform == true ? null: <LoginForm toggleLoginForm={toggleLoginForm} handleLogin={handleLogin} />}
+          {signupform ===false || loginform == true ? null: <SignUpForm toggleSignupForm={toggleSignupForm} handleSignUp={handleSignUp} />}
         </div>
       )
 }
