@@ -42,13 +42,14 @@ class Game(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
     description = db.Column(db.String)
+    thumbnail = db.Column(db.String)
+    category = db.Column(db.String)
     path = db.Column(db.String)
     playcount = db.Column(db.Integer)
     score = db.Column(db.Integer, default =0)
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    favorited_by = db.relationship('Favorite', backref='game_favorites') 
-     
+    favorited_by = db.relationship('Favorite', backref='game_favorites')
 class Review(db.Model, SerializerMixin):
 
     __tablename__ = 'reviews'
