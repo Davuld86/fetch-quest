@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Banner from "./Banner";
 import NavBar from "./NavBar";
@@ -10,9 +10,9 @@ function App() {
     <Banner/>
     <NavBar/>
     <BrowserRouter>
-      <Routes>
+      <Switch>
         <Route path='/' element ={<Home/>}/>
-      </Routes>
+      </Switch>
     </BrowserRouter>
     </Fragment>
   )

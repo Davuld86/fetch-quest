@@ -1,33 +1,47 @@
 import React, {useState} from 'react'
+import { Field, Form, Formik } from 'formik';
+import { signUpSchema } from '../schemas';
 
 export default function SignUpForm({toggleSignupForm, handleSignUp }){
-const formDefault = {username:'', password:'', confirmP:''}
-const [formData, setFormData] = useState(formDefault)
+  const [showPassword, setShowPassword] = useState(false)
+  return (
+    <div>
+    <h1>Sign Up</h1>
+    <button onClick={()=>toggleSignupForm(false)}>X</button>
+    <Formik
+      initialValues={{
+        username: '',
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={signUpSchema}
+      onSubmit={async (values, actions) => {
+        handleSignUp(values)
 
-const handleForm = e=>{
-    const {name, value} = e.target
-    setFormData({
-        ...formData,
-        [name]:value
-    })
-}
+        actions.resetForm()
+      }}
+    >
+      {({ isSubmitting, errors, touched }) => (
+        <Form>
+          <label htmlFor="username">Username</label>
+          <Field name="username" />
+          {errors.username && touched.username? (<p>{errors.username}</p>):null}
 
+          <label htmlFor="password">Password</label>
+          <Field name="password" type='password'/>
+          {errors.password && touched.password ? (<p>{errors.password}</p>):null}
 
-return (
-      <div>
-        <form onSubmit={(e)=> {e.preventDefault(); handleSignUp(formData);setFormData(formDefault)}}>
-        <h2>Sign Up</h2>
-        <button onClick={()=> toggleSignupForm(false)} >X</button>
-        <label>Username:</label>
-        <input type='text' name= 'username' value={formData.username} onChange={handleForm}/>
-        <label>Password</label>
-        <input type='text' name ='password' value ={formData.password} onChange={handleForm}/>
-        <label>Confirm Password</label>
-        <input type='text' name='confirmP' value={formData.confirmP} onChange={handleForm}/>
-        <button >Create Account</button>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <Field name="confirmPassword" type="password" />
+          {errors.confirmPassword && touched.confirmPassword ? (<p>{errors.confirmPassword}</p>):null}
 
-        </form>
-      </div>
+          <button type="submit" disabled={isSubmitting || !errors}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  </div>
     )
   }
 

@@ -1,27 +1,39 @@
 import React, {useState} from 'react'
-
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 export default function LoginForm({toggleLoginForm, handleLogin}) {
-    const formDefault = {username: '', password:''}
-    const [formData, setFormData] = useState(formDefault)
-
-    const handleForm = (e) =>{
-        const {name, value} = e.target
-        setFormData({
-            ...formData,
-            [name]: value
-        })
+  const [showPassword, setShowPassword] = useState(false)
+  const validate = values => {
+    const errors={};
+    if(!values.username){
+      errors.username = 'Required';
     }
+    if(!values.password){
+      errors.password = 'Required';
+    }
+  }
     return (
       <div>
-        <h2>Login</h2>
-        <form onSubmit={(e)=> {e.preventDefault(); handleLogin(formData); setFormData(formDefault)}}>
+        <h1>Login</h1>
         <button onClick={()=>toggleLoginForm(false)}>X</button>
-        <label>Username:</label>
-        <input type='text' value={formData.username} onChange={handleForm} name='username' />
-        <label>Password:</label>
-        <input type='text' name='password' value={formData.password} onChange={handleForm}/>
-        <button>login</button>
-        </form>
+        <Formik
+         initialValues={{username: '', password:''}}
+         onSubmit={async(values)=> {await new Promise((r) => setTimeout(r,500));
+        handleLogin(values);
+        values= {username: '', password:''}
+        }}>
+          <Form>
+            <label htmlFor='username'>Username:</label>
+            <Field id= 'username' name='username' />
+            <br/>
+            <label htmlFor='password'>Password:</label>
+            <Field id='password' name='password' type={showPassword? 'text': 'password'}/>
+            <br/>
+            <label htmlFor='checkbox'>Show Password</label>
+            <input type='checkbox' onChange={()=> setShowPassword((prev)=> (!prev))}/>
+            <br/>
+            <button type='submit'>Login</button>
+          </Form>
+        </Formik>
       </div>
     )
 }
