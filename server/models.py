@@ -30,7 +30,7 @@ class User(db.Model, SerializerMixin):
         print(self._password_hash)
 
     def authenticate(self, password):
-
+       print(password)
        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
 class Game(db.Model, SerializerMixin):

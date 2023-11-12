@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, session, make_response
+from flask import request, session, make_response, jsonify
 from flask_restful import Resource
 
 # Local imports
@@ -14,7 +14,8 @@ from models import *
 class Home(Resource):
     def get(self):
         games = Game.query.limit(20).all()
-        return games.to_dict(), 200
+        res = make_response(jsonify(games),200)
+        return res
 
 class CheckSession(Resource):
     def get(self):
@@ -32,7 +33,7 @@ class SignUp(Resource):
         else:
             new_user = User(
                 username = json['username'].strip(),
-                _password_hash = json['password']
+                password_hash = json['password']
             )
             db.session.add(new_user)
             db.session.commit()
@@ -56,8 +57,8 @@ class Logout(Resource):
         return '', 204
 
 class Profile(Resource):
-    def get(self, username):
-        user = User.query.filter_by(username = username).first()
+    def get(self, user_id):
+        user = User.query.filter_by(id = user_id).first()
         return user.to_dict()
 
     def patch(self):
@@ -82,7 +83,7 @@ api.add_resource(Home, '/')
 api.add_resource(Login,'/login', endpoint = 'login')
 api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-
+api.add_resource(Profile, '/user/<int:user_id>/')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
