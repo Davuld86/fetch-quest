@@ -9,24 +9,61 @@ export default function Banner() {
 
     function handleLogin(data){
         console.log('sending login req', data)
-
+        let [username, password] = [data.username, data.password]
+        fetch('/login',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username,
+            password
+          }),
+        })
+        .then((r)=>{
+          r.ok? r.json() :r.json().then((d)=> alert(d.error))
+        })
     }
 
     function handleSignUp(data){
-        console.log('sendinag signup req:', data)
+        console.log('sendinag signup req:',data)
+        let [username, password] = [data.username, data.password]
+        fetch('/signup', {
+          method: 'POST',
+          headers:{
+            "Content-Type":"application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        })
+        .then((r)=> {
+          if(r.ok){
+            r.json()
+          }
+          else{
+           r.json().then((d)=> alert(d.error))
+          }
+        })
+      }
+
+    function handleSearch(query){
+      console.log(query)
     }
 
     return (
         <div>
           <img alt ='bun_byte_logo' src='../images/bba_logo.png'/>
-          <SearchBar/>
+          <SearchBar handleSearch ={handleSearch}/>
+
           <Fragment>
-          <h3 onClick={()=>toggleLoginForm(true)} >Login</h3>
+          <h3 onClick={()=>{toggleLoginForm(true);toggleSignupForm(false)}} >Login</h3>
           <h3>/</h3>
-          <h3 onClick={()=> toggleSignupForm(true)} >Sign Up</h3>
+          <h3 onClick={()=> {toggleSignupForm(true);toggleLoginForm(false)}} >Sign Up</h3>
           </Fragment>
-          {loginform === false || signupform == true ? null: <LoginForm toggleLoginForm={toggleLoginForm} handleLogin={handleLogin} />}
-          {signupform ===false || loginform == true ? null: <SignUpForm toggleSignupForm={toggleSignupForm} handleSignUp={handleSignUp} />}
+          {loginform === false == true ? null: <LoginForm toggleLoginForm={toggleLoginForm} handleLogin={handleLogin} />}
+          {signupform ===false == true ? null: <SignUpForm toggleSignupForm={toggleSignupForm} handleSignUp={handleSignUp} />}
         </div>
       )
 }

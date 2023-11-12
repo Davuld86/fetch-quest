@@ -3,7 +3,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
-from config import db
+from config import db, bcrypt
 
 # Models go here!
 class User(db.Model, SerializerMixin):
@@ -11,30 +11,27 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
-    _password_hash = db.Column(db.String)
     pfp = db.Column(db.String)
     created = db.Column(db.DateTime, default = datetime.utcnow)
-
+    bio = db.Column(db.String)
     reviews = db.relationship('Review', backref = 'user_reviews')
     favorites = db.relationship('Favorite', backref = 'user_favorites')
     posts = db.relationship('Game', backref='created_by')
+    _password_hash = db.Column(db.String)
 
     @hybrid_property
     def password_hash(self):
-        return self._password_hash
+         return self._password_hash
 
-    # setter method for the password property
     @password_hash.setter
     def password_hash(self, password):
-        self._password_hash = self.simple_hash(password)
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+        print(self._password_hash)
 
-    # authentication method using user and password
     def authenticate(self, password):
-        return self.simple_hash(password) == self.password_hash
 
-    @staticmethod
-    def simple_hash(input):
-        return sum(bytearray(input, encoding='utf-8'))
+       return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
@@ -50,6 +47,7 @@ class Game(db.Model, SerializerMixin):
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     favorited_by = db.relationship('Favorite', backref='game_favorites')
+
 class Review(db.Model, SerializerMixin):
 
     __tablename__ = 'reviews'
@@ -63,5 +61,7 @@ class Review(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
+    id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+

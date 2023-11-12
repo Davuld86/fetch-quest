@@ -16,14 +16,22 @@ class Home(Resource):
         games = Game.query.limit(20).all()
         return games.to_dict(), 200
 
+class CheckSession(Resource):
+    def get(self):
+        if session['user_id']:
+            user = User.query.filter(User.id ==session['user_id']).first()
+            return user.to_dict(), 200
+        else:
+            return {'error': 'Not logged in'}, 401
+
 class SignUp(Resource):
     def post(self):
         json = request.get_json()
-        if User.query.filter_by(username = json['username']):
-            return {'error': 'Username already taken.'}, 401
+        if User.query.filter_by(username = json['username'].lower()).first():
+            return ({'error': 'Username already taken.'}, 401)
         else:
             new_user = User(
-                username = json['username'],
+                username = json['username'].strip(),
                 _password_hash = json['password']
             )
             db.session.add(new_user)
@@ -33,13 +41,14 @@ class SignUp(Resource):
 class Login(Resource):
     def post(self):
         json = request.get_json()
-        user = User.query.filter_by(username = json['username']).first()
-
-        if user.authenticate(json['password']) == False:
-            return {'error': 'Username or Password incorrect'},401
-        else:
+        print(json)
+        user = User.query.filter(User.username == json['username']).first()
+        if user == None:
+            return {'error': 'Username or Password Incorrect'}, 401
+        if user.authenticate(json['password']):
             session['user_id'] = user.id
-            return user.to_dict(),200
+            return user.to_dict(), 200
+        return {'error': 'Username or Password Incorrect'}, 401
 
 class Logout(Resource):
     def delete(self):
@@ -50,7 +59,7 @@ class Profile(Resource):
     def get(self, username):
         user = User.query.filter_by(username = username).first()
         return user.to_dict()
-    
+
     def patch(self):
         data = request.get_json()
         user = User.query.filter(User.id ==session['user_id']).first()
@@ -70,7 +79,9 @@ class Profile(Resource):
 
 # Views go here!
 api.add_resource(Home, '/')
-
+api.add_resource(Login,'/login', endpoint = 'login')
+api.add_resource(SignUp, '/signup', endpoint = 'signup')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 
 
 if __name__ == '__main__':

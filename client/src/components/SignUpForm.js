@@ -28,13 +28,15 @@ export default function SignUpForm({toggleSignupForm, handleSignUp }){
           {errors.username && touched.username? (<p>{errors.username}</p>):null}
 
           <label htmlFor="password">Password</label>
-          <Field name="password" type='password'/>
+          <Field name="password" type={showPassword? 'text': 'password'}/>
           {errors.password && touched.password ? (<p>{errors.password}</p>):null}
 
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <Field name="confirmPassword" type="password" />
+          <Field name="confirmPassword" type={showPassword? 'text': 'password'} />
           {errors.confirmPassword && touched.confirmPassword ? (<p>{errors.confirmPassword}</p>):null}
 
+          <label htmlFor='checkbox'>Show Password</label>
+            <input type='checkbox' onChange={()=> setShowPassword((prev)=> (!prev))}/>
           <button type="submit" disabled={isSubmitting || !errors}>
             Submit
           </button>

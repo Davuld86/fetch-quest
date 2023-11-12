@@ -3,7 +3,7 @@ import GameContainer from './GameContainer'
 
 export default class Home extends Component {
   render() {
-    console.log(sessionStorage)
+
     return (
       <div>
         <h1>Home</h1>
