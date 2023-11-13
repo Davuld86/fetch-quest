@@ -42,7 +42,6 @@ class SignUp(Resource):
 class Login(Resource):
     def post(self):
         json = request.get_json()
-        print(json)
         user = User.query.filter(User.username == json['username']).first()
         if user == None:
             return {'error': 'Username or Password Incorrect'}, 401

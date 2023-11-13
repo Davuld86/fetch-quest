@@ -1,11 +1,11 @@
 import React, {Fragment, useState} from 'react'
 import SearchBar from './SearchBar'
-import LoginForm from './LoginForm'
-import SignUpForm from './SignUpForm'
+import NoUser from './NoUser'
+import LoggedUser from './LoggedUser'
 
 export default function Banner() {
-    const [loginform, toggleLoginForm] = useState(false)
-    const [signupform,toggleSignupForm] = useState(false)
+
+    const [user, setUser] = useState(null)
 
     function handleLogin(data){
         console.log('sending login req', data)
@@ -21,7 +21,15 @@ export default function Banner() {
           }),
         })
         .then((r)=>{
-          r.ok? r.json() :r.json().then((d)=> alert(d.error))
+          if(r.ok){
+            r.json()
+            .then(d=>{console.log(d); setUser(d)})
+
+          }
+           else{
+            r.json()
+            .then((d)=> alert(d.error))
+           }
         })
     }
 
@@ -54,16 +62,9 @@ export default function Banner() {
 
     return (
         <div>
-          <img alt ='bun_byte_logo' src='../images/bba_logo.png'/>
+          <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{width:'50%'}}/>
           <SearchBar handleSearch ={handleSearch}/>
-
-          <Fragment>
-          <h3 onClick={()=>{toggleLoginForm(true);toggleSignupForm(false)}} >Login</h3>
-          <h3>/</h3>
-          <h3 onClick={()=> {toggleSignupForm(true);toggleLoginForm(false)}} >Sign Up</h3>
-          </Fragment>
-          {loginform === false == true ? null: <LoginForm toggleLoginForm={toggleLoginForm} handleLogin={handleLogin} />}
-          {signupform ===false == true ? null: <SignUpForm toggleSignupForm={toggleSignupForm} handleSignUp={handleSignUp} />}
+          {user? <LoggedUser user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>
       )
 }
