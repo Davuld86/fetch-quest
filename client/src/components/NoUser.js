@@ -7,7 +7,7 @@ export default function NoUser({handleLogin, handleSignUp}) {
     const [signupform,toggleSignupForm] = useState(false)
 
     return (
-    <div>
+    <div style={{display:'flex'}}>
           <h3 onClick={()=>{toggleLoginForm(true);toggleSignupForm(false)}} >Login</h3>
           <h3>/</h3>
           <h3 onClick={()=> {toggleSignupForm(true);toggleLoginForm(false)}} >Sign Up</h3>

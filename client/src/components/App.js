@@ -11,7 +11,9 @@ function App() {
     <NavBar/>
     <BrowserRouter>
       <Switch>
-        <Route path='/' element ={<Home/>}/>
+        <Route exact path='/'>
+          <Home/>
+        </Route>
       </Switch>
     </BrowserRouter>
     </Fragment>
