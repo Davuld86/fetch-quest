@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 
-export default class NavBar extends Component {
-  render() {
+export default function NavBar(){
     return (
       <div>
-        <div>
-            <li>Action</li>
-            <li>Adventure</li>
-            <li>Puzzle</li>
-            <li>Shooting</li>
-            <li>Strategy</li>
-            <li>More</li>
-        </div>
+        <ul style={{display:'flex',justifyContent:'space-evenly'}}>
+            <p>Action</p>
+            <p>Adventure</p>
+            <p>Puzzle</p>
+            <p>Shooting</p>
+            <p>Strategy</p>
+            <p>More</p>
+        </ul>
       </div>
     )
-  }
+
 }

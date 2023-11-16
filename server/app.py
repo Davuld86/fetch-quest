@@ -11,14 +11,22 @@ from config import app, db, api
 # Add your model imports
 from models import *
 
-class Home(Resource):
+class AllGames(Resource):
     def get(self):
-        games = Game.query.limit(20).all()
-        res = make_response(jsonify(games),200)
-        return res
+        games = Game.query.all()
+        return[game.to_dict() for game in games],200
+
+class GameID(Resource):
+    def get(self, game_id):
+
+        game = Game.query.filter(Game.id == game_id).first()
+        if game == None:
+            return {'error': 'Game not found'}, 401
+        return (game.to_dict(),200)
 
 class CheckSession(Resource):
     def get(self):
+
         if session['user_id']:
             user = User.query.filter(User.id ==session['user_id']).first()
             return user.to_dict(), 200
@@ -33,7 +41,7 @@ class SignUp(Resource):
         else:
             new_user = User(
                 username = json['username'].strip(),
-                password_hash = json['password']
+                password_hash = json['password'].strip()
             )
             db.session.add(new_user)
             db.session.commit()
@@ -78,7 +86,8 @@ class Profile(Resource):
         return '', 204
 
 # Views go here!
-api.add_resource(Home, '/')
+api.add_resource(AllGames, '/all_games')
+api.add_resource(GameID, '/game/<int:game_id>/')
 api.add_resource(Login,'/login', endpoint = 'login')
 api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')

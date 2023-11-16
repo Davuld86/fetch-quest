@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
+import GameCard from './GameCard'
 
-export default class GameContainer extends Component {
-  render() {
-    return (
-      <div>
-        <h4>games</h4>
-      </div>
-    )
-  }
+export default function GameContainer({games}) {
+  return (
+    <div style={{display:'grid'}}>
+      GameContainer
+      {games? games.map((game)=> <GameCard key={game.id} game={game}/>):null}
+    </div>
+  )
 }

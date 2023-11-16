@@ -9,6 +9,8 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
+    serialize_rules = ('-posts', )
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
     pfp = db.Column(db.String, default='../images/default_pfp.jpg')
@@ -34,13 +36,15 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
 
+    serialize_rules = ('-user_posts', )
+
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
     description = db.Column(db.String)
     thumbnail = db.Column(db.String)
     category = db.Column(db.String)
     path = db.Column(db.String)
-    playcount = db.Column(db.Integer)
+    playcount = db.Column(db.Integer, default=0)
     score = db.Column(db.Integer, default =0)
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -62,4 +66,5 @@ class Favorite(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+
 

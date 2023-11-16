@@ -2,6 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react'
 import SearchBar from './SearchBar'
 import NoUser from './NoUser'
 import LoggedUser from './LoggedUser'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 export default function Banner() {
 
@@ -72,9 +73,10 @@ export default function Banner() {
 
     return (
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-          <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{width:'15%'}}/>
-          <img src='../images/bba_text.png'style={{width:'30%'}}></img>
-
+          <Link to='/'>
+          <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{maxWidth:'80px'}}/>
+          <img src='../images/bba_text.png'style={{maxHeight:'100px'}}></img>
+          </Link>
           <SearchBar handleSearch ={handleSearch}/>
           {user? <LoggedUser user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>

@@ -3,16 +3,25 @@ import {BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Banner from "./Banner";
 import NavBar from "./NavBar";
-
+import GamePage from "./GamePage";
+import NoPage from "./NoPage";
 function App() {
+
+
   return(
     <Fragment>
+    <BrowserRouter>
     <Banner/>
     <NavBar/>
-    <BrowserRouter>
       <Switch>
         <Route exact path='/'>
           <Home/>
+        </Route>
+        <Route path='/play/:id'>
+          <GamePage/>
+        </Route>
+        <Route path='*'>
+          <NoPage/>
         </Route>
       </Switch>
     </BrowserRouter>
