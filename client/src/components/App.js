@@ -5,8 +5,8 @@ import Banner from "./Banner";
 import NavBar from "./NavBar";
 import GamePage from "./GamePage";
 import NoPage from "./NoPage";
+import UserPage from "./UserPage";
 function App() {
-
 
   return(
     <Fragment>
@@ -14,15 +14,10 @@ function App() {
     <Banner/>
     <NavBar/>
       <Switch>
-        <Route exact path='/'>
-          <Home/>
-        </Route>
-        <Route path='/play/:id'>
-          <GamePage/>
-        </Route>
-        <Route path='*'>
-          <NoPage/>
-        </Route>
+        <Route exact path='/'>  <Home/>   </Route>
+        <Route path='/play/:id'> <GamePage/> </Route>
+        <Route path='/user/:id'> <UserPage/>  </Route>
+        <Route path='*'> <NoPage/> </Route>
       </Switch>
     </BrowserRouter>
     </Fragment>

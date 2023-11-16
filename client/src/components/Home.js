@@ -21,8 +21,7 @@ export default function Home() {
 
   return (
     <div>
-    <h1>Home</h1>
-    <h3>Thumpin'-New</h3>
+    <h3>Thumpin' New</h3>
     <GameContainer games ={newGames}/>
     <h3>Hop-ular Hits</h3>
     <GameContainer games={popularGames}/>
