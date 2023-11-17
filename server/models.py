@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts', )
+    serialize_rules = ('-posts','-reviews', )
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
@@ -49,13 +49,17 @@ class Game(db.Model, SerializerMixin):
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     favorited_by = db.relationship('Favorite', backref='game_favorites')
-
+    reviews = db.relationship('Review', backref='reviewed')
 class Review(db.Model, SerializerMixin):
 
     __tablename__ = 'reviews'
 
+    serialize_rules = ('-user_reviews','-reviewed' )
+
     id = db.Column(db.Integer, primary_key=True)
-    score = db.Column(db.Integer)
+    game_score = db.Column(db.Integer)
+    comment_score = db.Column(db.Integer, default=0)
+    comment = db.Column(db.String)
     created = db.Column(db.DateTime, default = datetime.utcnow)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))

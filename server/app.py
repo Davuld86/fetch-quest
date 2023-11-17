@@ -23,6 +23,18 @@ class GameID(Resource):
         if game == None:
             return {'error': 'Game not found'}, 401
         return (game.to_dict(),200)
+    def post(self, game_id):
+        json = request.get_json()
+        print(json)
+        review = Review(
+            game_score = json['score'],
+            comment = json['comment'],
+            user_id = json['user_id'],
+            game_id = game_id,
+        )
+        db.session.add(review)
+        db.session.commit()
+        return review.to_dict(),200
 
 class CheckSession(Resource):
     def get(self):
@@ -66,7 +78,9 @@ class Logout(Resource):
 class Profile(Resource):
     def get(self, user_id):
         user = User.query.filter_by(id = user_id).first()
-        return user.to_dict()
+        if user:
+            return user.to_dict(), 200
+        return {'error': 'No bunny found in this burrow'}
 
     def patch(self):
         data = request.get_json()

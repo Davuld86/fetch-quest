@@ -8,7 +8,6 @@ export default function EmbedGame({source}) {
         height ='100%'
         width ='100%'
         allowFullScreen
-        allow='autoplay'
         scrolling='no'
         >
         </iframe>

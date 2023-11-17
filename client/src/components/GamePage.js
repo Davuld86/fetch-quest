@@ -12,7 +12,6 @@ const [error, setError] =useState(null)
 const [favorited, toggleFavorite] = useState(false)
 
 useEffect(() => {
-    // auto-login
     fetch(`/game/${gameID}/`).then((r) => {
       if (r.ok) {
         r.json().then((d)=> setGame(d));
@@ -22,27 +21,30 @@ useEffect(() => {
       }
     });
   }, []);
+
 if(game){
+
 const creator = game.created_by
 return (
-    <div>
+    <div style={{display:'grid'}}>
+        <div style={{display:'grid',justifyContent:'center'}}>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
+        <p>Score:{game.score}</p>
         <p>Total plays: {game.playcount? game.playcount.length:0}</p>
         <button>Favorite Game</button>
-        <p>Published on: {game.release_date}</p>
-        <div>
-
+        <p>Published: {game.release_date}</p>
         </div>
         <div>
             <h3>Developed by:</h3>
             <Link to={`/user/${creator.id}`}>
             <h4>{creator.username}</h4>
             <img src={creator.pfp} style={{maxHeight:'60px',borderRadius:'50%'}}></img>
+            {game.description?<p>{game.description}</p>:null}
             </Link>
             {creator.bio?<p>{creator.bio}</p> :null}
         </div>
-        <ReviewContainer/>
+        <ReviewContainer gameID={gameID} game={game}/>
     </div>
   )
 
