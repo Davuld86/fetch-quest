@@ -23,15 +23,15 @@ useEffect(() => {
   }, []);
 
 if(game){
-
+console.log(game.playcount)
 const creator = game.created_by
 return (
     <div style={{display:'grid'}}>
         <div style={{display:'grid',justifyContent:'center'}}>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
-        <p>Score:{game.score}</p>
-        <p>Total plays: {game.playcount? game.playcount.length:0}</p>
+        <p>Score: {game.score}</p>
+        <p>Total plays: {game.playcount? game.playcount:0}</p>
         <button>Favorite Game</button>
         <p>Published: {game.release_date}</p>
         </div>

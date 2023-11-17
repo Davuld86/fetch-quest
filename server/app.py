@@ -18,11 +18,17 @@ class AllGames(Resource):
 
 class GameID(Resource):
     def get(self, game_id):
-
         game = Game.query.filter(Game.id == game_id).first()
         if game == None:
             return {'error': 'Game not found'}, 401
+        if game.playcount == None:
+            game.playcount =1
+        else:
+            game.playcount += 1
+        db.session.add(game)
+        db.session.commit()
         return (game.to_dict(),200)
+
     def post(self, game_id):
         json = request.get_json()
         review = Review(
