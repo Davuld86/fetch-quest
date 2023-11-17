@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 export default function ReviewContainer({gameID, game}) {
     const [user, setUser] = useState(null)
     const[reviews, setReviews] = useState(game.reviews)
-    console.log(reviews)
+
     useEffect(() => {
       fetch("/check_session").then((r) => {
         if (r.ok) {
@@ -40,11 +40,19 @@ export default function ReviewContainer({gameID, game}) {
           })
     }
 
+    function handleDelete(review){
+        fetch(`/review/${review.id}`, {
+            method: 'DELETE'
+        }).then(setReviews((reviews)=> reviews.filter((rev)=>rev.id!=review.id)))
+
+    }
+
   return (
     <div className='reviewContainer'>
         ReviewContainer
-        <ReviewForm handleSubmit={handleSubmit}/>
-        {reviews?reviews.map((review)=><Review key={review.id} review={review}/>):null}
+        {reviews.filter((rev)=>rev.user_id == user.id)? null:<ReviewForm handleSubmit={handleSubmit}/>}
+        <h3>{reviews.length} Review{reviews.length>1?'s':''}</h3>
+        {reviews&&user?reviews.map((review)=><Review handleDelete={handleDelete} userID={user.id} key={review.id} review={review}/>):null}
     </div>
   )
 }

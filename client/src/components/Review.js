@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-export default function Review({review}) {
+export default function Review({review, userID, handleDelete}) {
     const [user, setUser] = useState(null)
     useEffect(() => {
         fetch(`/user/${review.user_id}`).then((r) => {
@@ -22,6 +22,7 @@ export default function Review({review}) {
             <p>{review.comment_score}</p>
         </span>
         <p>Posted: {review.created}</p>
+        {review.user_id== userID?<button onClick={()=>handleDelete(review, userID)}>Delete review</button>:null}
     </div>
   )
 }

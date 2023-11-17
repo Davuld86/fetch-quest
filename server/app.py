@@ -25,7 +25,6 @@ class GameID(Resource):
         return (game.to_dict(),200)
     def post(self, game_id):
         json = request.get_json()
-        print(json)
         review = Review(
             game_score = json['score'],
             comment = json['comment'],
@@ -35,6 +34,19 @@ class GameID(Resource):
         db.session.add(review)
         db.session.commit()
         return review.to_dict(),200
+
+class ReviewID(Resource):
+    def get(self, review_id):
+        review = Review.query.filter(Review.id == review_id).first()
+        if review:
+            return review.to_dict(),200
+        return {'error': 'No review found'}, 404
+
+    def delete(self, review_id):
+        review = Review.query.filter(Review.id== review_id).first()
+        db.session.delete(review)
+        db.session.commit()
+        return '', 204
 
 class CheckSession(Resource):
     def get(self):
@@ -106,7 +118,7 @@ api.add_resource(Login,'/login', endpoint = 'login')
 api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Profile, '/user/<int:user_id>/')
-
+api.add_resource(ReviewID, '/review/<int:review_id>/')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
