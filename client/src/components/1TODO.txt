@@ -1,0 +1,55 @@
+                                TO DO:
+
+ALL:
+    format dates to something that looks better
+    Maybe add a character limit on reviews
+
+GAME PAGE:
+    update score
+    favorite games
+    update favorite tally
+
+PROFILE PAGE:
+    Viewing a user's profile
+        if the current user is viewing their own profile, make it editable
+            done via profile form
+    Delete account
+    Change pfp
+    Edit bio
+
+DEVPAGE
+    delete games
+    edit titles
+    edit description
+
+SEARCH BAR:
+    search by:
+        title
+        category
+
+NAV BAR:
+    Games by categories
+
+CATEGORIES:
+
+
+REVIEWS:
+    up/downvotes
+    make stuff required
+
+POST GAMES:
+    create form
+    test
+
+BANNER:
+    profile buttons
+        Link to profile
+        Logging out
+
+
+USER FAVORITES
+    View favorites
+    Favorite game
+
+
+

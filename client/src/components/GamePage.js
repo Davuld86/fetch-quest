@@ -23,17 +23,19 @@ useEffect(() => {
   }, []);
 
 if(game){
-console.log(game.playcount)
+
 const creator = game.created_by
 return (
     <div style={{display:'grid'}}>
-        <div style={{display:'grid',justifyContent:'center'}}>
+        <div style={{display:'grid', justifyContent:'center'}}>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
+        <span>
         <p>Score: {game.score}</p>
         <p>Total plays: {game.playcount? game.playcount:0}</p>
         <button>Favorite Game</button>
         <p>Published: {game.release_date}</p>
+        </span>
         </div>
         <div>
             <h3>Developed by:</h3>
@@ -54,7 +56,7 @@ else if(error){
         <div style={{display:'grid', justifyItems:'center'}}>
             <h1>{error? error.error:null}</h1>
         <img src='../images/not_found.png' style={{maxHeight:'500px'}}></img>
-        <h2>That game isn't available </h2>
+        <h2> This user does not exist.</h2>
         <Link to='/'>
         <button style={{height:'50px'}}>Back to homepage</button>
         </Link>

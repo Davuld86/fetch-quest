@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 export default function GameCard({game}) {
   return (
     <Fragment>
+        <p>{game.title}</p>
         <Link to ={`/play/${game.id}`}>
         <img src={game.thumbnail} style={{maxWidth:'80px'}}></img>
         </Link>
-        <p>{game.title}</p>
+
         <div style={{display:'flex'}}>
-            <p>❤️: {game.favorited_by.length} </p>
-            <p>🎮: {game.playcount? game.playcount:0}</p>
-            <p>⭐: {game.score? game.score:0}</p>
+            <p title='Rating'>⭐: {game.score? game.score:0}</p>
+            <p title='Favorites'>❤️: {game.favorited_by.length} </p>
+            <p title='Total plays'>🎮: {game.playcount? game.playcount:0}</p>
+
         </div>
     </Fragment>
   )

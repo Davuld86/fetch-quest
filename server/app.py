@@ -98,7 +98,7 @@ class Profile(Resource):
         user = User.query.filter_by(id = user_id).first()
         if user:
             return user.to_dict(), 200
-        return {'error': 'No bunny found in this burrow'}
+        return {'error': 'No bunny found in this burrow'}, 404
 
     def patch(self):
         data = request.get_json()
