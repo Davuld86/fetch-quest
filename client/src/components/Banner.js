@@ -19,7 +19,7 @@ export default function Banner() {
 
 
     function handleLogin(data){
-        console.log('sending login req', data)
+
         let [username, password] = [data.username, data.password]
         fetch('/login',{
           method: 'POST',
@@ -45,7 +45,7 @@ export default function Banner() {
     }
 
     function handleSignUp(data){
-        console.log('sendinag signup req:',data)
+
         let [username, password] = [data.username, data.password]
         fetch('/signup', {
           method: 'POST',
@@ -71,6 +71,18 @@ export default function Banner() {
       console.log(query)
     }
 
+    function handleLogOut(){
+      console.log('logging out')
+      fetch('/logout',{
+        method: 'DELETE'
+    }).then((r) =>{
+        if (r.ok){
+          setUser(null)
+        }
+      })
+
+    }
+
     return (
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
           <Link to='/'>
@@ -78,7 +90,7 @@ export default function Banner() {
           <img src='../images/bba_text.png'style={{maxHeight:'100px'}}></img>
           </Link>
           <SearchBar handleSearch ={handleSearch}/>
-          {user? <LoggedUser user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
+          {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>
       )
 }

@@ -17,6 +17,7 @@ function App() {
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
         <Route path='/user/:id'> <UserPage/>  </Route>
+        <Route path='/user/edit/:id'> <UserPage/>  </Route>
         <Route path='*'> <NoPage/> </Route>
       </Switch>
     </BrowserRouter>

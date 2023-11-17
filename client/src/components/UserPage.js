@@ -16,6 +16,11 @@ export default function UserPage() {
       else{
         r.json().then((error)=> setError(error))
       }
+      fetch("/check_session").then((r) => {
+        if (r.ok) {
+          r.json().then((log) => setLogged(log));
+        }
+      })
     });
   }, []);
   if(user){
@@ -38,9 +43,7 @@ export default function UserPage() {
             <h3>Created Games</h3>
             {user.posts?<GameContainer games={user.posts}/>:<p>This user has not posted any games</p>}
         </div>
-
-
-
+        {logged && user.id ==logged.id?<Link to={`/user/edit/${logged.id}`}><button>Edit profile</button></Link>:null}
     </div>
   )
 }

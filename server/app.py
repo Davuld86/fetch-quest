@@ -90,8 +90,11 @@ class Login(Resource):
 
 class Logout(Resource):
     def delete(self):
-        session['user_id'] = None
-        return '', 204
+            if session.get('user_id') ==None:
+                session['user_id'] = None
+                return {'error': 'Login first silly'},401
+            session['user_id']= None
+            return '', 204
 
 class Profile(Resource):
     def get(self, user_id):
@@ -121,10 +124,11 @@ class Profile(Resource):
 api.add_resource(AllGames, '/all_games')
 api.add_resource(GameID, '/game/<int:game_id>/')
 api.add_resource(Login,'/login', endpoint = 'login')
+api.add_resource(Logout,'/logout', endpoint ='logout')
 api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-api.add_resource(Profile, '/user/<int:user_id>/')
-api.add_resource(ReviewID, '/review/<int:review_id>/')
+api.add_resource(Profile, '/user/<int:user_id>')
+api.add_resource(ReviewID, '/review/<int:review_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

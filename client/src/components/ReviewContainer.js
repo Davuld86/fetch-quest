@@ -58,4 +58,12 @@ let checkReview = reviews.filter((rev)=> rev.user_id ==user.id)[0]
     </div>
   )
 }
+else{
+    return(
+    <div>
+    <h3>Create an account to review this game</h3>
+    {reviews.map((review)=><Review handleDelete={handleDelete} userID={0} key={review.id} review={review}/>)}
+    </div>
+    )
+}
 }

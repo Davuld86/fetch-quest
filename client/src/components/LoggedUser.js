@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import UserMenu from './UserMenu'
 
-export default function LoggedUser({user}) {
+export default function LoggedUser({user, handleLogOut}) {
   const [menuActive, toggleMenu] = useState(false)
     return (
     <Fragment>
@@ -10,7 +10,7 @@ export default function LoggedUser({user}) {
         <h4 title='View Favorites'>❤️</h4>
         <img onClick={()=>toggleMenu((pos)=>(!pos))} src={user.pfp} style= {{cursor:'pointer',maxWidth:'50px', height:'50px', borderRadius:'50%', objectFit:'cover'}}></img>
     </div>
-    { !menuActive? null: <UserMenu toggleMenu={toggleMenu} user={user}/>}
+    { !menuActive? null: <UserMenu handleLogOut={handleLogOut} toggleMenu={toggleMenu} user={user}/>}
     </Fragment>
   )
 }
