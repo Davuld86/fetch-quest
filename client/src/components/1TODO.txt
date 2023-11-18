@@ -16,8 +16,8 @@ PROFILE PAGE:
         if the current user is viewing their own profile, make it editable
             done via profile form
     Delete account
-    Change pfp
-    Edit bio
+    Change pfp DONE
+    Edit bio DONE
 
 DEVPAGE
     delete games
@@ -33,7 +33,7 @@ NAV BAR:
     Games by categories
 
 CATEGORIES:
-
+    make a "categories" db... ૮₍˶Ó﹏Ò ⑅₎ა
 
 REVIEWS:
     up/downvotes
@@ -45,8 +45,8 @@ POST GAMES:
 
 BANNER:
     profile buttons
-        Link to profile
-        Logging out
+        Link to profile DONE
+        Logging out DONE
 
 
 USER FAVORITES

@@ -7,6 +7,8 @@ const [logged, setLogged] = useState(null)
 const [user, setUser] = useState(null)
 const [loaded, setLoaded] = useState(false)
 const userID = Number(window.location.pathname.slice(14)[0])
+const [submmited, subEdit] = useState(false)
+
 const placeholder = `Gamer at heart, chasing victories and virtual adventures. Let's play! 🎮✨`
 useEffect(() => {
    fetch("/check_session").then((r) => {
@@ -39,12 +41,16 @@ function handleSubmit(data){
     .then((r)=>{
         if(r.ok){
             r.json().then((d)=> console.log(d))
-            return <Redirect to={`/user/${logged.id}`}/>
+            subEdit(true)
         }
     })
+
+}
+if(submmited){
+    return(<Redirect to={`/user/${logged.id}`}/>)
 }
 
-if(loaded){
+else if(loaded){
   if(logged==0){
     alert('Login to edit your profile')
     return <Redirect to='/'/>
@@ -63,7 +69,6 @@ if(loaded){
     initialValues={{
         pfp: user.pfp=='../images/default_pfp.jpg'? '': user.pfp,
         bio: user.bio,
-
     }}
     onSubmit={(values)=>{
         handleSubmit(values)

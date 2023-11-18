@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import GameContainer from './GameContainer'
+import DialogueBox from './DialogueBox'
 
 export default function UserPage() {
  const userID = Number(window.location.pathname.slice(6))
  const [logged, setLogged]= useState(null)
  const [user, setUser] = useState(null)
  const [error, setError]= useState(null)
+ const[dialogueBox, toggleBox] = useState(false)
+ const[deleted, setDeleted] = useState(false)
 
  useEffect(() => {
     fetch(`/user/${userID}`).then((r) => {
@@ -23,12 +26,30 @@ export default function UserPage() {
       })
     });
   }, []);
+
+function handleDelete(){
+    console.log('Deleting...', logged)
+    fetch(`/user/${userID}`,{
+        method: 'DELETE'
+    }).then((r) =>{
+        if (r.ok){
+          setUser(null)
+          setLogged(null)
+          setDeleted(true)
+        }
+      })
+  }
+
+  if(deleted){
+    return <Redirect to='/'/>
+  }
+
   if(user){
   return (
     <div>
+        {dialogueBox?<DialogueBox text={'Delete Account?'} text2={'This action cannot be undone.'} handleYes={handleDelete} handleNo={()=>toggleBox(false)}/>:null}
         <h2>{user.username}</h2>
         <img src={user.pfp} style={{maxHeight:'100px'}}/>
-
         <div>
         <h3>Bio</h3>
         <p>{user.bio}</p>
@@ -44,6 +65,8 @@ export default function UserPage() {
             {user.posts?<GameContainer games={user.posts}/>:<p>This user has not posted any games</p>}
         </div>
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
+
+        {logged && user.id ==logged.id?<div><button onClick={()=>toggleBox(true)}>Delete Profile</button></div>:null}
     </div>
   )
 }

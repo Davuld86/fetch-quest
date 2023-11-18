@@ -59,7 +59,10 @@ class CheckSession(Resource):
 
         if session['user_id']:
             user = User.query.filter(User.id ==session['user_id']).first()
-            return user.to_dict(), 200
+            if user:
+                return user.to_dict(), 200
+            else:
+                return {'error':'No user found'}, 404
         else:
             return {'error': 'Not logged in'}, 401
 
@@ -114,8 +117,8 @@ class Profile(Resource):
 
         return user.to_dict(), 200
 
-    def delete(self):
-        user = User.query.filter_by(id = session['user_id']).first()
+    def delete(self, user_id):
+        user = User.query.filter_by(id = user_id).first()
         db.session.delete(user)
         db.session.commit()
         return '', 204
