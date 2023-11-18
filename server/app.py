@@ -108,7 +108,6 @@ class Profile(Resource):
 
     def patch(self,user_id):
         data = request.get_json()
-        print(data)
         user = User.query.filter(User.id == user_id).first()
         for attribute in data:
             setattr(user, attribute, data[attribute])
@@ -122,6 +121,28 @@ class Profile(Resource):
         db.session.delete(user)
         db.session.commit()
         return '', 204
+class Favorites(Resource):
+    def post(self, user_id, game_id):
+        favorite = Favorite(
+            user_id=user_id,
+            game_id = game_id
+        )
+        db.session.add(favorite)
+        db.session.commit()
+        return favorite.to_dict(),200
+
+    def delete(self, user_id, game_id):
+        fav = Favorite.query.filter(Favorite.user_id==user_id and Favorite.game_id==game_id).first()
+        if fav:
+            db.session.delete(fav)
+            db.session.commit()
+            return '', 200
+        else:
+            return {'error': 'favorite not found'}, 404
+
+
+
+
 
 # Views go here!
 api.add_resource(AllGames, '/all_games')
@@ -132,6 +153,7 @@ api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Profile, '/user/<int:user_id>')
 api.add_resource(ReviewID, '/review/<int:review_id>')
+api.add_resource(Favorites, '/api/favorite/<int:user_id>/<int:game_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

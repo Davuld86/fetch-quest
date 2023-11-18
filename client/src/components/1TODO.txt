@@ -12,12 +12,7 @@ GAME PAGE:
     update favorite tally
 
 PROFILE PAGE:
-    Viewing a user's profile
-        if the current user is viewing their own profile, make it editable
-            done via profile form
-    Delete account
-    Change pfp DONE
-    Edit bio DONE
+    add reviews to page
 
 DEVPAGE
     delete games

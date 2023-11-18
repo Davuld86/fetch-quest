@@ -9,19 +9,53 @@ export default function GamePage() {
 const gameID = Number(window.location.pathname.slice(6))
 const [game, setGame] = useState(null)
 const [error, setError] =useState(null)
+const [user, setUser] = useState(null)
 const [favorited, toggleFavorite] = useState(false)
+const [favTally, setTally] = useState(null)
 
 useEffect(() => {
     fetch(`/game/${gameID}/`).then((r) => {
       if (r.ok) {
-        r.json().then((d)=> setGame(d));
+        r.json().then((d)=> {
+          setGame(d)
+          setTally(d.favorited_by.length)
+        });
       }
       else{
         r.json().then((error)=> {setError(error); console.log(error)})
       }
-    });
+    })
+    .then(
+        fetch("/check_session").then((r) => {
+          if (r.ok) {
+            r.json().then((user) => {
+              setUser(user)
+              checkFavorites(user)
+            });
+          }
+
+        })
+      );
   }, []);
 
+function checkFavorites(user){
+  let fav = user.favorites.filter((fave)=> fave.game_id == gameID)
+  fav[0]? toggleFavorite(true): toggleFavorite(false)
+}
+
+function handleFavorite(){
+  toggleFavorite((prev)=> !prev)
+  favorited? setTally((prev)=> prev= prev-1):setTally((prev)=> prev= prev+1)
+
+  fetch(`/api/favorite/${user.id}/${game.id}`,{
+    method: favorited?'DELETE':'POST'
+}).then((r) =>{
+    if (r.ok){
+      console.log('ok')
+    }
+  })
+
+}
 if(game){
 
 const creator = game.created_by
@@ -32,8 +66,9 @@ return (
         <EmbedGame source={game.path}/>
         <span>
         <p>Score: {game.score}</p>
+        <p>Favorites: {favTally}</p>
         <p>Total plays: {game.playcount? game.playcount:0}</p>
-        <button>Favorite Game</button>
+        {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
         <p>Published: {game.release_date}</p>
         </span>
         </div>
@@ -46,7 +81,7 @@ return (
             </Link>
             {creator.bio?<p>{creator.bio}</p> :null}
         </div>
-        <ReviewContainer gameID={gameID} game={game}/>
+        <ReviewContainer gameID={gameID} game={game} user={user}/>
     </div>
   )
 

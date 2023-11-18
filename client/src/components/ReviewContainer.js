@@ -3,18 +3,8 @@ import ReviewForm from './ReviewForm'
 import Review from './Review'
 import { useState, useEffect } from 'react'
 
-export default function ReviewContainer({gameID, game}) {
-    const [user, setUser] = useState(null)
+export default function ReviewContainer({gameID, game, user}) {
     const[reviews, setReviews] = useState(game.reviews)
-
-
-    useEffect(() => {
-      fetch("/check_session").then((r) => {
-        if (r.ok) {
-          r.json().then((user) => setUser(user));
-        }
-      });
-    }, []);
 
     function handleSubmit(review){
       let temp =  {

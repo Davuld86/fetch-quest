@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts.created_by','-reviews.user_reviews', )
+    serialize_rules = ('-posts.created_by','-reviews.user_reviews', '-favorites.user_favorites',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
@@ -36,7 +36,7 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
 
-    serialize_rules = ('-user_posts', )
+    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.game_favorites')
 
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
@@ -48,13 +48,15 @@ class Game(db.Model, SerializerMixin):
     score = db.Column(db.Integer, default =0)
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
     favorited_by = db.relationship('Favorite', backref='game_favorites')
     reviews = db.relationship('Review', backref='reviewed')
+
 class Review(db.Model, SerializerMixin):
 
     __tablename__ = 'reviews'
 
-    serialize_rules = ('-user_reviews','-reviewed' )
+    serialize_rules = ('-user_reviews','-reviewed', )
 
     id = db.Column(db.Integer, primary_key=True)
     game_score = db.Column(db.Integer)
@@ -67,8 +69,10 @@ class Review(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
+    serialize_rules = ('-user_favorites', '-game_favorites')
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+
 
 
