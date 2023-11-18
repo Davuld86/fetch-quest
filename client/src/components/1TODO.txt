@@ -4,6 +4,7 @@ ALL:
     format dates to something that looks better
     Maybe add a character limit on reviews
     ADD CLASS NAMES TO DIVS DAMMMIT! U(๑òᆺó๑)U
+    change user/id links to account/1
 
 GAME PAGE:
     update score

@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import GamePage from "./GamePage";
 import NoPage from "./NoPage";
 import UserPage from "./UserPage";
+import EditProfile from "./EditProfile";
 function App() {
 
   return(
@@ -17,7 +18,7 @@ function App() {
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
         <Route path='/user/:id'> <UserPage/>  </Route>
-        <Route path='/user/edit/:id'> <UserPage/>  </Route>
+        <Route path='/edit-profile/:id'> <EditProfile/> </Route>
         <Route path='*'> <NoPage/> </Route>
       </Switch>
     </BrowserRouter>

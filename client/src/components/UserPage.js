@@ -43,7 +43,7 @@ export default function UserPage() {
             <h3>Created Games</h3>
             {user.posts?<GameContainer games={user.posts}/>:<p>This user has not posted any games</p>}
         </div>
-        {logged && user.id ==logged.id?<Link to={`/user/edit/${logged.id}`}><button>Edit profile</button></Link>:null}
+        {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
     </div>
   )
 }

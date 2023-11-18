@@ -103,10 +103,10 @@ class Profile(Resource):
             return user.to_dict(), 200
         return {'error': 'No bunny found in this burrow'}, 404
 
-    def patch(self):
+    def patch(self,user_id):
         data = request.get_json()
-        user = User.query.filter(User.id ==session['user_id']).first()
-
+        print(data)
+        user = User.query.filter(User.id == user_id).first()
         for attribute in data:
             setattr(user, attribute, data[attribute])
         db.session.add(user)
