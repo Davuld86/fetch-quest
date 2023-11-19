@@ -4,6 +4,7 @@ import GameContainer from './GameContainer'
 import DialogueBox from './DialogueBox'
 import ReviewContainer from './ReviewContainer'
 import FavoriteGameContainer from './FavoriteGameContainer'
+import UserReviews from './UserReviews'
 
 export default function UserPage() {
  const userID = Number(window.location.pathname.slice(6))
@@ -71,7 +72,7 @@ function handleDelete(){
         </div>
          <div>
           <h3>Reviews</h3>
-          {user.reviews?<p>user reviews panel</p>:<p>This user has no reviews</p>}
+          {user.reviews?<UserReviews reviews={user.reviews}/>:<p>This user has no reviews</p>}
           {user.reviews?<p>View all reviews</p>:null}
         </div>
         <div>

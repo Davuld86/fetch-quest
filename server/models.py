@@ -56,7 +56,7 @@ class Review(db.Model, SerializerMixin):
 
     __tablename__ = 'reviews'
 
-    serialize_rules = ('-user_reviews','-reviewed', )
+    serialize_rules = ('-user_reviews','-reviewed.reviews.reviewed','-reviewed.created_by' )
 
     id = db.Column(db.Integer, primary_key=True)
     game_score = db.Column(db.Integer)
