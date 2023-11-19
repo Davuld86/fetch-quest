@@ -69,7 +69,7 @@ class Review(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
-    serialize_rules = ('-user_favorites', '-game_favorites')
+    serialize_rules = ('-user_favorites','-game_favorites.favorited_by.game_favorites','-game_favorites.created_by', '-games_favorites.reviews' '-game_favorites.favorited_by.user_favorites' )
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))

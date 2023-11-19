@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import GameContainer from './GameContainer'
 import DialogueBox from './DialogueBox'
+import ReviewContainer from './ReviewContainer'
+import FavoriteGameContainer from './FavoriteGameContainer'
 
 export default function UserPage() {
  const userID = Number(window.location.pathname.slice(6))
@@ -45,11 +47,12 @@ function handleDelete(){
   }
 
   if(user){
+
   return (
     <div>
         {dialogueBox?<DialogueBox text={'Delete Account?'} text2={'This action cannot be undone.'} handleYes={handleDelete} handleNo={()=>toggleBox(false)}/>:null}
         <h2>{user.username}</h2>
-        <img src={user.pfp} style={{maxHeight:'100px'}}/>
+        <img src={user.pfp} style={{maxHeight:'150px', borderRadius:'5%'}}/>
         <div>
         <h3>Bio</h3>
         <p>{user.bio}</p>
@@ -57,17 +60,28 @@ function handleDelete(){
 
         <div>
         <h3>Favorite games</h3>
-        <GameContainer games={user.favorites}/>
+        {user?<FavoriteGameContainer games={user.favorites}/>:null}
+        {user?<p>View all favorites</p>:null}
         </div>
 
         <div>
             <h3>Created Games</h3>
             {user.posts?<GameContainer games={user.posts}/>:<p>This user has not posted any games</p>}
+            {user.posts? <p>View all uploads</p>:null}
         </div>
+         <div>
+          <h3>Reviews</h3>
+          {user.reviews?<p>user reviews panel</p>:<p>This user has no reviews</p>}
+          {user.reviews?<p>View all reviews</p>:null}
+        </div>
+        <div>
+          <h3>Account settings:</h3>
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
-
+        <br/>
         {logged && user.id ==logged.id?<div><button onClick={()=>toggleBox(true)}>Delete Profile</button></div>:null}
-    </div>
+        </div>
+       </div>
+
   )
 }
 else if (error){
