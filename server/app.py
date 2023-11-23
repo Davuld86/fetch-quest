@@ -180,7 +180,7 @@ class AllCategories(Resource):
     def get(self):
         categories = Category.query.all()
         if categories:
-            return categories.to_dict(),200
+            return [category.to_dict() for category in categories],200
         else:
             return {'error': 'No categories found'}
 

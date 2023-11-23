@@ -8,11 +8,12 @@ ALL:
 
 GAME PAGE:
     update score
-    favorite games
-    update favorite tally
 
 PROFILE PAGE:
-    add reviews to page
+
+POST GAMES:
+    create form
+    test
 
 DEVPAGE
     delete games
@@ -21,32 +22,29 @@ DEVPAGE
 
 SEARCH BAR:
     search by:
-        title
-        category
+        title || category
+
 
 NAV BAR:
     Games by categories
+    category links
 
 CATEGORIES:
-    make a "categories" db... ૮₍˶Ó﹏Ò ⑅₎ა
+   fix borken logos on GamesByCategory
 
 REVIEWS:
     up/downvotes
     make stuff required
 
-POST GAMES:
-    create form
-    test
+
 
 BANNER:
-    profile buttons
-        Link to profile DONE
-        Logging out DONE
 
 
 USER FAVORITES
     View favorites
-    Favorite game
 
+APP.PY:
+use a better filter method for GamesByCategory
 
 

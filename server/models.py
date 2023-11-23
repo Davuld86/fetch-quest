@@ -84,7 +84,7 @@ class Favorite(db.Model, SerializerMixin):
 class Category(db.Model, SerializerMixin):
     __tablename__ = 'categories'
 
-    serialize_only =('id', 'name')
+    serialize_only =('id', 'name', 'games.id')
 
     id = db.Column(db.Integer, primary_key =True)
     name = db.Column(db.String, unique=True, nullable=False)
