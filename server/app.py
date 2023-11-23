@@ -41,6 +41,42 @@ class GameID(Resource):
         db.session.commit()
         return review.to_dict(),200
 
+class UploadGame(Resource):
+    def post(self):
+        json = request.get_json()
+        print(json)
+        game = Game(
+            title = json['title'],
+            description = json['description'],
+            thumbnail = json['thumbnail'],
+            path = json['path'],
+            user_id = json['user_id'],
+        )
+        for category in json['categories']:
+            if category=='' or category==' ':
+                pass
+            else:
+                cate = Category(name=category)
+                game.categories.append(cate)
+                db.session.add(cate)
+        db.session.add(game)
+        db.session.commit()
+        return game.to_dict(),200
+
+class GamesByCategory(Resource):
+    def get(self, category_name):
+
+        games = Game.query.all()
+        game_list=[]
+        for game in games:
+            for category in game.categories:
+                if category.name == category_name:
+                    game_list.append(game)
+        if game_list:
+            return [game.to_dict() for game in game_list], 200
+        else:
+            return {'error':'No games with that category found'},404
+
 class ReviewID(Resource):
     def get(self, review_id):
         review = Review.query.filter(Review.id == review_id).first()
@@ -140,6 +176,14 @@ class Favorites(Resource):
         else:
             return {'error': 'favorite not found'}, 404
 
+class AllCategories(Resource):
+    def get(self):
+        categories = Category.query.all()
+        if categories:
+            return categories.to_dict(),200
+        else:
+            return {'error': 'No categories found'}
+
 
 
 
@@ -147,6 +191,8 @@ class Favorites(Resource):
 # Views go here!
 api.add_resource(AllGames, '/all_games')
 api.add_resource(GameID, '/game/<int:game_id>/')
+api.add_resource(GamesByCategory, '/api/games/<string:category_name>/')
+api.add_resource(UploadGame, '/api/upload-game/')
 api.add_resource(Login,'/login', endpoint = 'login')
 api.add_resource(Logout,'/logout', endpoint ='logout')
 api.add_resource(SignUp, '/signup', endpoint = 'signup')
@@ -154,6 +200,7 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Profile, '/user/<int:user_id>')
 api.add_resource(ReviewID, '/review/<int:review_id>')
 api.add_resource(Favorites, '/api/favorite/<int:user_id>/<int:game_id>')
+api.add_resource(AllCategories, '/api/categories/')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

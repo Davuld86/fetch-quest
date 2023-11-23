@@ -87,7 +87,7 @@ export default function Banner() {
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
           <Link to='/'>
           <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{maxWidth:'80px'}}/>
-          <img src='../images/bba_text.png'style={{maxHeight:'100px'}}></img>
+          <img src='../images/bba_text.png' style={{maxHeight:'100px'}}></img>
           </Link>
           <SearchBar handleSearch ={handleSearch}/>
           {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}

@@ -49,7 +49,6 @@ function handleSubmit(data){
 if(submmited){
     return(<Redirect to={`/user/${logged.id}`}/>)
 }
-
 else if(loaded){
   if(logged==0){
     alert('Login to edit your profile')

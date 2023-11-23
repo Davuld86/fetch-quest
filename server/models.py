@@ -6,10 +6,15 @@ from datetime import datetime
 from config import db, bcrypt
 
 # Models go here!
+categories_association = db.Table('categories_association',
+    db.Column('category_id', db.Integer, db.ForeignKey('categories.id'), primary_key=True),
+    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key=True)
+    )
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts.created_by','-reviews.user_reviews', '-favorites.user_favorites',)
+    serialize_rules = ('-posts.created_by','-reviews.user_reviews', '-favorites.user_favorites','-_password_hash',)
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
@@ -36,13 +41,12 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
 
-    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.game_favorites')
+    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.game_favorites', '-created_by.reviews', '-created_by.favorites')
 
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
     description = db.Column(db.String)
     thumbnail = db.Column(db.String)
-    category = db.Column(db.String)
     path = db.Column(db.String)
     playcount = db.Column(db.Integer, default=0)
     score = db.Column(db.Integer, default =0)
@@ -51,6 +55,7 @@ class Game(db.Model, SerializerMixin):
 
     favorited_by = db.relationship('Favorite', backref='game_favorites')
     reviews = db.relationship('Review', backref='reviewed')
+    categories = db.relationship('Category', back_populates='games',secondary=categories_association)
 
 class Review(db.Model, SerializerMixin):
 
@@ -69,10 +74,20 @@ class Review(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
+
     serialize_rules = ('-user_favorites','-game_favorites.favorited_by.game_favorites','-game_favorites.created_by', '-games_favorites.reviews' '-game_favorites.favorited_by.user_favorites' )
+
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
 
+class Category(db.Model, SerializerMixin):
+    __tablename__ = 'categories'
+
+    serialize_only =('id', 'name')
+
+    id = db.Column(db.Integer, primary_key =True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    games= db.relationship('Game',secondary=categories_association, back_populates='categories')
 
 

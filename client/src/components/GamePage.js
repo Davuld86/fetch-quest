@@ -64,20 +64,20 @@ return (
         <div style={{display:'grid', justifyContent:'center'}}>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
-        <span>
-        <p>Score: {game.score}</p>
-        <p>Favorites: {favTally}</p>
-        <p>Total plays: {game.playcount? game.playcount:0}</p>
-        {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
-        <p>Published: {game.release_date}</p>
+        <span style={{display:'flex'}}>
+        <p>Score: {game.score} </p>
+        <p>Favorites: {favTally} </p>
+        <p>Total plays: {game.playcount? game.playcount:0} </p>
+        <p>Published: {game.release_date} </p>
         </span>
+        {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
+        {game.description?<p>{game.description}</p>:null}
         </div>
         <div>
             <h3>Developed by:</h3>
             <Link to={`/user/${creator.id}`}>
             <h4>{creator.username}</h4>
             <img src={creator.pfp} style={{maxHeight:'60px',borderRadius:'50%'}}></img>
-            {game.description?<p>{game.description}</p>:null}
             </Link>
             {creator.bio?<p>{creator.bio}</p> :null}
         </div>

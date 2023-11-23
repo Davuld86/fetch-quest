@@ -5,7 +5,7 @@ export default function GameCard({game}) {
 
   return (
     <Fragment>
-        <p>{game.title}</p>
+        <h4>{game.title}</h4>
         <Link to ={`/play/${game.id}`}>
         <img src={game.thumbnail} style={{maxWidth:'80px'}}></img>
         </Link>
