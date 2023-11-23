@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import GameContainer from './GameContainer';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CategoryGames() {
 
@@ -46,6 +45,7 @@ else{
         <div>
 
             <h1>No carrots in this patch!</h1>
+            <img src='../images/no_individual_category.png'/>
             <p> no games in that category found</p>
         </div>
     )

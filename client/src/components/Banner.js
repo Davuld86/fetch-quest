@@ -67,10 +67,6 @@ export default function Banner() {
         })
       }
 
-    function handleSearch(query){
-      console.log(query)
-    }
-
     function handleLogOut(){
       console.log('logging out')
       fetch('/logout',{
@@ -89,7 +85,7 @@ export default function Banner() {
           <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{maxWidth:'80px'}}/>
           <img src='../images/bba_text.png' style={{maxHeight:'100px'}}></img>
           </Link>
-          <SearchBar handleSearch ={handleSearch}/>
+          <SearchBar/>
           {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>
       )

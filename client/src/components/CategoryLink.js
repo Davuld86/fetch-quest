@@ -8,8 +8,9 @@ export default function CategoryLink({category}) {
         <Link to={`/games/category/${category.name}`}>
         <p>{category.name} </p>
         </Link>
+
         <p title={`${category.games.length}. games with this category`}>{category.games.length}</p>
     </span>
-    </li>
+     </li>
   )
 }

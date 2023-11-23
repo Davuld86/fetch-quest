@@ -11,7 +11,7 @@ export default function AllCategories() {
            r.json().then((categories) => setCategories(categories));
          }
          else{
-             setCategories(null)
+             setCategories(0)
          }
        })
        setLoaded(true)
@@ -27,10 +27,11 @@ if(isLoaded){
             </div>
         )
     }
-    else{
+    if (categories==0){
         return (
     <div>
         <h1>Something's wrong</h1>
+        <img src= '../images/no_category.png'/>
         <p>No categories found!</p>
     </div>
   )

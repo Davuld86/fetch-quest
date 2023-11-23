@@ -90,8 +90,8 @@ else if(error){
     return(
         <div style={{display:'grid', justifyItems:'center'}}>
             <h1>{error? error.error:null}</h1>
-        <img src='../images/not_found.png' style={{maxHeight:'500px'}}></img>
-        <h2> This user does not exist.</h2>
+        <img src='../images/no_game.png' style={{maxHeight:'500px'}}></img>
+        <h2> This game does not exist.</h2>
         <Link to='/'>
         <button style={{height:'50px'}}>Back to homepage</button>
         </Link>
