@@ -71,7 +71,6 @@ class Review(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     game_score = db.Column(db.Integer)
-    comment_score = db.Column(db.Integer, default=0)
     comment = db.Column(db.String)
     created = db.Column(db.DateTime, default = datetime.utcnow)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))

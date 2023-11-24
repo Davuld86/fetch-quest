@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CategoryLink from './CategoryLink';
+import NoneFound from './NoneFound';
 
 export default function AllCategories() {
     const[categories, setCategories] = useState(null)
@@ -21,7 +22,6 @@ if(isLoaded){
         return(
             <div>
                 <h1>All Categories</h1>
-
                 {categories.map((category)=><CategoryLink category={category}/>)}
 
             </div>
@@ -29,11 +29,7 @@ if(isLoaded){
     }
     if (categories==0){
         return (
-    <div>
-        <h1>Something's wrong</h1>
-        <img src= '../images/no_category.png'/>
-        <p>No categories found!</p>
-    </div>
+             <NoneFound title={"Something's wrong"} image={'../images/no_category.png'} text={'No categories found!'}/>
   )
 }
     }

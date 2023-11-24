@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 
-export default function NoneFound({title, image, text}) {
+export default function NoneFound({title='No carrots in this patch!', image, text}) {
   return (
     <div>
         <h2>{title}</h2>

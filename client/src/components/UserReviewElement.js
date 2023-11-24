@@ -8,10 +8,8 @@ export default function UserReviewElement({review}) {
     <h4>{review.reviewed.title}</h4>
     <img src={review.reviewed.thumbnail}/>
     </Link>
-    <h3>{'⭐'.repeat(review.game_score)}</h3>
+    <h3>{review.game_score==0?'💔':'⭐'.repeat(review.game_score)}</h3>
     <p>{review.comment}</p>
-    <p>{review.comment_score}</p>
-
     </Fragment>
   )
 }

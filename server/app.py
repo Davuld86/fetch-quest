@@ -26,7 +26,7 @@ class GameID(Resource):
     def get(self, game_id):
         game = Game.query.filter(Game.id == game_id).first()
         if game == None:
-            return {'error': 'Game not found'}, 401
+            return {'error': 'Game not found'}, 404
         if game.playcount == None:
             game.playcount =1
         else:
@@ -47,10 +47,26 @@ class GameID(Resource):
         db.session.commit()
         return review.to_dict(),200
 
+    def patch(self, game_id):
+        json = request.get_json()
+        category_list = json.pop('categories')
+        print(json)
+
+        game = Game.query.filter(Game.id == game_id).first()
+        game.categories.clear()
+        for attribute in json:
+            setattr(game, attribute, json[attribute])
+        for category in category_list:
+            cate = Category(name=category)
+            game.categories.append(cate)
+            db.session.add(cate)
+        db.session.add(game)
+        db.session.commit()
+
 class UploadGame(Resource):
     def post(self):
         json = request.get_json()
-        print(json)
+
         game = Game(
             title = json['title'],
             description = json['description'],
@@ -183,8 +199,6 @@ class FavoriteGame(Resource):
             user.favorites.remove(check[0])
         db.session.add(user)
         db.session.commit()
-
-
 
 class AllCategories(Resource):
     def get(self):

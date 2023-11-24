@@ -12,6 +12,8 @@ import CategoryGames from "./CategoryGames";
 import AllCategories from "./AllCategories";
 import SearchPage from "./SearchPage";
 import UserFavorites from "./UserFavorites";
+import UserUploads from "./UserUploads";
+import EditGameForm from "./EditGameForm";
 function App() {
 
   return(
@@ -23,8 +25,10 @@ function App() {
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
         <Route path='/user/:id'> <UserPage/>  </Route>
+        <Route path='/uploads/:userID'> <UserUploads/>  </Route>
         <Route path='/favorites/:userID/'> <UserFavorites/>  </Route>
         <Route path='/edit-profile/:id'> <EditProfile/> </Route>
+        <Route path='/edit-game/:id'> <EditGameForm/> </Route>
         <Route path='/upload-game'><UploadGameForm/></Route>
         <Route path='/categories'><AllCategories/></Route>
         <Route path='/games/category/:category'> <CategoryGames/> </Route>

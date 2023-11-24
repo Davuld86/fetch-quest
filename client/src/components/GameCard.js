@@ -10,7 +10,7 @@ export default function GameCard({game}) {
         <img src={game.thumbnail} style={{maxWidth:'80px'}}></img>
         </Link>
         <div style={{display:'flex'}}>
-            <p title='Rating'>⭐: {game.score? game.score:0}</p>
+            <p title={`Rating: ${game.score}`}>⭐: {game.score? parseInt(game.score):0}</p>
             <p title='Favorites'>❤️: {game.favorited_by.length} </p>
             <p title='Total plays'>🎮: {game.playcount? game.playcount:0}</p>
 

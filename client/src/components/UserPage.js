@@ -5,6 +5,7 @@ import DialogueBox from './DialogueBox'
 import ReviewContainer from './ReviewContainer'
 import FavoriteGameContainer from './FavoriteGameContainer'
 import UserReviews from './UserReviews'
+import GameGroup from './GameGroup'
 
 export default function UserPage() {
  const userID = Number(window.location.pathname.slice(6))
@@ -52,35 +53,42 @@ function handleDelete(){
   return (
     <div>
         {dialogueBox?<DialogueBox text={'Delete Account?'} text2={'This action cannot be undone.'} handleYes={handleDelete} handleNo={()=>toggleBox(false)}/>:null}
+        <div>
         <h2>{user.username}</h2>
         <img src={user.pfp} style={{maxHeight:'150px', borderRadius:'5%'}}/>
-        <div>
+          <div>
         <h3>Bio</h3>
         <p>{user.bio}</p>
+          </div>
         </div>
 
+
+
         <div>
-        <h3>Favorite games</h3>
+        <span style={{display:'flex', alignItems:'center'}}>
+        <h2>Favorite Games</h2>
+        <Link to={`/favorites/${user.id}`}><button>View all favorites</button></Link>
+        </span>
         {user?<FavoriteGameContainer games={user.favorites}/>:null}
-        {user?<Link to={`/favorites/${user.id}`}><p>View all favorites</p></Link>:null}
+        </div>
+
+        <GameGroup title={'Created Games'} text={user.posts? <p>View all uploads</p>:null} path={`/uploads/${user.id}`} game_list={user.posts}/>
+
+        <div>
+        <span style={{display:'flex', alignItems:'center'}}>
+        <h2>Reviews</h2>
+        {user.reviews? <Link to={``}><button>View all reviews</button></Link> :null}
+        </span>
+        {user.reviews?<UserReviews reviews={user.reviews}/>:<p>This user has no reviews</p>}
         </div>
 
         <div>
-            <h3>Created Games</h3>
-            {user.posts?<GameContainer games={user.posts}/>:<p>This user has not posted any games</p>}
-            {user.posts? <p>View all uploads</p>:null}
-        </div>
-         <div>
-          <h3>Reviews</h3>
-          {user.reviews?<UserReviews reviews={user.reviews}/>:<p>This user has no reviews</p>}
-          {user.reviews?<p>View all reviews</p>:null}
-        </div>
-        <div>
-          <h3>Account settings:</h3>
+          <h2>Account settings:</h2>
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
         <br/>
         {logged && user.id ==logged.id?<div><button onClick={()=>toggleBox(true)}>Delete Profile</button></div>:null}
         </div>
+
        </div>
 
   )
