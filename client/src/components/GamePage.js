@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import EmbedGame from './EmbedGame';
 import ReviewContainer from './ReviewContainer';
+import CategoryBar from './CategoryBar';
 
 
 export default function GamePage() {
@@ -78,6 +79,7 @@ return (
         <p>Published: {game.release_date} </p>
         </span>
         {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
+        <CategoryBar categories={game.categories}/>
         {game.description?<p>{game.description}</p>:null}
         </div>
         <div>
