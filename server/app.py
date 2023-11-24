@@ -63,6 +63,12 @@ class GameID(Resource):
         db.session.add(game)
         db.session.commit()
 
+    def delete(self, game_id):
+        game = Game.query.filter(Game.id == game_id).first()
+        db.session.delete(game)
+        db.session.commit()
+        return '', 204
+
 class UploadGame(Resource):
     def post(self):
         json = request.get_json()

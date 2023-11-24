@@ -5,6 +5,7 @@ import NoneFound from './NoneFound'
 import { uploadSchema } from '../schemas'
 import EmbedGame from './EmbedGame'
 import Loading from './Loading'
+import DialogueBox from './DialogueBox'
 
 export default function EditGameForm() {
     const gameID = window.location.pathname.slice(11)
@@ -12,6 +13,8 @@ export default function EditGameForm() {
     const [game, setGame] = useState(null)
     const [isLoading, setLoading] = useState(true)
     const [submitted, setSubmitted] = useState(false)
+    const [dialogueBox, toggleBox] = useState(false)
+    const [deleted, setDeleted] = useState(false)
 
 
     useEffect(() => {
@@ -71,8 +74,17 @@ function handleSubmit(values){
 }
 
 function handleDelete(){
-    console.log('Sending delete req')
-}
+    console.log('Deleting...', logged)
+    fetch(`/game/${gameID}`,{
+        method: 'DELETE'
+    }).then((r) =>{
+        if (r.ok){
+            alert('Game deleted')
+          setGame(null)
+          setDeleted(true)
+        }
+      })
+  }
 
 if(submitted){
     alert('Changes submitted')
@@ -82,7 +94,7 @@ if(isLoading){
     return <Loading/>
     }
 //not logged in
-if(logged==0){
+if(logged==0 || deleted){
     return <Redirect to={'/'}/>
 }
 //no game found
@@ -103,6 +115,7 @@ else if(isLoading==false && game&&logged){
         return (
             <div>
                 <h1>Edit Game</h1>
+                {dialogueBox?<DialogueBox text={"Delete Game?"} text2={'This action cannot be undone'} handleYes={handleDelete} handleNo={()=>toggleBox(false)} />:null}
                 <Formik
                 initialValues={{
                     title: game.title,
@@ -153,7 +166,7 @@ else if(isLoading==false && game&&logged){
                 )}
                 </Formik>
             <h3>Delete Game</h3>
-            <button onClick={()=>handleDelete()}>Delete Game</button>
+            <button onClick={()=>toggleBox(true)}>Delete Game</button>
             </div>
           )
     }

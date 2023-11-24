@@ -86,7 +86,8 @@ function handleDelete(){
           <h2>Account settings:</h2>
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
         <br/>
-        {logged && user.id ==logged.id?<div><button onClick={()=>toggleBox(true)}>Delete Profile</button></div>:null}
+        {logged && user.id ==logged.id?<h3>Delete Account:</h3>:null}
+        {logged && user.id ==logged.id?<div><button onClick={()=>toggleBox(true)}>Delete Account</button></div>:null}
         </div>
 
        </div>

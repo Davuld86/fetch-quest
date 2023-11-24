@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import EmbedGame from './EmbedGame';
 import ReviewContainer from './ReviewContainer';
 import CategoryBar from './CategoryBar';
+import Loading from './Loading';
 
 
 export default function GamePage() {
@@ -13,6 +14,7 @@ const [error, setError] =useState(null)
 const [user, setUser] = useState(null)
 const [favorited, toggleFavorite] = useState(false)
 const [favTally, setTally] = useState(null)
+const [isLoading, setLoading] = useState(true)
 
 useEffect(() => {
     fetch(`/game/${gameID}/`).then((r) => {
@@ -32,6 +34,7 @@ useEffect(() => {
             r.json().then((user) => {
               setUser(user)
               checkFavorites(user)
+              setLoading(false)
             });
           }
 
@@ -40,7 +43,7 @@ useEffect(() => {
   }, []);
 
 function checkFavorites(user){
-  let fav = user.favorites.filter((fave)=> fave.game_id == gameID)
+  let fav = user.favorites.filter((fave)=> fave.id == gameID)
   fav[0]? toggleFavorite(true): toggleFavorite(false)
 }
 
@@ -63,6 +66,9 @@ function handleFavorite(){
     }
   })
 
+}
+if(isLoading){
+  return <Loading/>
 }
 if(game){
 
@@ -89,6 +95,7 @@ return (
             <img src={creator.pfp} style={{maxHeight:'60px',borderRadius:'50%'}}></img>
             </Link>
             {creator.bio?<p>{creator.bio}</p> :null}
+            {creator.id ==user.id?<Link to={`/edit-game/${game.id}`}><button>Edit Game</button></Link>:null}
         </div>
         <ReviewContainer gameID={gameID} game={game} user={user}/>
     </div>
