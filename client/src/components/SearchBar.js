@@ -6,13 +6,15 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 export default function SearchBar() {
+  const [q, setQ] = useState(null)
     return (
       <div>
       <Formik
        initialValues={{query:''}}
-       onSubmit = {async(values, actions)=> {
+       onSubmit = {(values, actions)=> {
+        setQ(values.query)
+        actions.resetForm();
 
-      actions.resetForm();
       }}>
         {({isSubmitting, values}) =>(
         <Form autoComplete='off'>

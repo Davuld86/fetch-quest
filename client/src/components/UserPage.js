@@ -62,7 +62,7 @@ function handleDelete(){
         <div>
         <h3>Favorite games</h3>
         {user?<FavoriteGameContainer games={user.favorites}/>:null}
-        {user?<p>View all favorites</p>:null}
+        {user?<Link to={`/favorites/${user.id}`}><p>View all favorites</p></Link>:null}
         </div>
 
         <div>

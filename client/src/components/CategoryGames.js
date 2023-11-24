@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GameContainer from './GameContainer';
+import NoneFound from './NoneFound';
 
 export default function CategoryGames() {
 
@@ -43,10 +44,8 @@ if (games){
 else{
     return(
         <div>
-
-            <h1>No carrots in this patch!</h1>
-            <img src='../images/no_individual_category.png'/>
-            <p> no games in that category found</p>
+        <h1>{titleize(category)} Games</h1>
+        <NoneFound title={'No carrots in this patch!'} image={'/images/no_individual_category.png'} text={'No games in that category found'}/>
         </div>
     )
 }

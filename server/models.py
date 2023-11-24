@@ -11,19 +11,26 @@ categories_association = db.Table('categories_association',
     db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key=True)
     )
 
+favorites_association = db.Table('favorites_association',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key =True),
+    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key= True)
+                                 )
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts.created_by','-reviews.user_reviews', '-favorites.user_favorites','-_password_hash',)
+    serialize_rules = ('-posts.created_by','-reviews.user_reviews','-_password_hash', 'favorites.reviews','posts.reviews')
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable= False)
     pfp = db.Column(db.String, default='../images/default_pfp.jpg')
     created = db.Column(db.DateTime, default = datetime.utcnow)
     bio = db.Column(db.String)
+
     reviews = db.relationship('Review', backref = 'user_reviews')
-    favorites = db.relationship('Favorite', backref = 'user_favorites')
+    favorites = db.relationship('Game',secondary=favorites_association, back_populates = 'favorited_by')
     posts = db.relationship('Game', backref='created_by')
+
     _password_hash = db.Column(db.String)
 
     @hybrid_property
@@ -41,7 +48,7 @@ class User(db.Model, SerializerMixin):
 class Game(db.Model, SerializerMixin):
     __tablename__ = 'games'
 
-    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.game_favorites', '-created_by.reviews', '-created_by.favorites')
+    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.favorites', '-created_by.reviews', '-created_by.favorites', '-favorited_by.posts','-favorited_by.reviews')
 
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String)
@@ -53,12 +60,11 @@ class Game(db.Model, SerializerMixin):
     release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    favorited_by = db.relationship('Favorite', backref='game_favorites')
+    favorited_by = db.relationship('User', back_populates='favorites', secondary= favorites_association)
     reviews = db.relationship('Review', backref='reviewed')
     categories = db.relationship('Category', back_populates='games',secondary=categories_association)
 
 class Review(db.Model, SerializerMixin):
-
     __tablename__ = 'reviews'
 
     serialize_rules = ('-user_reviews','-reviewed.reviews.reviewed','-reviewed.created_by' )
@@ -69,16 +75,6 @@ class Review(db.Model, SerializerMixin):
     comment = db.Column(db.String)
     created = db.Column(db.DateTime, default = datetime.utcnow)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
-
-
-class Favorite(db.Model, SerializerMixin):
-    __tablename__ = 'favorites'
-
-    serialize_rules = ('-user_favorites','-game_favorites.favorited_by.game_favorites','-game_favorites.created_by', '-games_favorites.reviews' '-game_favorites.favorited_by.user_favorites' )
-
-    id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
 
 class Category(db.Model, SerializerMixin):

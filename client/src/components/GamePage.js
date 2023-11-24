@@ -47,8 +47,15 @@ function handleFavorite(){
   toggleFavorite((prev)=> !prev)
   favorited? setTally((prev)=> prev= prev-1):setTally((prev)=> prev= prev+1)
 
-  fetch(`/api/favorite/${user.id}/${game.id}`,{
-    method: favorited?'DELETE':'POST'
+  fetch(`/api/favorite_game/${user.id}/${game.id}`,{
+    method: 'PATCH',
+    headers:{
+      'Content-type':'application/json'
+    },
+    body: JSON.stringify({
+      user_id: user.id,
+      game_id: gameID
+    })
 }).then((r) =>{
     if (r.ok){
       console.log('ok')

@@ -4,16 +4,19 @@ ALL:
     format dates to something that looks better
     Maybe add a character limit on reviews
     ADD CLASS NAMES TO DIVS DAMMMIT! U(๑òᆺó๑)U
+
     change user/id links to account/1
+    possible solution:
+        send path up to app so that it all renders
 
 GAME PAGE:
     update score
+    add category bar
+    fix size of game
 
 PROFILE PAGE:
 
 POST GAMES:
-    create form
-    test
 
 DEVPAGE
     delete games
@@ -24,19 +27,18 @@ SEARCH BAR:
     search by:
         title || category
 
+GAMES
+recent
+popular
 
 NAV BAR:
-    Games by categories
-    category links
+    fix nav bar bug
 
 CATEGORIES:
-   fix borken logos on GamesByCategory
 
 REVIEWS:
     up/downvotes
     make stuff required
-
-
 
 BANNER:
 

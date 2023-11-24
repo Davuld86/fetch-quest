@@ -10,6 +10,8 @@ import EditProfile from "./EditProfile";
 import UploadGameForm from "./UploadGameForm";
 import CategoryGames from "./CategoryGames";
 import AllCategories from "./AllCategories";
+import SearchPage from "./SearchPage";
+import UserFavorites from "./UserFavorites";
 function App() {
 
   return(
@@ -21,11 +23,13 @@ function App() {
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
         <Route path='/user/:id'> <UserPage/>  </Route>
+        <Route path='/favorites/:userID/'> <UserFavorites/>  </Route>
         <Route path='/edit-profile/:id'> <EditProfile/> </Route>
         <Route path='/upload-game'><UploadGameForm/></Route>
         <Route path='/categories'><AllCategories/></Route>
         <Route path='/games/category/:category'> <CategoryGames/> </Route>
-        <Route path='/search-games/:query'> <NoPage/> </Route>
+        <Route path='/search_games/:query'> <SearchPage/> </Route>
+        <Route exact path='/search_games/'> <SearchPage/> </Route>
         <Route path='*'> <NoPage/> </Route>
       </Switch>
     </BrowserRouter>

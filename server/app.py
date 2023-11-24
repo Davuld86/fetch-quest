@@ -15,6 +15,12 @@ class AllGames(Resource):
     def get(self):
         games = Game.query.all()
         return[game.to_dict() for game in games],200
+class RecentGames(Resource):
+    def get(self):
+        games = Game.query.order_by(Game.release_date.desc()).limit(20).all()
+        if games:
+            return [game.to_dict() for game in games],200
+        return {'error': 'No games found!'}
 
 class GameID(Resource):
     def get(self, game_id):
@@ -62,6 +68,14 @@ class UploadGame(Resource):
         db.session.add(game)
         db.session.commit()
         return game.to_dict(),200
+
+class GamesByTitle(Resource):
+    def get(self,title):
+        search = 'title%'
+        games = Game.query.filter(Game.title.like(search)).all()
+        if games:
+            return [game.to_dict() for game in games],200
+        return {'error': 'No games found!'},404
 
 class GamesByCategory(Resource):
     def get(self, category_name):
@@ -157,24 +171,20 @@ class Profile(Resource):
         db.session.delete(user)
         db.session.commit()
         return '', 204
-class Favorites(Resource):
-    def post(self, user_id, game_id):
-        favorite = Favorite(
-            user_id=user_id,
-            game_id = game_id
-        )
-        db.session.add(favorite)
-        db.session.commit()
-        return favorite.to_dict(),200
 
-    def delete(self, user_id, game_id):
-        fav = Favorite.query.filter(Favorite.user_id==user_id and Favorite.game_id==game_id).first()
-        if fav:
-            db.session.delete(fav)
-            db.session.commit()
-            return '', 200
+class FavoriteGame(Resource):
+    def patch(self,user_id,game_id):
+        user = User.query.filter(User.id==user_id).first()
+        game = Game.query.filter(Game.id==game_id).first()
+        check = [game for game in user.favorites if game.id==game_id]
+        if check == []:
+            user.favorites.append(game)
         else:
-            return {'error': 'favorite not found'}, 404
+            user.favorites.remove(check[0])
+        db.session.add(user)
+        db.session.commit()
+
+
 
 class AllCategories(Resource):
     def get(self):
@@ -199,8 +209,10 @@ api.add_resource(SignUp, '/signup', endpoint = 'signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Profile, '/user/<int:user_id>')
 api.add_resource(ReviewID, '/review/<int:review_id>')
-api.add_resource(Favorites, '/api/favorite/<int:user_id>/<int:game_id>')
+api.add_resource(FavoriteGame, '/api/favorite_game/<int:user_id>/<int:game_id>')
 api.add_resource(AllCategories, '/api/categories/')
+api.add_resource(GamesByTitle, '/api/search/<string:title>')
+api.add_resource(RecentGames, '/api/recent_games')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 
