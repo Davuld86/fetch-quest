@@ -8,7 +8,7 @@ import UserReviews from './UserReviews'
 import GameGroup from './GameGroup'
 
 export default function UserPage() {
- const userID = Number(window.location.pathname.slice(6))
+ const userID = Number(window.location.pathname.slice(14))
  const [logged, setLogged]= useState(null)
  const [user, setUser] = useState(null)
  const [error, setError]= useState(null)
@@ -77,7 +77,7 @@ function handleDelete(){
         <div>
         <span style={{display:'flex', alignItems:'center'}}>
         <h2>Reviews</h2>
-        {user.reviews? <Link to={``}><button>View all reviews</button></Link> :null}
+        {user.reviews? <Link to={`/user-reviews/${userID}`}><button>View all reviews</button></Link> :null}
         </span>
         {user.reviews?<UserReviews reviews={user.reviews}/>:<p>This user has no reviews</p>}
         </div>

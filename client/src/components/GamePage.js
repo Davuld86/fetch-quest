@@ -12,6 +12,8 @@ const gameID = Number(window.location.pathname.slice(6))
 const [game, setGame] = useState(null)
 const [error, setError] =useState(null)
 const [user, setUser] = useState(null)
+const [gameScore, setGameScore] = useState(0)
+const [gameReviews, setGameReviews] = useState([])
 const [favorited, toggleFavorite] = useState(false)
 const [favTally, setTally] = useState(null)
 const [isLoading, setLoading] = useState(true)
@@ -21,6 +23,8 @@ useEffect(() => {
       if (r.ok) {
         r.json().then((d)=> {
           setGame(d)
+          setGameScore(d.score)
+          setGameReviews(d.reviews)
           setTally(d.favorited_by.length)
         });
       }
@@ -45,6 +49,79 @@ useEffect(() => {
 function checkFavorites(user){
   let fav = user.favorites.filter((fave)=> fave.id == gameID)
   fav[0]? toggleFavorite(true): toggleFavorite(false)
+}
+
+function updateScore(reviews, newReview){
+  let sc = 0
+  if (reviews.length==0){
+    setGameScore(newReview.score)
+    return newReview.score
+  }
+  else{
+
+  }
+  reviews.forEach((review)=>{
+    sc= sc+review.game_score
+  })
+  sc= sc+ newReview.score
+  let newScore = sc/(reviews.length+1)
+  setGameScore( parseInt(newScore))
+  return parseInt(newScore)
+
+}
+
+function updateDelete(){
+
+  let sc = 0
+  if (gameReviews.length==0){
+    console.log('changing score')
+    setGameScore(0)
+  }
+  else{
+    gameReviews.forEach((review)=>{
+      sc= sc+review.game_score
+    })
+    let newScore = sc/(gameReviews.length)
+    setGameScore(()=>parseInt(newScore))
+  }
+
+
+}
+
+function handleSubmit(review){
+
+  let temp =  {
+        'score' : parseInt(review.score),
+        'comment': review.comment,
+        'user_id' : user.id,
+        'game_score' : updateScore(gameReviews, review)
+    }
+    fetch(`/game/${gameID}/`,{
+        method:'POST',
+        headers:{
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(temp)
+    }
+    )
+    .then((r)=> {
+        if(r.ok){
+            r.json().then((d)=> setGameReviews([d,...gameReviews]))
+        }
+        else{
+         r.json().then((d)=> alert(d.error))
+        }
+      })
+}
+
+function handleDelete(review){
+  fetch(`/review/${review.id}`, {
+      method: 'DELETE'
+  }).then(()=>{
+    setGameReviews(gameReviews.filter((rev)=>rev.id!=review.id));
+    updateDelete()
+})
+
 }
 
 function handleFavorite(){
@@ -78,8 +155,8 @@ return (
         <div style={{display:'grid', justifyContent:'center'}}>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
-        <span style={{display:'flex'}}>
-        <p>Score: {game.score} </p>
+        <span style={{display:'flex', justifyContent:'space-between'}}>
+        <p>Score: {gameScore} </p>
         <p>Favorites: {favTally} </p>
         <p>Total plays: {game.playcount? game.playcount:0} </p>
         <p>Published: {game.release_date} </p>
@@ -90,14 +167,14 @@ return (
         </div>
         <div>
             <h3>Developed by:</h3>
-            <Link to={`/user/${creator.id}`}>
+            <Link to={`/user-account/${creator.id}`}>
             <h4>{creator.username}</h4>
             <img src={creator.pfp} style={{maxHeight:'60px',borderRadius:'50%'}}></img>
             </Link>
             {creator.bio?<p>{creator.bio}</p> :null}
             {creator.id ==user.id?<Link to={`/edit-game/${game.id}`}><button>Edit Game</button></Link>:null}
         </div>
-        <ReviewContainer gameID={gameID} game={game} user={user}/>
+        <ReviewContainer reviews={gameReviews} user={user} handleSubmit={handleSubmit} handleDelete={handleDelete}/>
     </div>
   )
 

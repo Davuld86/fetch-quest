@@ -1,5 +1,7 @@
                                 TO DO:
 
+STYLE!!! ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა
+
 ALL:
     format dates to something that looks better
     Maybe add a character limit on reviews
@@ -8,10 +10,11 @@ ALL:
     change user/id links to account/1
     possible solution:
         send path up to app so that it all renders
+    add limits to all mapped data
+        reviews, favorites, home-page games
 
 GAME PAGE:
-    update score
-    add category bar
+    update score when review is deleted
     fix size of game
 
 PROFILE PAGE:
@@ -19,32 +22,33 @@ PROFILE PAGE:
 POST GAMES:
 
 DEVPAGE
-    delete games
-    edit titles
-    edit description
 
 SEARCH BAR:
-    search by:
-        title || category
+    "sanatize" the search query
+    get it working
 
 GAMES
-recent
+new
 popular
+random
 
 NAV BAR:
     fix nav bar bug
+        possible solution:
+            send path up to App.js so that it all re-renders everything
 
 CATEGORIES:
+    multiple of the same category
+        probably need to edit the uniqueness
 
 REVIEWS:
-    up/downvotes
-    make stuff required
+
 
 BANNER:
 
+USER REVIEWS:
 
 USER FAVORITES
-    View favorites
 
 APP.PY:
 use a better filter method for GamesByCategory

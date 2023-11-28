@@ -20,3 +20,7 @@ export const uploadSchema = yup.object().shape({
     categories: yup.string().required('Required')
 
 })
+
+export const reviewSchema = yup.object().shape({
+    comment: yup.string().required('Please say a few words'),
+})

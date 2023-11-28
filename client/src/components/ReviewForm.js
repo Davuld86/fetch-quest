@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, Form, Formik } from 'formik'
+import { reviewSchema } from '../schemas'
 export default function ReviewForm({handleSubmit}) {
     const text ={
         '0':"This carrot's all chewed up!",
@@ -19,10 +20,10 @@ export default function ReviewForm({handleSubmit}) {
         handleSubmit(values)
         actions.resetForm()
     }}
+    validationSchema={reviewSchema}
     >
-    {({values}) =>
+    {({values, errors, touched}) =>
         <Form>
-
             <Field type='radio' name='score' value='0'/>
             <Field type='radio' name='score' value='1'/>
             <Field type='radio' name='score' value='2'/>
@@ -33,6 +34,7 @@ export default function ReviewForm({handleSubmit}) {
             <p>{text[values.score]}</p>
             <br/>
             <Field autoComplete='off' type='text' style={{innerHeight:'100px',height:'100px', width:'300px'}} name='comment' placeholder='Enter your thoughts here'/>
+            {errors.comment && touched.comment? (<p>{errors.comment}</p>):null}
             <br/>
             <button type='submit'>Submit Review</button>
         </Form>

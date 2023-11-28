@@ -15,7 +15,8 @@ if(user){
     <div>
         <Link to={`/user/${user.id}`} >
         <img src={user?user.pfp:'../images/default_pfp.jpg'} style={{maxHeight:'60px', borderRadius:'25%'}}/>
-         <h4>{user? user.username:null}</h4> </Link>
+         <h4>{user? user.username:null}</h4>
+         </Link>
         <p>{review.comment}</p>
         <h4>{review.game_score==0?'💔':'⭐'.repeat(review.game_score)}</h4>
         <p>Posted: {review.created}</p>

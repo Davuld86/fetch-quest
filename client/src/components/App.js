@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Banner from "./Banner";
@@ -14,18 +14,21 @@ import SearchPage from "./SearchPage";
 import UserFavorites from "./UserFavorites";
 import UserUploads from "./UserUploads";
 import EditGameForm from "./EditGameForm";
-function App() {
+import UserReviewsPage from "./UserReviewsPage";
 
+function App() {
+  const [path, changePath] = useState(window.location.pathname)
   return(
     <Fragment>
     <BrowserRouter>
     <Banner/>
-    <NavBar/>
+    <NavBar path={path} changePath={changePath}/>
       <Switch>
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
-        <Route path='/user/:id'> <UserPage/>  </Route>
+        <Route path='/user-account/:id'> <UserPage/>  </Route>
         <Route path='/uploads/:userID'> <UserUploads/>  </Route>
+        <Route path='/user-reviews/:userID'> <UserReviewsPage/>  </Route>
         <Route path='/favorites/:userID/'> <UserFavorites/>  </Route>
         <Route path='/edit-profile/:id'> <EditProfile/> </Route>
         <Route path='/edit-game/:id'> <EditGameForm/> </Route>

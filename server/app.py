@@ -44,13 +44,17 @@ class GameID(Resource):
             game_id = game_id,
         )
         db.session.add(review)
+        game = Game.query.filter(Game.id ==game_id).first()
+        temp =[review.game_score for review in game.reviews]
+        game.score = int(sum(temp)/len(temp))
+        db.session.add(game)
+
         db.session.commit()
         return review.to_dict(),200
 
     def patch(self, game_id):
         json = request.get_json()
         category_list = json.pop('categories')
-        print(json)
 
         game = Game.query.filter(Game.id == game_id).first()
         game.categories.clear()
@@ -123,6 +127,14 @@ class ReviewID(Resource):
     def delete(self, review_id):
         review = Review.query.filter(Review.id== review_id).first()
         db.session.delete(review)
+
+        game = Game.query.filter(Game.id==review.game_id).first()
+        temp =[review.game_score for review in game.reviews]
+        if len(temp)==0:
+            game.score = 0
+        else:
+            game.score = int(sum(temp)/len(temp))
+        db.session.add(game)
         db.session.commit()
         return '', 204
 
