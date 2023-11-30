@@ -15,6 +15,7 @@ import UserFavorites from "./UserFavorites";
 import UserUploads from "./UserUploads";
 import EditGameForm from "./EditGameForm";
 import UserReviewsPage from "./UserReviewsPage";
+import SortGames from "./SortGames";
 
 function App() {
   const [path, changePath] = useState(window.location.pathname)
@@ -31,6 +32,9 @@ function App() {
         <Route path='/user-reviews/:userID'> <UserReviewsPage/>  </Route>
         <Route path='/favorites/:userID/'> <UserFavorites/>  </Route>
         <Route path='/edit-profile/:id'> <EditProfile/> </Route>
+        <Route path='/games/sort/new'> <SortGames/> </Route>
+        <Route path='/games/sort/popular'> <SortGames/> </Route>
+        <Route path='/games/sort/random'> <SortGames/> </Route>
         <Route path='/edit-game/:id'> <EditGameForm/> </Route>
         <Route path='/upload-game'><UploadGameForm/></Route>
         <Route path='/categories'><AllCategories/></Route>

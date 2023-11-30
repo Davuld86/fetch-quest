@@ -23,9 +23,9 @@ export default function Home() {
 
   return (
     <div>
-      <GameGroup title={"Thumpin' New"} text={'View newest games'} path={`/`} game_list={newGames}/>
-      <GameGroup title={'Hop-ular Hits'} text={'View popular games'} path={`/`} game_list={popularGames}/>
-      <GameGroup title={'Lucky Picks'} text={'View random games'} path={`/`} game_list={randomGames}/>
+      <GameGroup title={"Thumpin' New"} text={'View newest games'} path={`/games/sort/new`} game_list={newGames}/>
+      <GameGroup title={'Hop-ular Hits'} text={'View popular games'} path={`/games/sort/popular`} game_list={popularGames}/>
+      <GameGroup title={'Lucky Picks'} text={'View random games'} path={`/games/sort/random`} game_list={randomGames}/>
   </div>
   )
 }
