@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { Formik, Form, Field } from 'formik';
+import Loading from './Loading';
 
 export default function EditProfile() {
 const [logged, setLogged] = useState(null)
 const [user, setUser] = useState(null)
 const [loaded, setLoaded] = useState(false)
+const [isLoading, setLoading] = useState(true)
 const userID = Number(window.location.pathname.slice(14)[0])
 const [submmited, subEdit] = useState(false)
 
@@ -24,7 +26,7 @@ useEffect(() => {
       r.json().then((user) => setUser(user));
     }
 }).then(
-    setLoaded(true))
+    setLoading(false))
   }, []);
 
 function handleSubmit(data){
@@ -46,10 +48,14 @@ function handleSubmit(data){
     })
 
 }
+
 if(submmited){
-    return(<Redirect to={`/user/${logged.id}`}/>)
+    return(<Redirect to={`/user-account/${logged.id}`}/>)
 }
-else if(loaded){
+else if (isLoading){
+  return <Loading/>
+}
+else if(!isLoading && user&&logged) {
   if(logged==0){
     alert('Login to edit your profile')
     return <Redirect to='/'/>
@@ -80,10 +86,12 @@ else if(loaded){
             <Field type='text' name='pfp'></Field>
             <br/>
             {values.pfp==''?<img src='../images/default_pfp.jpg' style={{maxHeight:'150px'}}/>:<img src={values.pfp} style={{maxHeight:'150px'}}/>}
+
             <br/>
             <label htmlFor='bio'> Bio:</label>
             <br/>
             <Field type='text' name='bio' placeholder={placeholder} maxLength='160'></Field>
+            <p>{values.bio.length} of 160</p>
             <br/>
             <button type='submit'>Submit changes</button>
         </Form>

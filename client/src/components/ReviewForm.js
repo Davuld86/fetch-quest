@@ -33,7 +33,8 @@ export default function ReviewForm({handleSubmit}) {
             <img src={`../images/emotes/RE_${values.score}.png`} style={{maxHeight:'75px'}}/>
             <p>{text[values.score]}</p>
             <br/>
-            <Field autoComplete='off' type='text' style={{innerHeight:'100px',height:'100px', width:'300px'}} name='comment' placeholder='Enter your thoughts here'/>
+            <Field autoComplete='off' type='text' style={{innerHeight:'100px',height:'100px', width:'300px'}} name='comment' placeholder='Enter your thoughts here' maxLength='300'/>
+            <p>{values.comment.length} of 300</p>
             {errors.comment && touched.comment? (<p>{errors.comment}</p>):null}
             <br/>
             <button type='submit'>Submit Review</button>

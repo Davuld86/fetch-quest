@@ -3,8 +3,9 @@ import SearchBar from './SearchBar'
 import NoUser from './NoUser'
 import LoggedUser from './LoggedUser'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
+import Logo from './Logo'
 
-export default function Banner() {
+export default function Banner({changePath}) {
 
     const [user, setUser] = useState(null)
 
@@ -45,7 +46,6 @@ export default function Banner() {
     }
 
     function handleSignUp(data){
-
         let [username, password] = [data.username, data.password]
         fetch('/signup', {
           method: 'POST',
@@ -81,10 +81,7 @@ export default function Banner() {
 
     return (
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-          <Link to='/'>
-          <img alt ='bun_byte_logo' src='../images/bba_logo.png' style={{maxWidth:'80px'}}/>
-          <img src='../images/bba_text.png' style={{maxHeight:'100px'}}></img>
-          </Link>
+          <Logo/>
           <SearchBar/>
           {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>

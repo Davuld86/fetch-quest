@@ -3,12 +3,11 @@ import GameContainer from './GameContainer';
 import NoneFound from './NoneFound';
 
 export default function CategoryGames() {
-
-const [cURL, setCURL] = useState(window.location.pathname)
-const category = cURL.slice(16).toString()
 const [games,setGames] = useState(null)
 const[error, setError] = useState(null)
+let category = window.location.pathname.slice(16).toString()
 const [isLoaded, setLoaded] = useState(false)
+
 
 
 function titleize(title){
@@ -17,7 +16,7 @@ function titleize(title){
 }
 
 useEffect(() => {
-    setCURL(window.location.pathname)
+
     setLoaded(false)
     setGames(null)
     fetch(`/api/games/${category}/`).then((r) => {

@@ -1,20 +1,12 @@
                                 TO DO:
 
 STYLE!!! ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა
+seed
 
 ALL:
-    format dates to something that looks better
-    Maybe add a character limit on reviews
     ADD CLASS NAMES TO DIVS DAMMMIT! U(๑òᆺó๑)U
 
-    change user/id links to account/1
-    possible solution:
-        send path up to app so that it all renders
-    add limits to all mapped data
-        reviews, favorites, home-page games
-
 GAME PAGE:
-    update score when review is deleted
     fix size of game
 
 PROFILE PAGE:
@@ -24,25 +16,14 @@ POST GAMES:
 DEVPAGE
 
 SEARCH BAR:
-    "sanatize" the search query
-    get it working
 
-GAMES
-new
-popular
-random
+GAMES:
 
 NAV BAR:
-    fix nav bar bug
-        possible solution:
-            send path up to App.js so that it all re-renders everything
 
 CATEGORIES:
-    multiple of the same category
-        probably need to edit the uniqueness
 
 REVIEWS:
-
 
 BANNER:
 
@@ -51,6 +32,6 @@ USER REVIEWS:
 USER FAVORITES
 
 APP.PY:
-use a better filter method for GamesByCategory
+
 
 

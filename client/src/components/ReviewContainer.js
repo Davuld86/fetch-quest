@@ -11,7 +11,7 @@ let checkReview = reviews.filter((rev)=> rev.user_id ==user.id)[0]
   return(
     <div className='reviewContainer'>
         {checkReview?null:<ReviewForm handleSubmit={handleSubmit}/>}
-        <h3>{reviews.length} Review{reviews.length>1?'s':''}</h3>
+        <h3>{reviews.length} Review{reviews.length==1?'':'s'}:</h3>
         {reviews&&user?reviews.map((review)=><Review handleDelete={handleDelete} userID={user.id} key={review.id} review={review}/>):null}
     </div>
   )

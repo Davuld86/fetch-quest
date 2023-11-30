@@ -15,6 +15,7 @@ export default function SearchBar() {
         setQ(values.query)
         actions.resetForm();
 
+
       }}>
         {({isSubmitting, values}) =>(
         <Form autoComplete='off'>

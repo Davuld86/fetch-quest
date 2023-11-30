@@ -69,10 +69,10 @@ function handleDelete(){
         <h2>Favorite Games</h2>
         <Link to={`/favorites/${user.id}`}><button>View all favorites</button></Link>
         </span>
-        {user?<FavoriteGameContainer games={user.favorites}/>:null}
+        {user?<FavoriteGameContainer games={user.favorites.slice(0,user.favorites.length >=5? 5: user.favorites.length)}/>:null}
         </div>
 
-        <GameGroup title={'Created Games'} text={user.posts? <p>View all uploads</p>:null} path={`/uploads/${user.id}`} game_list={user.posts}/>
+        <GameGroup title={'Created Games'} text={user.posts? <p>View all uploads</p>:null} path={`/uploads/${user.id}`} game_list={user.posts.slice(0,user.posts.length >=5? 5: user.posts.length)}/>
 
         <div>
         <span style={{display:'flex', alignItems:'center'}}>
@@ -84,6 +84,7 @@ function handleDelete(){
 
         <div>
           <h2>Account settings:</h2>
+        {logged && user.id ==logged.id?<h3>Edit:</h3>:null}
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
         <br/>
         {logged && user.id ==logged.id?<h3>Delete Account:</h3>:null}

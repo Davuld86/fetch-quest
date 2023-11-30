@@ -1,33 +1,45 @@
 import React, {useEffect, useState} from 'react'
-import GameContainer from './GameContainer'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import GameGroup from './GameGroup'
+import Loading from './Loading'
 
 export default function Home() {
   const [newGames, setNewGames] = useState(null)
   const [popularGames, setPopularGames] = useState(null)
   const [randomGames,setRandomGames] = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    // grabs game data
     fetch("/all_games").then((r) => {
       if (r.ok) {
         r.json().then((d)=>{
-          setNewGames(d)
-          setPopularGames(d)
-          setRandomGames(d)
+          setNewGames(d.sort((a,b)=>{
+            return b.release_date-a.release_date
+        }))
+          setPopularGames(d.sort((a,b)=>{
+            return a.favorited_by.length - b.favorited_by.length
+        }))
+          setRandomGames(d.sort(()=>Math.random() - 0.5))
+          setLoading(false)
         });
       }
     });
   }, []);
 
-  return (
+  if(isLoading){
+    return <Loading/>
+  }
+
+  else{
+      return (
     <div>
-      <GameGroup title={"Thumpin' New"} text={'View newest games'} path={`/games/sort/new`} game_list={newGames}/>
-      <GameGroup title={'Hop-ular Hits'} text={'View popular games'} path={`/games/sort/popular`} game_list={popularGames}/>
-      <GameGroup title={'Lucky Picks'} text={'View random games'} path={`/games/sort/random`} game_list={randomGames}/>
+      <GameGroup title={"Thumpin' New"} text={'View newest games'} path={`/games/sort/new`} game_list={newGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
+      <GameGroup title={'Hop-ular Hits'} text={'View popular games'} path={`/games/sort/popular`} game_list={popularGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
+      <GameGroup title={'Lucky Picks'} text={'View random games'} path={`/games/sort/random`} game_list={randomGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
   </div>
   )
+  }
+
+
 }
 
 

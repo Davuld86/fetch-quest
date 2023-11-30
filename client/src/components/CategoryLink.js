@@ -7,14 +7,12 @@ if (category.games.length ==0){
 }
 else{
   return (
-    <li>
     <span style={{display:'flex'}}>
         <Link to={`/games/category/${category.name}`}>
-        <p>{category.name} </p>
+        <p title={`${category.games.length} ${category.name} game${category.games.length==1?'':'s'}`}>{category.name} {category.games.length}</p>
         </Link>
-        <p title={`${category.games.length}. games with this category`}>{category.games.length}</p>
+
     </span>
-     </li>
   )
 }
 }

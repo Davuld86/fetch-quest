@@ -22,7 +22,7 @@ if(isLoaded){
         return(
             <div>
                 <h1>All Categories</h1>
-                {categories.map((category)=><CategoryLink category={category}/>)}
+                {categories.map((category)=><CategoryLink key={category.id} category={category}/>)}
 
             </div>
         )

@@ -7,6 +7,8 @@ import CategoryBar from './CategoryBar';
 import Loading from './Loading';
 
 
+
+
 export default function GamePage() {
 const gameID = Number(window.location.pathname.slice(6))
 const [game, setGame] = useState(null)
@@ -15,6 +17,7 @@ const [user, setUser] = useState(null)
 const [gameScore, setGameScore] = useState(0)
 const [gameReviews, setGameReviews] = useState([])
 const [favorited, toggleFavorite] = useState(false)
+const [gameDate,setGameDate] = useState(null)
 const [favTally, setTally] = useState(null)
 const [isLoading, setLoading] = useState(true)
 
@@ -26,6 +29,9 @@ useEffect(() => {
           setGameScore(d.score)
           setGameReviews(d.reviews)
           setTally(d.favorited_by.length)
+
+          const date = new Date(d.release_date)
+          setGameDate(date.toLocaleDateString())
         });
       }
       else{
@@ -71,21 +77,18 @@ function updateScore(reviews, newReview){
 }
 
 function updateDelete(){
-
   let sc = 0
-  if (gameReviews.length==0){
-    console.log('changing score')
-    setGameScore(0)
+  if (gameReviews[0]){
+    sc= 0
   }
   else{
     gameReviews.forEach((review)=>{
       sc= sc+review.game_score
     })
-    let newScore = sc/(gameReviews.length)
-    setGameScore(()=>parseInt(newScore))
+     sc = sc/(gameReviews.length)
   }
-
-
+  console.log(sc)
+  return sc
 }
 
 function handleSubmit(review){
@@ -118,8 +121,8 @@ function handleDelete(review){
   fetch(`/review/${review.id}`, {
       method: 'DELETE'
   }).then(()=>{
-    setGameReviews(gameReviews.filter((rev)=>rev.id!=review.id));
-    updateDelete()
+    setGameReviews(gameReviews.filter((rev)=>rev.id!=review.id))
+    setGameScore((prev)=>prev=updateDelete())
 })
 
 }
@@ -159,7 +162,7 @@ return (
         <p>Score: {gameScore} </p>
         <p>Favorites: {favTally} </p>
         <p>Total plays: {game.playcount? game.playcount:0} </p>
-        <p>Published: {game.release_date} </p>
+        <p>Published: {gameDate} </p>
         </span>
         {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
         <CategoryBar categories={game.categories}/>

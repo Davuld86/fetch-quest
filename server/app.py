@@ -5,11 +5,34 @@
 # Remote library imports
 from flask import request, session, make_response, jsonify
 from flask_restful import Resource
+from difflib import SequenceMatcher
 
 # Local imports
 from config import app, db, api
 # Add your model imports
 from models import *
+def fuzzy_search(query, games, threshold=0.4):
+    results = []
+    for game in games:
+        similarity = SequenceMatcher(None, query.lower(), game.title.lower()).ratio()
+        print(similarity)
+        if similarity >= threshold:
+            results.append(game)
+    return results
+
+def add_category(game, category_name):
+    check_category = Category.query.filter(Category.name == category_name).first()
+    if check_category:
+        game.categories.append(check_category)
+    elif category_name == '' or category_name==' ':
+        pass
+    else:
+        cate = Category(
+            name = category_name
+        )
+        game.categories.append(cate)
+        db.session.add(cate)
+    db.session.commit()
 
 class AllGames(Resource):
     def get(self):
@@ -48,7 +71,6 @@ class GameID(Resource):
         temp =[review.game_score for review in game.reviews]
         game.score = int(sum(temp)/len(temp))
         db.session.add(game)
-
         db.session.commit()
         return review.to_dict(),200
 
@@ -61,9 +83,7 @@ class GameID(Resource):
         for attribute in json:
             setattr(game, attribute, json[attribute])
         for category in category_list:
-            cate = Category(name=category)
-            game.categories.append(cate)
-            db.session.add(cate)
+            add_category(game, category)
         db.session.add(game)
         db.session.commit()
 
@@ -85,33 +105,25 @@ class UploadGame(Resource):
             user_id = json['user_id'],
         )
         for category in json['categories']:
-            if category=='' or category==' ':
-                pass
-            else:
-                cate = Category(name=category)
-                game.categories.append(cate)
-                db.session.add(cate)
+            add_category(game, category)
         db.session.add(game)
         db.session.commit()
         return game.to_dict(),200
 
 class GamesByTitle(Resource):
     def get(self,title):
-        search = 'title%'
-        games = Game.query.filter(Game.title.like(search)).all()
-        if games:
-            return [game.to_dict() for game in games],200
+
+        games = Game.query.all()
+        search = fuzzy_search(title, games)
+        print(search)
+        if search:
+            return [game.to_dict() for game in search],200
         return {'error': 'No games found!'},404
 
 class GamesByCategory(Resource):
     def get(self, category_name):
 
-        games = Game.query.all()
-        game_list=[]
-        for game in games:
-            for category in game.categories:
-                if category.name == category_name:
-                    game_list.append(game)
+        game_list=[game for game in Game.query.all() if any(category.name==category_name for category in game.categories)]
         if game_list:
             return [game.to_dict() for game in game_list], 200
         else:
