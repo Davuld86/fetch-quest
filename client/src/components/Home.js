@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import GameGroup from './GameGroup'
 import Loading from './Loading'
 
+import './Home.css'
 export default function Home() {
   const [newGames, setNewGames] = useState(null)
   const [popularGames, setPopularGames] = useState(null)
@@ -31,10 +32,18 @@ export default function Home() {
 
   else{
       return (
-    <div>
+    <div className='home-content'>
+      <div className='newgames'>
       <GameGroup title={"Thumpin' New"} text={'View newest games'} path={`/games/sort/new`} game_list={newGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
+      </div>
+
+      <div className='popgames'>
       <GameGroup title={'Hop-ular Hits'} text={'View popular games'} path={`/games/sort/popular`} game_list={popularGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
+      </div>
+
+      <div className='rangames'>
       <GameGroup title={'Lucky Picks'} text={'View random games'} path={`/games/sort/random`} game_list={randomGames.slice(0,newGames.length >=10? 10: newGames.length)}/>
+      </div>
   </div>
   )
   }

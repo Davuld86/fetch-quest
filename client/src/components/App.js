@@ -17,10 +17,13 @@ import EditGameForm from "./EditGameForm";
 import UserReviewsPage from "./UserReviewsPage";
 import SortGames from "./SortGames";
 
+import './App.css';
+
 function App() {
   const [path, changePath] = useState(window.location.pathname)
   return(
     <Fragment>
+
     <BrowserRouter>
     <Banner/>
     <NavBar path={path} changePath={changePath}/>

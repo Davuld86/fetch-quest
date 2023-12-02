@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import CategoryLink from './CategoryLink';
 import NoneFound from './NoneFound';
 
+import './CategoriesPage.css'
+
 export default function AllCategories() {
     const[categories, setCategories] = useState(null)
     const[isLoaded, setLoaded] = useState(null)
@@ -19,11 +21,13 @@ export default function AllCategories() {
        }, []);
 if(isLoaded){
     if(categories){
-        return(
-            <div>
-                <h1>All Categories</h1>
-                {categories.map((category)=><CategoryLink key={category.id} category={category}/>)}
 
+        return(
+            <div className='all-categories'>
+                <h1>All Categories</h1>
+                <div className='category-container'>
+                {categories.map((category)=><CategoryLink key={category.id} category={category}/>)}
+                </div>
             </div>
         )
     }

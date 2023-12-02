@@ -1,0 +1,48 @@
+.home-content{
+    display: grid;
+    column-gap: 10px;
+    row-gap: 5%;
+}
+.game-container{
+    background-color: rgb(241, 216, 238);
+    display: grid;
+    grid-template-columns:repeat(3,200px);
+    column-gap: 5%;
+    row-gap: 10px;
+    justify-items: auto;
+}
+
+.ggheader button{
+    height: 50px;
+    border-radius: 5%;
+    background-color: rgb(237, 46, 196);
+    justify-self: right;
+}
+
+.ggheader span button :hover{
+    background-color: darkorchid;
+}
+
+.ggheader span{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(148, 40, 255);
+}
+.ggheader h2{
+    color: antiquewhite;
+    font-size: x-large;
+
+}
+
+.newgames{
+    border-radius: 10px;
+    width: 800px;
+}
+
+.popgames{
+ border-radius: 5px;
+}
+.rangames{
+    border-radius: 5px;
+}
+

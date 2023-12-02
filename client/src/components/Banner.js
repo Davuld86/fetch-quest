@@ -4,6 +4,7 @@ import NoUser from './NoUser'
 import LoggedUser from './LoggedUser'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 import Logo from './Logo'
+import './Banner.css'
 
 export default function Banner({changePath}) {
 
@@ -80,7 +81,7 @@ export default function Banner({changePath}) {
     }
 
     return (
-        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+        <div className='banner'>
           <Logo/>
           <SearchBar/>
           {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}

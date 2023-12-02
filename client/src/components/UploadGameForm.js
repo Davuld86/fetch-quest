@@ -4,6 +4,8 @@ import { uploadSchema } from '../schemas'
 import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import EmbedGame from './EmbedGame'
 
+import './UploadGameForm.css'
+
 export default function UploadGameForm() {
     const [loaded, setLoaded] = useState(false)
     const [user, setUser] = useState(null)
@@ -59,7 +61,7 @@ if(user==0){
     return <Redirect to='/'/>
 }
 return (
-    <div>
+    <div className='game-form'>
         <h1>Upload Game</h1>
         <Formik
 
@@ -88,14 +90,14 @@ return (
                 {errors && touched.thumbnail?<p>{errors.thumbnail}</p>:null}
                 <br/>
                 <h4>Thumbnail Preview:</h4>
-                <img src={values.thumbnail==''?'../images/default_thumbnail.png':values.thumbnail} style={{maxWidth:'80px'}}/>
+                <img className='default-thumbnail' src={values.thumbnail==''?'../images/default_thumbnail.png':values.thumbnail}/>
                 <br/>
                 <label htmlFor='path'>Game Link:</label>
                 <Field name='path' type='text'/>
                 {errors && touched.path?<p>{errors.path}</p>:null}
                 <br/>
                 <h4>Game Preview:</h4>
-                <EmbedGame source ={values.path}/>
+                {errors.path || values.path==''?<img  className='default-embed' src='../images/default_game.gif'/>:<EmbedGame source ={values.path}/>}
                 <br/>
                 <label htmlFor='description'>Description:</label>
                 <Field name='description' type='text' maxLength='500'  />
@@ -104,7 +106,7 @@ return (
                 <label htmlFor='categories' >Categories</label>
                 <Field name='categories' type='text' placeholder='e.g.: action, bullet hell, adventure'/>
                 {errors && touched.categories?<p>{errors.categories}</p>:null}
-                <p>For multiple categories, enter a comma separated list</p>
+                <h4>For multiple categories, enter a comma separated list</h4>
                 <br/>
                 <button type='submit'>Upload Game</button>
             </Form>

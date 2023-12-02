@@ -7,6 +7,8 @@ import EmbedGame from './EmbedGame'
 import Loading from './Loading'
 import DialogueBox from './DialogueBox'
 
+import './EditGame.css'
+
 export default function EditGameForm() {
     const gameID = window.location.pathname.slice(11)
     const [logged, setLogged] = useState(null)
@@ -113,7 +115,7 @@ else if(isLoading==false && game&&logged){
     else{
 
         return (
-            <div>
+            <div className='game-form'>
                 <h1>Edit Game</h1>
                 {dialogueBox?<DialogueBox text={"Delete Game?"} text2={'This action cannot be undone'} handleYes={handleDelete} handleNo={()=>toggleBox(false)} />:null}
                 <Formik
@@ -159,7 +161,7 @@ else if(isLoading==false && game&&logged){
                         <label htmlFor='categories' >Categories</label>
                         <Field name='categories' type='text' placeholder='e.g.: action, bullet hell, adventure'/>
                         {errors && touched.categories?<p>{errors.categories}</p>:null}
-                        <p>For multiple categories, enter a comma separated list</p>
+                        <h5>For multiple categories, enter a comma separated list</h5>
                         <br/>
                         <button type='submit'>Save Changes</button>
                     </Form>

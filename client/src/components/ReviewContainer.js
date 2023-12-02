@@ -9,7 +9,7 @@ export default function ReviewContainer({reviews, user, handleSubmit, handleDele
 if (reviews&&user){
 let checkReview = reviews.filter((rev)=> rev.user_id ==user.id)[0]
   return(
-    <div className='reviewContainer'>
+    <div className='review-container'>
         {checkReview?null:<ReviewForm handleSubmit={handleSubmit}/>}
         <h3>{reviews.length} Review{reviews.length==1?'':'s'}:</h3>
         {reviews&&user?reviews.map((review)=><Review handleDelete={handleDelete} userID={user.id} key={review.id} review={review}/>):null}
@@ -18,8 +18,9 @@ let checkReview = reviews.filter((rev)=> rev.user_id ==user.id)[0]
 }
 else{
     return(
-    <div>
+    <div className='review-no-user'>
     <h3>Create an account to review this game</h3>
+    <h3>{reviews.length} Review{reviews.length==1?'':'s'}:</h3>
     {reviews?reviews.map((review)=><Review handleDelete={handleDelete} userID={0} key={review.id} review={review}/>):null}
     </div>
     )

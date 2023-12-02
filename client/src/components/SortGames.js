@@ -4,6 +4,8 @@ import NoneFound from './NoneFound'
 import GameContainer from './GameContainer'
 import { Link, useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
+import './SortGames.css'
+
 export default function SortGames() {
     const [sort, setSort] = useState(window.location.pathname.slice(12))
     const words = {'new': "Newest", 'popular': 'Popular', 'random': 'Random'}
@@ -56,7 +58,7 @@ else if(games==0){
 }
 else{
    return (
-    <div>
+    <div className='sort-page'>
         <h1>{words[sort]} Games</h1>
         <span style={{display:'flex'}}>
             <h2>Sort by:</h2>

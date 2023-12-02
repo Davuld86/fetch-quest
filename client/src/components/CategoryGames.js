@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import GameContainer from './GameContainer';
 import NoneFound from './NoneFound';
 
+import './GameList.css'
+
 export default function CategoryGames() {
 const [games,setGames] = useState(null)
 const[error, setError] = useState(null)
@@ -34,7 +36,7 @@ useEffect(() => {
 if(isLoaded){
 if (games){
     return (
-    <div>
+    <div className='category-page'>
         <h1>{titleize(category)} Games</h1>
         <GameContainer games={games}/>
     </div>
@@ -42,7 +44,7 @@ if (games){
 }
 else{
     return(
-        <div>
+        <div className='category-page'>
         <h1>{titleize(category)} Games</h1>
         <NoneFound title={'No carrots in this patch!'} image={'/images/no_individual_category.png'} text={'No games in that category found'}/>
         </div>

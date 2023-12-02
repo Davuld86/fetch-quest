@@ -1,0 +1,11 @@
+.loading{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 139, 0.445);
+}
+
+.loading p {
+    color:aliceblue
+}

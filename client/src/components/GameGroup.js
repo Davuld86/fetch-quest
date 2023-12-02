@@ -4,7 +4,7 @@ import GameContainer from './GameContainer'
 
 export default function GameGroup({title, text, path, game_list}) {
   return (
-    <div>
+    <div className='ggheader'>
     <span style={{display:'flex', alignItems:'center'}}>
     <h2>{title}</h2>
     <Link to={path}><button>{text}</button></Link>

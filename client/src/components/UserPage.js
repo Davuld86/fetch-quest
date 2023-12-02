@@ -6,6 +6,9 @@ import ReviewContainer from './ReviewContainer'
 import FavoriteGameContainer from './FavoriteGameContainer'
 import UserReviews from './UserReviews'
 import GameGroup from './GameGroup'
+import NoneFound from './NoneFound'
+
+import './UserPage.css'
 
 export default function UserPage() {
  const userID = Number(window.location.pathname.slice(14))
@@ -51,9 +54,9 @@ function handleDelete(){
   if(user){
 
   return (
-    <div>
+    <div className='user-page'>
         {dialogueBox?<DialogueBox text={'Delete Account?'} text2={'This action cannot be undone.'} handleYes={handleDelete} handleNo={()=>toggleBox(false)}/>:null}
-        <div>
+        <div className='user-data'>
         <h2>{user.username}</h2>
         <img src={user.pfp} style={{maxHeight:'150px', borderRadius:'5%'}}/>
           <div>
@@ -64,7 +67,7 @@ function handleDelete(){
 
 
 
-        <div>
+        <div className='user-favorites'>
         <span style={{display:'flex', alignItems:'center'}}>
         <h2>Favorite Games</h2>
         <Link to={`/favorites/${user.id}`}><button>View all favorites</button></Link>
@@ -74,7 +77,7 @@ function handleDelete(){
 
         <GameGroup title={'Created Games'} text={user.posts? <p>View all uploads</p>:null} path={`/uploads/${user.id}`} game_list={user.posts.slice(0,user.posts.length >=5? 5: user.posts.length)}/>
 
-        <div>
+        <div className='user-reviews'>
         <span style={{display:'flex', alignItems:'center'}}>
         <h2>Reviews</h2>
         {user.reviews? <Link to={`/user-reviews/${userID}`}><button>View all reviews</button></Link> :null}
@@ -82,7 +85,7 @@ function handleDelete(){
         {user.reviews?<UserReviews reviews={user.reviews}/>:<p>This user has no reviews</p>}
         </div>
 
-        <div>
+        <div className='user-settings'>
           <h2>Account settings:</h2>
         {logged && user.id ==logged.id?<h3>Edit:</h3>:null}
         {logged && user.id ==logged.id?<Link to={`/edit-profile/${logged.id}`}><button>Edit profile</button></Link>:null}
@@ -97,14 +100,7 @@ function handleDelete(){
 }
 else if (error){
     return(
-        <div style={{display:'grid', justifyItems:'center'}}>
-            <h1>{error? error.error:null}</h1>
-        <img src='../images/not_found.png' style={{maxHeight:'500px'}}></img>
-        <h2>{error.error}</h2>
-        <Link to='/'>
-        <button style={{height:'50px'}}>Back to homepage</button>
-        </Link>
-        </div>
+          <NoneFound title={error? error.error:null} image={'../images/not_found.png' } text={'This user does not exist'}/>
     )
 }
 }

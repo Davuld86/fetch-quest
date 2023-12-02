@@ -4,6 +4,8 @@ import NoneFound from './NoneFound';
 import { useHistory } from "react-router";
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
+import './GameList.css'
+
 export default function SearchPage() {
     let query = window.location.pathname.slice(14).replaceAll('%20',' ')
     const [games, setGames] = useState(null)
@@ -32,7 +34,7 @@ export default function SearchPage() {
  if(loaded){
     if(games){
         return(
-            <div>
+            <div className='search-page'>
                 <h1>{query==''? 'All Games':`Search Games : "${titleize(query)}"`}</h1>
                 <GameContainer games={games}/>
             </div>
@@ -40,7 +42,7 @@ export default function SearchPage() {
     }
 if (games==0){
     return (
-        <div>
+        <div className='search-page'>
             <h1>{query==''? 'All Games':`Search Games : "${titleize(query)}"`}</h1>
             <NoneFound title={'No carrots in this patch!'} image={'../images/no_individual_category.png'} text={'Try a different search term'}/>
         </div>

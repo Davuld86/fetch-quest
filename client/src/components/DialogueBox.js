@@ -1,8 +1,8 @@
 import React from 'react'
-
+import './DialogueBox.css'
 export default function DialogueBox({text, text2,handleYes, handleNo}) {
   return (
-    <div style={{ display:'grid',justifyItems:'center', position:'absolute',backgroundColor:'gray', left:'50%', top:'50%'}}>
+    <div className='dialogue-box'>
         <h2>{text}</h2>
         {text2?<p>{text2}</p>:null}
         <button onClick={()=>handleYes()}>Yes</button>

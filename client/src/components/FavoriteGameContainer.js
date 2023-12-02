@@ -16,7 +16,7 @@ let game_arr = []
     game_arr.push(game)
    });
   return (
-    <div style={{display:'grid'}}>
+    <div style={{display:'grid'}} className='favorite-games'>
       {game_arr[0]? game_arr.map((game)=> <GameCard key={game.id} game={game}/>):null}
     </div>
   )

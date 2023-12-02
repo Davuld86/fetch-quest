@@ -1,0 +1,22 @@
+.none-img{
+    max-height: 800px;
+    max-width: auto;
+}
+
+.none-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.none-page button{
+    height: 50px;
+    width:fit-content;
+}
+
+.none-title{
+    font-size: xx-large;
+    margin:0
+}
+.none-text{
+    font-size: x-large;
+}

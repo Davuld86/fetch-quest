@@ -7,7 +7,7 @@ if (category.games.length ==0){
 }
 else{
   return (
-    <span style={{display:'flex'}}>
+    <span className='category-link'>
         <Link to={`/games/category/${category.name}`}>
         <p title={`${category.games.length} ${category.name} game${category.games.length==1?'':'s'}`}>{category.name} {category.games.length}</p>
         </Link>

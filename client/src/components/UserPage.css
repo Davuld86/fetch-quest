@@ -1,0 +1,124 @@
+.user-page{
+    display: grid;
+    justify-content: center;
+}
+.user-data{
+    background-color: rgb(226, 43, 214);
+    min-width: fit-content ;
+    min-height: fit-content;
+    max-height: 300px;
+    max-width: 300px;
+    position: relative;
+    display: flex;
+    align-content: center;
+    margin-bottom: 5%;
+
+}
+.user-data p{
+    font-size: 25px;
+
+}
+.user-data img{
+    padding: 20px;
+}
+.user-page .ggheader{
+    margin-bottom: 5%;
+}
+.user-favorites{
+background-color: cyan;
+margin-bottom: 5%;
+width: 800px;
+}
+.user-reviews{
+ background-color: rgb(107, 20, 220);
+ margin-bottom: 5%;
+}
+
+.user-settings{
+ background-color: rgb(126, 237, 118);
+}
+
+.user-favorites button{
+    height: 50px;
+    border-radius: 5%;
+    background-color: rgb(237, 46, 196);
+    justify-self: right;
+}
+
+.user-favorites span button :hover{
+    background-color: darkorchid;
+}
+
+.user-favorites span{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(148, 40, 255);
+}
+.user-favorites h2{
+    color: antiquewhite;
+    font-size: x-large;
+
+}
+
+.favorite-games{
+
+    display: grid;
+    grid-template-columns: repeat(3,200px);
+    column-gap: 5%;
+    row-gap: 10px;
+    justify-items: auto;
+
+}
+
+.user-reviews button{
+    height: 50px;
+    border-radius: 5%;
+    background-color: rgb(237, 46, 196);
+    justify-self: right;
+}
+
+.user-reviews span button :hover{
+    background-color: darkorchid;
+}
+
+.user-reviews span{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(148, 40, 255);
+}
+.user-reviews h2{
+    color: antiquewhite;
+    font-size: x-large;
+
+}
+.user-review-container{
+    display: grid;
+    grid-template-columns: repeat(3,200px);
+    column-gap: 1%;
+    row-gap: 10px;
+    justify-items: auto;
+}
+
+.user-review{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(233, 176, 233);
+    align-items: center;
+    align-content: center;
+
+}
+
+.user-review p{
+    font-size: larger;
+    background-color: whitesmoke;
+    padding:1%
+}
+
+.user-review a{
+   text-decoration: none;
+}
+.user-review img{
+    max-width: auto;
+    max-height: 100px;
+
+}

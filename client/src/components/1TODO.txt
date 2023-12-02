@@ -1,13 +1,14 @@
                                 TO DO:
 
 STYLE!!! ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა
+update pfp when change pfp
 seed
 
 ALL:
-    ADD CLASS NAMES TO DIVS DAMMMIT! U(๑òᆺó๑)U
+
 
 GAME PAGE:
-    fix size of game
+
 
 PROFILE PAGE:
 

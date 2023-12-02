@@ -6,7 +6,7 @@ import ReviewContainer from './ReviewContainer';
 import CategoryBar from './CategoryBar';
 import Loading from './Loading';
 
-
+import './GamePage.css'
 
 
 export default function GamePage() {
@@ -46,6 +46,10 @@ useEffect(() => {
               checkFavorites(user)
               setLoading(false)
             });
+          }
+          else{
+            setUser(0)
+            setLoading(false)
           }
 
         })
@@ -154,21 +158,24 @@ if(game){
 
 const creator = game.created_by
 return (
-    <div style={{display:'grid'}}>
-        <div style={{display:'grid', justifyContent:'center'}}>
+    <div style={{display:'grid'}} className='game-page'>
+        <div style={{display:'grid', justifyContent:'center'}} className='game-elements'>
         <h1>{game.title}</h1>
         <EmbedGame source={game.path}/>
-        <span style={{display:'flex', justifyContent:'space-between'}}>
+        <span style={{display:'flex', justifyContent:'space-between'}} className=' game-attributes'>
         <p>Score: {gameScore} </p>
         <p>Favorites: {favTally} </p>
         <p>Total plays: {game.playcount? game.playcount:0} </p>
         <p>Published: {gameDate} </p>
         </span>
         {user?<button onClick={()=>handleFavorite()}>{favorited?'Unfavorite':'Favorite'} Game</button>:null}
+        <h4>Categories:</h4>
         <CategoryBar categories={game.categories}/>
+        <h4>Description:</h4>
         {game.description?<p>{game.description}</p>:null}
         </div>
-        <div>
+
+        <div className='developer'>
             <h3>Developed by:</h3>
             <Link to={`/user-account/${creator.id}`}>
             <h4>{creator.username}</h4>
@@ -178,6 +185,7 @@ return (
             {creator.id ==user.id?<Link to={`/edit-game/${game.id}`}><button>Edit Game</button></Link>:null}
         </div>
         <ReviewContainer reviews={gameReviews} user={user} handleSubmit={handleSubmit} handleDelete={handleDelete}/>
+
     </div>
   )
 
