@@ -9,12 +9,11 @@
 }
 
 .game-elements iframe{
-    width: 100%;
-    height: 100%;
-    max-width: 1024px;
-    max-height: 576px;
-    min-height: 480px;
-    min-width: 854px;
+    aspect-ratio: 16 / 9;
+	height: 100%;
+	width: 100%;
+
+
 }
 
 .game-attributes{
@@ -44,6 +43,9 @@
 
 .review-no-user h3{
     color: aliceblue;
+}
+.review-no-user{
+    display: inherit;
 }
 .review{
     background-color: blanchedalmond;

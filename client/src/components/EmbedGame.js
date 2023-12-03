@@ -6,6 +6,7 @@ export default function EmbedGame({source}) {
         src={source}
         allowFullScreen
         scrolling='no'
+        frameborder="0"
         >
         </iframe>
   )

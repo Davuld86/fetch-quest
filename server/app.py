@@ -15,7 +15,6 @@ def fuzzy_search(query, games, threshold=0.4):
     results = []
     for game in games:
         similarity = SequenceMatcher(None, query.lower(), game.title.lower()).ratio()
-        print(similarity)
         if similarity >= threshold:
             results.append(game)
     return results
@@ -115,15 +114,13 @@ class GamesByTitle(Resource):
 
         games = Game.query.all()
         search = fuzzy_search(title, games)
-        print(search)
         if search:
             return [game.to_dict() for game in search],200
         return {'error': 'No games found!'},404
 
 class GamesByCategory(Resource):
     def get(self, category_name):
-
-        game_list=[game for game in Game.query.all() if any(category.name==category_name for category in game.categories)]
+        game_list = Game.query.join(Game.categories).filter(Category.name == category_name).all()
         if game_list:
             return [game.to_dict() for game in game_list], 200
         else:
@@ -232,14 +229,11 @@ class FavoriteGame(Resource):
 
 class AllCategories(Resource):
     def get(self):
-        categories = Category.query.all()
+        categories = Category.query.order_by(Category.name).all()
         if categories:
             return [category.to_dict() for category in categories],200
         else:
             return {'error': 'No categories found'}
-
-
-
 
 
 # Views go here!
