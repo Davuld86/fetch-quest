@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom'
 import Logo from './Logo'
 import './Banner.css'
 
-export default function Banner({changePath}) {
+export default function Banner({}) {
 
     const [user, setUser] = useState(null)
 
@@ -17,7 +17,7 @@ export default function Banner({changePath}) {
           r.json().then((user) => setUser(user));
         }
       });
-    }, []);
+    }, [user]);
 
 
     function handleLogin(data){

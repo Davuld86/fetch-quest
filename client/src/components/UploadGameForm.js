@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import EmbedGame from './EmbedGame'
 
 import './UploadGameForm.css'
+import NoneFound from './NoneFound'
 
 export default function UploadGameForm() {
     const [loaded, setLoaded] = useState(false)
@@ -48,12 +49,8 @@ export default function UploadGameForm() {
 
 if(isSubmitted){
     return(
-        <div>
-            <h1>Game Uploaded!</h1>
-            <img src='../images/uploaded.png'/>
-            <Link to='/'><button>Back to home</button></Link>
-        </div>
-    )
+        <NoneFound title={'Game Uploaded'} image='../images/uploaded.png' text={''}/>
+      )
 }
 else if (loaded){
 if(user==0){

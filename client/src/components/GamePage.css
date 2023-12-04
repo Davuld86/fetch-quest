@@ -10,6 +10,10 @@
 
 .game-elements iframe{
     aspect-ratio: 16 / 9;
+    min-width: 1024px;
+    min-height: 576px;
+    max-width: max-content;
+    max-height: max-content;
 	height: 100%;
 	width: 100%;
 
