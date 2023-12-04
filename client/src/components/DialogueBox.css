@@ -9,6 +9,7 @@
     width:500px;
     height:500px;
     left: 25%;
+    z-index: 20;
 }
 .dialogue-box button{
     width: 100px;

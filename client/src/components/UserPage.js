@@ -10,9 +10,8 @@ import NoneFound from './NoneFound'
 
 import './UserPage.css'
 
-export default function UserPage() {
+export default function UserPage({logged,setLogged}) {
  const userID = Number(window.location.pathname.slice(14))
- const [logged, setLogged]= useState(null)
  const [user, setUser] = useState(null)
  const [error, setError]= useState(null)
  const[dialogueBox, toggleBox] = useState(false)
@@ -45,6 +44,7 @@ function handleDelete(){
           setDeleted(true)
         }
       })
+
   }
 
   if(deleted){

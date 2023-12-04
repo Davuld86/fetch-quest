@@ -1,0 +1,27 @@
+.profile-page{
+    display: grid;
+    background-color: rgb(212, 124, 250);
+    justify-items: center;
+}
+
+.profile-page input{
+    width: 300px;
+    height:25px;
+    font-size: 20px;
+    text-align:center;
+    border-radius:5px;
+}
+
+.profile-page form{
+    display: grid;
+    justify-content: center;
+}
+
+.profile-page img{
+    justify-self: center;
+    padding: 5%;
+}
+
+.profile-page label{
+    font-size: 20px;
+}

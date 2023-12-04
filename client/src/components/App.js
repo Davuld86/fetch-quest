@@ -21,16 +21,17 @@ import './App.css';
 
 function App() {
   const [path, changePath] = useState(window.location.pathname)
+  const [logged, setLogged]= useState(null)
   return(
     <Fragment>
 
     <BrowserRouter>
-    <Banner/>
+    <Banner logged={logged} setLogged={setLogged}/>
     <NavBar path={path} changePath={changePath}/>
       <Switch>
         <Route exact path='/'>  <Home/>   </Route>
         <Route path='/play/:id'> <GamePage/> </Route>
-        <Route path='/user-account/:id'> <UserPage/>  </Route>
+        <Route path='/user-account/:id'> <UserPage logged={logged} setLogged={setLogged}/>  </Route>
         <Route path='/uploads/:userID'> <UserUploads/>  </Route>
         <Route path='/user-reviews/:userID'> <UserReviewsPage/>  </Route>
         <Route path='/favorites/:userID/'> <UserFavorites/>  </Route>

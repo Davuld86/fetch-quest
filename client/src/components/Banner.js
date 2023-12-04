@@ -6,18 +6,15 @@ import { Link } from 'react-router-dom/cjs/react-router-dom'
 import Logo from './Logo'
 import './Banner.css'
 
-export default function Banner({}) {
-
-    const [user, setUser] = useState(null)
-
+export default function Banner({logged, setLogged}) {
     useEffect(() => {
       // auto-login
       fetch("/check_session").then((r) => {
         if (r.ok) {
-          r.json().then((user) => setUser(user));
+          r.json().then((logged) => setLogged(logged));
         }
       });
-    }, [user]);
+    }, []);
 
 
     function handleLogin(data){
@@ -36,7 +33,7 @@ export default function Banner({}) {
         .then((r)=>{
           if(r.ok){
             r.json()
-            .then(d=>{console.log(d); setUser(d)})
+            .then(d=>{ setLogged(d)})
 
           }
            else{
@@ -60,7 +57,7 @@ export default function Banner({}) {
         })
         .then((r)=> {
           if(r.ok){
-            r.json()
+            alert('Account created!')
           }
           else{
            r.json().then((d)=> alert(d.error))
@@ -69,12 +66,11 @@ export default function Banner({}) {
       }
 
     function handleLogOut(){
-      console.log('logging out')
       fetch('/logout',{
         method: 'DELETE'
     }).then((r) =>{
         if (r.ok){
-          setUser(null)
+          setLogged(null)
         }
       })
 
@@ -84,7 +80,7 @@ export default function Banner({}) {
         <div className='banner'>
           <Logo/>
           <SearchBar/>
-          {user? <LoggedUser handleLogOut={handleLogOut} user= {user}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
+          {logged? <LoggedUser handleLogOut={handleLogOut} user= {logged}/>:<NoUser handleLogin={handleLogin} handleSignUp={handleSignUp}/>}
         </div>
       )
 }

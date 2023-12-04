@@ -3,12 +3,14 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { Formik, Form, Field } from 'formik';
 import Loading from './Loading';
 
+import './EditProfile.css'
+
 export default function EditProfile() {
 const [logged, setLogged] = useState(null)
 const [user, setUser] = useState(null)
-const [loaded, setLoaded] = useState(false)
+
 const [isLoading, setLoading] = useState(true)
-const userID = Number(window.location.pathname.slice(14)[0])
+const userID = Number(window.location.pathname.slice(14))
 const [submmited, subEdit] = useState(false)
 
 const placeholder = `Gamer at heart, chasing victories and virtual adventures. Let's play! 🎮✨`
@@ -25,8 +27,8 @@ useEffect(() => {
     if (r.ok) {
       r.json().then((user) => setUser(user));
     }
-}).then(
-    setLoading(false))
+})
+setLoading(false)
   }, []);
 
 function handleSubmit(data){
@@ -52,23 +54,23 @@ function handleSubmit(data){
 if(submmited){
     return(<Redirect to={`/user-account/${logged.id}`}/>)
 }
-else if (isLoading){
+if (isLoading){
   return <Loading/>
 }
-else if(!isLoading && user&&logged) {
+else if(user&&logged) {
   if(logged==0){
     alert('Login to edit your profile')
     return <Redirect to='/'/>
   }
-  if (logged&& userID != logged.id){
+  if (userID != logged.id){
     alert('Attempting to edit account that is not yours')
     return <Redirect to={`/user/${logged.id}`}/>
   }
   if(logged&&user){
   return (
-    <div>
-        <h2>Edit Profile</h2>
-        <h3>Username: {user.username} </h3>
+    <div className='profile-page'>
+        <h1>Edit Profile</h1>
+        <h2>Username: {user.username}</h2>
 
     <Formik
     initialValues={{
@@ -91,7 +93,7 @@ else if(!isLoading && user&&logged) {
             <label htmlFor='bio'> Bio:</label>
             <br/>
             <Field type='text' name='bio' placeholder={placeholder} maxLength='160'></Field>
-            <p>{values.bio.length} of 160</p>
+            <p>{values.bio?values.bio.length:0} of 160</p>
             <br/>
             <button type='submit'>Submit changes</button>
         </Form>
