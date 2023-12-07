@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Bun-Byte Arcade
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to Bun-Byte Arcade, a rabbit-themed online game site. Play games, Write reviews, or if you're inclined to: upload your own.
 
-## Available Scripts
+## Table of Contents
+- [Bun-Byte Arcade](#bun-byte-arcade)
+  - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+    - [1. Play Games](#1-play-games)
+    - [2. Write Reviews](#2-write-reviews)
+    - [3. Upload Your Games](#3-upload-your-games)
+    - [4. Searching Games](#4-searching-games)
+  - [Playing Games](#playing-games)
+  - [Writing Reviews](#writing-reviews)
+  - [Uploading Games](#uploading-games)
+  - [Contributing](#contributing)
+  - [TODO](#todo)
+  - [Thanks](#thanks)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### 1. Play Games
+Dive into a diverse collection of games across genres. Whether you're into action, puzzles, or simulations, Bun-Byte Arcade has something for everyone.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. Write Reviews
+Express your thoughts about games by writing reviews. Share your experiences, rate games, and help other gamers discover new favorites.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 3. Upload Your Games
+Calling all game creators! Share your own game creations with the Bun-Byte community. Let others play, enjoy, and provide valuable feedback on your work.
 
-### `npm test`
+### 4. Searching Games
+You are able to search games by it's title, or if you know what category the game belongs to, use the category bar provided.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Playing Games
 
-### `npm run build`
+1. Browse the game library.
+2. Click on a game to view details.
+3. Press "Play" to start the gaming experience.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Writing Reviews
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Navigate to the game's page.
+2. Click on "Write a Review."
+3. Share your thoughts and rate the game.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Uploading Games
 
-### `npm run eject`
+1. Ensure you are logged in.
+2. Click the "upload game" (🔼) icon in the top right banner.
+3. Follow the form and upload you game.
+4. Note: the "game link" uses the iframe src taken from other online game sites.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Contributing
+Feel free to contribute to this project. If you find any bugs, please let me know.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## TODO
+There is an issue with games that use the .swf extension. There also are problems with certain games that uses the Unity web tool.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Thanks
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+A lot of of the images were created using the [Bing Image-Creator](https://www.bing.com/images/create?FORM=GDPGLP) and a little photohsop know-how. This was **very** useful at quickly visualizing an idea that I had.

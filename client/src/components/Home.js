@@ -13,12 +13,12 @@ export default function Home() {
     fetch("/all_games").then((r) => {
       if (r.ok) {
         r.json().then((d)=>{
-          setNewGames((games)=> games= d.sort((a,b)=>{
-            return b.release_date-a.release_date
-        }))
-          setPopularGames((games)=> games=d.sort((a,b)=>{
-            return a.favorited_by.length - b.favorited_by.length
-        }))
+          setNewGames((games)=> games= d.sort((a,b)=>
+            b.release_date-a.release_date
+        ))
+          setPopularGames((games)=> games=d.sort((a,b)=>
+             a.favorited_by.length - b.favorited_by.length
+        ))
           setRandomGames((games)=> games= d.sort(()=>Math.random() - 0.5))
           setLoading(false)
         });

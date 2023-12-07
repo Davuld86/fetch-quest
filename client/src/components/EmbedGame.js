@@ -4,7 +4,7 @@ export default function EmbedGame({source}) {
   return (
         <iframe
         src={source}
-        allowFullScreen
+        allowFullScreen='true'
         frameborder="0"
         >
         </iframe>
