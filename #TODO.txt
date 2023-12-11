@@ -1,0 +1,51 @@
+                                    TO DO
+USERS
+    Create an account
+
+    Edit account
+
+    Delete account
+
+FRIENDS
+    view friends list
+
+    be friends w/ user
+
+    remove from friends
+
+CHARACTER
+    Create character
+
+    View Character stats
+
+    Delete Character
+
+    Edit Character Class
+
+    Edit character equipment
+
+    Edit character items
+
+INVENTORY
+    view inventory
+
+    delete items from inventory
+
+BATTLE
+    Battle monsters
+
+    gain loot
+
+MESSAGES
+    All Chat
+
+    Dm other users
+
+BASES
+    go to base
+
+    edit base
+
+    go to user's base
+
+

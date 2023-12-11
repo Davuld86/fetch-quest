@@ -14,8 +14,7 @@ flask-restful = "*"
 flask-cors = "*"
 faker = "*"
 flask-bcrypt = "*"
-sqlalchemy = {ext = hybrid = "*"
-}
+sqlalchemy = "*"
 
 [requires]
 python_full_version = "3.8.13"

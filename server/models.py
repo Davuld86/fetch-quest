@@ -6,32 +6,55 @@ from datetime import datetime
 from config import db, bcrypt
 
 # Models go here!
-categories_association = db.Table('categories_association',
-    db.Column('category_id', db.Integer, db.ForeignKey('categories.id'), primary_key=True),
-    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key=True)
-    )
 
-favorites_association = db.Table('favorites_association',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key =True),
-    db.Column('game_id', db.Integer, db.ForeignKey('games.id'), primary_key= True)
+friends_association = db.Table('friends_association',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('friend_id', db.Integer, db.ForeignKey('friends.id'), primary_key=True)
+)
+
+messages_association = db.Table('messages_association',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('message_id', db.Integer, db.ForeignKey('messages.id'), primary_key=True)
+)
+
+
+equipment_association = db.Table('equipment_association',
+    db.Column('character_id', db.Integer, db.ForeignKey('characters.id')),
+    db.Column('equipment_id', db.Integer, db.ForeignKey('equipment.id'))
                                  )
+
+items_association = db.Table('items_association',
+    db.Column('character_id', db.Integer, db.ForeignKey('characters.id')),
+    db.Column('item_id', db.Integer, db.ForeignKey('items.id'))
+                             )
+
+drops_association = db.Table('drops_association',
+    db.Column('enemy_id', db.Integer, db.ForeignKey('enemies.id')),
+    db.Column('equipment', db.Integer, db.ForeignKey('equipment.id')),
+    db.Column('item_1', db.Integer, db.ForeignKey('items.id')),
+    db.Column('item_2', db.Integer, db.ForeignKey('items.id')),
+    db.Column('item_3', db.Integer, db.ForeignKey('items.id'))
+                             )
+# Friends association
+# Equipment association
+# Items association
+# Drops association
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-posts.created_by','-reviews.user_reviews','-_password_hash', 'favorites.reviews','posts.reviews','-favorites.categories', )
-
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable= False)
-    pfp = db.Column(db.String, default='../images/default_pfp.jpg')
-    created = db.Column(db.DateTime, default = datetime.utcnow)
+    pfp = db.Column(db.String, default ='/something')
     bio = db.Column(db.String)
+    coins = db.Column(db.Integer)
+    created = db.Column(db.DateTime, default = datetime.now)
 
-    reviews = db.relationship('Review', backref = 'user_reviews')
-    favorites = db.relationship('Game',secondary=favorites_association, back_populates = 'favorited_by')
-    posts = db.relationship('Game', backref='created_by')
-
-    _password_hash = db.Column(db.String)
+    messages = db.relationship('Message', back_populates='user_messages', secondary= messages_association)
+    friends = db.relationship('User', backref='user_friends', secondary= friends_association)
+    character = db.relationship('Character', backref='user')
+    base = db.relationship('Base', backref='user_base')
+    _password_hash = db.Column(db.String, nullable=False)
 
     @hybrid_property
     def password_hash(self):
@@ -45,44 +68,90 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
-class Game(db.Model, SerializerMixin):
-    __tablename__ = 'games'
-
-    serialize_rules = ('-created_by.posts','-reviews.reviewed','-favorited_by.favorites', '-created_by.reviews', '-created_by.favorites', '-favorited_by.posts','-favorited_by.reviews')
+class Friend(db.Model, SerializerMixin):
+    __tablename__ ='friends'
 
     id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String)
-    description = db.Column(db.String)
-    thumbnail = db.Column(db.String)
-    path = db.Column(db.String)
-    playcount = db.Column(db.Integer, default=0)
-    score = db.Column(db.Integer, default =0)
-    release_date = db.Column(db.DateTime, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    friend_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.String(20), nullable=False, default='pending')
 
-    favorited_by = db.relationship('User', back_populates='favorites', secondary= favorites_association)
-    reviews = db.relationship('Review', backref='reviewed')
-    categories = db.relationship('Category', back_populates='games',secondary=categories_association)
+class Message(db.Model, SerializerMixin):
+    __tablename__ = 'messages'
 
-class Review(db.Model, SerializerMixin):
-    __tablename__ = 'reviews'
+    id = db.Column(db.Integer, primary_key = True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.now, nullable=False)
 
-    serialize_rules = ('-user_reviews','-reviewed.reviews.reviewed','-reviewed.created_by' )
+    user_messages = db.relationship('User', secondary=messages_association, back_populates ='messages')
+
+class Character(db.Model, SerializerMixin):
+
+    __tablename__ = 'characters'
 
     id = db.Column(db.Integer, primary_key=True)
-    game_score = db.Column(db.Integer)
-    comment = db.Column(db.String)
-    created = db.Column(db.DateTime, default = datetime.utcnow)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
-    game_id = db.Column(db.Integer, db.ForeignKey('games.id'))
+    name = db.Column(db.String(20), nullable=False)
+    hp = db.Column(db.Integer, default =100)
+    mp = db.Column(db.Integer, default =100)
+    atk = db.Column(db.Integer, default =20)
+    matk = db.Column(db.Integer, default =20)
+    defense = db.Column(db.Integer, default =20)
+    level = db.Column(db.Integer, default=1)
+    exp = db.Column(db.Integer, default=0)
+    job = db.Column(db.String)
+    color = db.Column(db.String)
+    position = db.Column(db.String, default='{"area":0,"x": 0, "y": 0}')
 
-class Category(db.Model, SerializerMixin):
-    __tablename__ = 'categories'
-
-    serialize_only =('id', 'name', 'games.id')
-
-    id = db.Column(db.Integer, primary_key =True)
-    name = db.Column(db.String, unique=True, nullable=False)
-    games= db.relationship('Game',secondary=categories_association, back_populates='categories')
+    equipment = db.relationship('Equipment', backref='character')
+    inventory = db.relationship('Items', backref='character')
 
 
+class Equipment(db.Model, SerializerMixin):
+    __tablename__ = 'equipment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    character_id  = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    type = db.Column(db.String) #hat, top, bottom, weapon
+    stat = db.Column(db.String)
+    boost = db.Column(db.Integer)
+    image = db.Column(db.String)
+    enemy_id = db.Column(db.String, nullable=True)
+
+class Item(db.Model, SerializerMixin):
+    __tablename__ = 'items'
+
+    id = db.Column(db.Integer, primary_key=True)
+    character_id  = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    name = db.Column(db.String)
+    action = db.Column(db.String)
+    image = db.Column(db.String)
+    enemy_id = db.Column(db.String, nullable=True)
+
+class Enemy(db.Model, SerializerMixin):
+    __tablename__ = 'enemies'
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(20), nullable=False)
+    hp = db.Column(db.Integer, default =100)
+    mp = db.Column(db.Integer, default =100)
+    atk = db.Column(db.Integer, default =20)
+    matk = db.Column(db.Integer, default =20)
+    defense = db.Column(db.Integer, default =20)
+    level = db.Column(db.Integer, default=1)
+    coins = db.Column(db.Integer, default=20)
+
+    item_drops = db.relationship('Item', backref='dropped_by', secondary= drops_association)
+    equip_drops = db.relationship('Equipment', backref='dropped_by', secondary= drops_association)
+
+class Base(db.Model, SerializerMixin):
+    __tablename__ = 'bases'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
+    background = db.Column(db.String)
+    rug = db.Column(db.String)
+    banner = db.Column(db.String)
+    chair = db.Column(db.String)

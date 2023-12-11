@@ -1,19 +1,15 @@
-import React, { Component, useState } from 'react'
+import React from 'react'
+import LoggedInCont from './LoggedInCont'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
-import './NavBar.css'
-export default function NavBar({path, changePath}){
-  const [l, setL] = useState(null)
-    return (
-      <div className='navbar' >
-        <ul onClick={(e)=> changePath(e.target.href)}>
-            <Link to='/games/category/action'>Action</Link>
-            <Link to='/games/category/adventure'>Adventure</Link>
-            <Link to='/games/category/puzzle'>Puzzle</Link>
-            <Link to='/games/category/shooting'>Shooting</Link>
-            <Link to='/games/category/strategy'>Strategy</Link>
-            <Link to='/categories'>More</Link>
-        </ul>
-      </div>
-    )
 
+export default function NavBar({user}) {
+  return (
+    <div style={{display:'flex', justifyContent:'space-between'}}>
+        <Link to='/'> <h4>Logo</h4> </Link>
+        <h4>Register</h4>
+        <h4>Logo</h4>
+        <LoggedInCont/>
+
+    </div>
+  )
 }
