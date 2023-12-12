@@ -17,7 +17,6 @@ messages_association = db.Table('messages_association',
     db.Column('message_id', db.Integer, db.ForeignKey('messages.id'), primary_key=True)
 )
 
-
 equipment_association = db.Table('equipment_association',
     db.Column('character_id', db.Integer, db.ForeignKey('characters.id')),
     db.Column('equipment_id', db.Integer, db.ForeignKey('equipment.id'))
@@ -30,10 +29,9 @@ items_association = db.Table('items_association',
 
 drops_association = db.Table('drops_association',
     db.Column('enemy_id', db.Integer, db.ForeignKey('enemies.id')),
-    db.Column('equipment', db.Integer, db.ForeignKey('equipment.id')),
-    db.Column('item_1', db.Integer, db.ForeignKey('items.id')),
-    db.Column('item_2', db.Integer, db.ForeignKey('items.id')),
-    db.Column('item_3', db.Integer, db.ForeignKey('items.id'))
+    db.Column('equipment_id', db.Integer, db.ForeignKey('equipment.id')),
+    db.Column('item_id', db.Integer, db.ForeignKey('items.id')),
+
                              )
 # Friends association
 # Equipment association
@@ -43,9 +41,11 @@ drops_association = db.Table('drops_association',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
+    serialize_rules = ('-_password_hash',)
+
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable= False)
-    pfp = db.Column(db.String, default ='/something')
+    pfp = db.Column(db.String, default ='../images/def_pfp.png')
     bio = db.Column(db.String)
     coins = db.Column(db.Integer)
     created = db.Column(db.DateTime, default = datetime.now)
@@ -106,7 +106,7 @@ class Character(db.Model, SerializerMixin):
     position = db.Column(db.String, default='{"area":0,"x": 0, "y": 0}')
 
     equipment = db.relationship('Equipment', backref='character')
-    inventory = db.relationship('Items', backref='character')
+    inventory = db.relationship('Item', backref='character')
 
 
 class Equipment(db.Model, SerializerMixin):

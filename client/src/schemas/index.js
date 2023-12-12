@@ -12,15 +12,3 @@ export const signUpSchema = yup.object().shape({
     confirmPassword: yup.string().oneOf([yup.ref('password'),null], 'Passwords must match').required('Required')
 })
 
-export const uploadSchema = yup.object().shape({
-    title: yup.string().required('Required'),
-    thumbnail: yup.string().url().required('Required'),
-    path: yup.string().url().required('Required'),
-    description: yup.string().required('Required'),
-    categories: yup.string().required('Required')
-
-})
-
-export const reviewSchema = yup.object().shape({
-    comment: yup.string().required('Please say a few words'),
-})

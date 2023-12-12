@@ -36,6 +36,7 @@ class SignUp(Resource):
             )
             db.session.add(new_user)
             db.session.commit()
+            session['user_id'] = new_user.id
             return new_user.to_dict(),201
 
 class Login(Resource):
@@ -63,7 +64,7 @@ class Logout(Resource):
 
 
 # Views go here!
-api.add_resource(CheckSession, '/api/check_station', endpoint= 'check_session')
+api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')

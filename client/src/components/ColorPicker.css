@@ -1,0 +1,75 @@
+.circular-menu {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .center-image {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color:deepskyblue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+
+  .center-image img {
+    width: 300px;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .menu-item {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid rgb(0, 0, 0);
+    z-index: 3;
+    cursor: pointer;
+  }
+
+  .item-1 {
+    background-color: red;
+    transform: rotate(334deg) translateX(150px) rotate(-334deg);
+  }
+
+  .item-2 {
+    background-color: orange;
+    transform: rotate(15deg) translateX(150px) rotate(0deg);
+  }
+
+  .item-3 {
+    background-color: yellow;
+    transform: rotate(50.86deg) translateX(150px) rotate(-25.86deg);
+  }
+
+  .item-4 {
+    background-color: green;
+    transform: rotate(100.29deg) translateX(150px) rotate(-50.29deg);
+  }
+
+  .item-5 {
+    background-color: blue;
+    transform: rotate(140.71deg) translateX(150px) rotate(-100.71deg);
+  }
+
+  .item-6 {
+    background-color: indigo;
+    transform: rotate(175.14deg) translateX(150px) rotate(-150.14deg);
+  }
+
+  .item-7 {
+    background-color: violet;
+    transform: rotate(208.57deg) translateX(150px) rotate(-308.57deg);
+  }

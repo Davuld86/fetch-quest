@@ -1,51 +1,119 @@
                                     TO DO
 USERS
     Create an account
+        Signup menu
+        Signup screen
+        Signup Logic
 
     Edit account
+        Edit account page
+        edit account logic
+        edit account api
 
     Delete account
-
-FRIENDS
-    view friends list
-
-    be friends w/ user
-
-    remove from friends
-
-CHARACTER
-    Create character
-
-    View Character stats
-
-    Delete Character
-
-    Edit Character Class
-
-    Edit character equipment
-
-    Edit character items
+        delete account box
+        delete account logic
 
 INVENTORY
     view inventory
+        inventory page
+        inventory card
+        inventory logic
+        inventory api
 
     delete items from inventory
+        inventory delete api
 
 BATTLE
     Battle monsters
-
+        Battle screen
+        battle api
+        battle animations
+        batle logic
     gain loot
+        loot screen
+        add gold api
+
+
+MOVEMENT
+    Move character
+        find cursor position
+        animate character towards position
+
+
+CHARACTER
+    Create character
+        create character screen
+        create character api
+        create character logic
+
+    View Character stats
+        character stats screen
+        character stats container
+        health bar
+        experience bar
+
+    Delete Character
+        delete character screen
+        delete character api
+
+    Edit Character Class
+        edit character screen
+        edit character api
+        edit character logic
+
+    Edit character equipment
+        equipment screen (part of inventory)
+        equipment card
+        equipment change api
+
+    Edit character items
+        character items api
+        character items screen (inventory)
+        item card
+
+
+FRIENDS
+    view friends list
+        friends list page
+        friends list containter
+        friends list card
+        friends list links
+
+    be friends w/ user
+        friends api
+        friends menu
+
+    remove from friends
+        remove friends api
+        remove friends screen
+        remove friends logic
+
 
 MESSAGES
     All Chat
 
+        message screen
+        message filter
+        messages api
+
     Dm other users
+        dm screen
+        message cards
+        messages api
 
 BASES
     go to base
+        base screen
+        base logic
+        base api
 
     edit base
+        edit base menu
+        edit base logic
+        edit base api
 
     go to user's base
-
+        menu on user
+        user base logic
 
