@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Field, Form, Formik } from 'formik';
 import { signUpSchema } from '../schemas';
 import ColorCharacter from './ColorCharacter';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 import './Register.css'
+import { UserContext } from './App';
 export default function Register() {
-
+  const [user, setUser]= useContext(UserContext)
   const [showPassword,setShowPassword] = useState(false)
-  const[registered, setRegistered] = useState(false)
+  const [registered, setRegistered] = useState(false)
   const [color, setColor] = useState('red')
 
   function handleSubmit(formData){
@@ -19,7 +20,8 @@ export default function Register() {
       },
       body: JSON.stringify({
         username:formData.username,
-        password: formData.password
+        password: formData.password,
+        color: color
       })
     }).then((res)=>{
       if(res.ok){
@@ -29,12 +31,13 @@ export default function Register() {
         res.json((d)=> alert(d.error))
       }
     })
+
     setRegistered((prev)=> !prev)
   }
 
-  if(registered){
+  if(registered||user){
     return(
-      <Redirect to='/create-character'/>
+      <Redirect to='/'/>
     )
   }
 else {

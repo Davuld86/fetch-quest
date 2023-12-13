@@ -1,0 +1,36 @@
+.friend-container{
+    width: 250px;
+    height:500px;
+    display: none;
+    position: absolute;
+    justify-self: right;
+    background-color:rgb(18 117 187);
+    border-radius: 5%;
+    border: 3px solid blue;
+    right: -90%;
+    transition: 150ms;
+}
+
+.friend-container-active{
+    width: 250px;
+    height:500px;
+    overflow-y: auto;
+    visibility: visible;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: right;
+    background-color:rgb(18 117 187);
+    border-top-left-radius: 5%;
+    border-bottom-left-radius: 5%;
+    border: 5px solid rgb(18, 18, 32);
+    right: 0%;
+    transition: 150ms;
+}
+
+.friends-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

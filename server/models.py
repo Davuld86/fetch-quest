@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from config import db, bcrypt
+from battle_helpers import *
 
 # Models go here!
 
@@ -46,8 +47,8 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable= False)
     pfp = db.Column(db.String, default ='../images/def_pfp.png')
-    bio = db.Column(db.String)
-    coins = db.Column(db.Integer)
+    bio = db.Column(db.String, default = '')
+    coins = db.Column(db.Integer, default= 100)
     created = db.Column(db.DateTime, default = datetime.now)
 
     messages = db.relationship('Message', back_populates='user_messages', secondary= messages_association)
@@ -93,7 +94,8 @@ class Character(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
-    name = db.Column(db.String(20), nullable=False)
+    job = db.Column(db.String, default='Freelancer')
+    color = db.Column(db.String)
     hp = db.Column(db.Integer, default =100)
     mp = db.Column(db.Integer, default =100)
     atk = db.Column(db.Integer, default =20)
@@ -101,10 +103,7 @@ class Character(db.Model, SerializerMixin):
     defense = db.Column(db.Integer, default =20)
     level = db.Column(db.Integer, default=1)
     exp = db.Column(db.Integer, default=0)
-    job = db.Column(db.String)
-    color = db.Column(db.String)
     position = db.Column(db.String, default='{"area":0,"x": 0, "y": 0}')
-
     equipment = db.relationship('Equipment', backref='character')
     inventory = db.relationship('Item', backref='character')
 

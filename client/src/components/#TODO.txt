@@ -39,6 +39,9 @@ MOVEMENT
     Move character
         find cursor position
         animate character towards position
+            set to animate
+            play char animation
+            set to stand
 
 
 CHARACTER
@@ -57,7 +60,7 @@ CHARACTER
         delete character screen
         delete character api
 
-    Edit Character Class
+    Edit Character Job
         edit character screen
         edit character api
         edit character logic
