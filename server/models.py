@@ -42,16 +42,16 @@ drops_association = db.Table('drops_association',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-_password_hash',)
+    serialize_rules = ('-_password_hash','-chats.user', '-messages.sender')
 
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable= False)
     pfp = db.Column(db.String, default ='../images/def_pfp.png')
     bio = db.Column(db.String, default = '')
     coins = db.Column(db.Integer, default= 100)
-    created = db.Column(db.DateTime, default = datetime.now)
+    created = db.Column(db.DateTime, default = datetime.utcnow)
 
-    messages = db.relationship('Message', back_populates='user_messages', secondary= messages_association)
+
     friends = db.relationship('User', backref='user_friends', secondary= friends_association)
     character = db.relationship('Character', backref='user')
     base = db.relationship('Base', backref='user_base')
@@ -77,16 +77,31 @@ class Friend(db.Model, SerializerMixin):
     friend_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     status = db.Column(db.String(20), nullable=False, default='pending')
 
+class Inbox(db.Model, SerializerMixin):
+    __tablename__ = 'inboxes'
+
+    serialize_only=('id', 'messages','user.id', 'sender.id', 'user.pfp','sender.pfp','user.username','sender.username' )
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    messages = db.relationship('Message', backref= 'inbox')
+    user = db.relationship('User', foreign_keys=[user_id], backref='chats')
+    sender = db.relationship('User', foreign_keys =[sender_id], backref='received')
+
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    id = db.Column(db.Integer, primary_key = True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.now, nullable=False)
+    serialize_only=('id', 'content', 'timestamp','sender.pfp','sender.username')
 
-    user_messages = db.relationship('User', secondary=messages_association, back_populates ='messages')
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    inbox_id = db.Column(db.Integer, db.ForeignKey('inboxes.id'))
+
+    sender = db.relationship('User', backref= 'messages')
 
 class Character(db.Model, SerializerMixin):
 

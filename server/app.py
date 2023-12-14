@@ -86,7 +86,21 @@ class UserID(Resource):
         db.session.commit()
         return '', 204
 
+class AllMessages(Resource):
+    def get(self):
+        mes = Message.query.all()
+        if mes:
+            return [message.to_dict() for message in mes],200
 
+class UserMessages(Resource):
+    def get(self):
+        sent_messages = Message.query.filter(Message.sender_id== session['user_id']).all()
+        received_messages = Message.query.filter(Message.receiver_id== session['user_id']).all()
+        messages =  sent_messages + received_messages
+        if messages:
+            return [message.to_dict() for message in messages],200
+        else:
+            return {'error':'No messages found'},404
 
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
@@ -94,6 +108,9 @@ api.add_resource(SignUp, '/api/signup')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(UserID, '/api/user/<int:user_id>')
+api.add_resource(AllMessages, '/api/messages')
+api.add_resource(UserMessages, '/api/user_messages')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

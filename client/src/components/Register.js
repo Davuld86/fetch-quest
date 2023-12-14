@@ -26,6 +26,7 @@ export default function Register() {
     }).then((res)=>{
       if(res.ok){
         setRegistered(true)
+        res.json().then((d)=> setUser(d))
       }
       else{
         res.json((d)=> alert(d.error))

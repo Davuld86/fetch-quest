@@ -30,7 +30,6 @@ export default function EditAccount() {
             }
         })
     }
-
     function handleDelete(){
         fetch(`/api/user/${user.id}`,{
             method: 'DELETE',
@@ -43,6 +42,7 @@ export default function EditAccount() {
             }
         })
     }
+
 if(submitted){
     return  <Redirect to={`/`}/>
 }

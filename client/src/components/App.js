@@ -9,6 +9,7 @@ import CreateCharacter from "./CreateCharacter";
 import NavBar from "./NavBar";
 import EditAccount from "./EditAccount";
 import FriendContainer from "./FriendContainer";
+import Messages from "./Messages";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -42,6 +43,7 @@ function App() {
         <Route path='/register'><Register/></Route>
         <Route path='/account-settings/:uid'><EditAccount/></Route>
         <Route path='/create-character'><CreateCharacter/></Route>
+        <Route path='/messages'><Messages/></Route>
         <Route path='*'><NotFound/></Route>
       </Switch>
       </FriendContext.Provider>
