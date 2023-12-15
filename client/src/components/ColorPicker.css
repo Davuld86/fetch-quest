@@ -20,7 +20,15 @@
     z-index: 1;
     border: 3px solid black;
   }
+  .img-overlay{
+    position: absolute;
+    z-index: 2;
+    mix-blend-mode: overlay;
 
+  }
+  .raccoon{
+    position: absolute;
+  }
   .center-image img {
     width: 300px;
     height: 100%;

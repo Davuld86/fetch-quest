@@ -37,7 +37,8 @@ drops_association = db.Table('drops_association',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-chats.user','-sent_friend.sent_user' )
+    serialize_rules = ('-chats.user','-sent_friend.sent_user',  )
+
     serialize_only = ('id', 'username', 'pfp', 'bio', 'coins',
                     'created', 'character', 'base', 'chats',
                     )
@@ -46,10 +47,10 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable= False)
     pfp = db.Column(db.String, default ='../images/def_pfp.png')
     bio = db.Column(db.String, default = '')
-    coins = db.Column(db.Integer, default= 100)
+    coins = db.Column(db.Integer, default= 2500)
     created = db.Column(db.DateTime, default = datetime.utcnow)
 
-    character = db.relationship('Character', backref='user')
+    character = db.relationship('Character')
     base = db.relationship('Base', backref='user_base')
     _password_hash = db.Column(db.String, nullable=False)
 

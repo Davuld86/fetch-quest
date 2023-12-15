@@ -12,7 +12,8 @@ return (
     <h2>Choose a color</h2>
     <div className="circular-menu">
       <div className="center-image">
-        <img src="https://pngfre.com/wp-content/uploads/cat-104-1000x1024.png" alt="Central Image" />
+        <img src={`../images/overlays/overlay_${color[charColor]}.png`} className='img-overlay'/>
+        <img src='../images/raccoon.png' className='raccoon' />
       </div>
       {menuItems.map((item, index) => (
        <ColorCircles key={index} index={index} setCharColor={setCharColor} setColor={setColor} />

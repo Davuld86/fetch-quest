@@ -9,7 +9,7 @@ export default function FriendContainer() {
     const [friends,toggleFriends]= useContext(FriendContext)
     const [f_list, setFList] = useState([])
     useEffect(()=>{
-        fetch(`api/friends/${user.id}`).then((res)=>{
+        fetch(`/api/friends/${user.id}`).then((res)=>{
             if(res.ok){
                 res.json().then((d)=> setFList(d))
             }
@@ -36,7 +36,6 @@ export default function FriendContainer() {
                 setFList(f_list.filter((friend)=>friend.id!=id))
             }
         })
-
     }
 
 

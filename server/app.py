@@ -35,6 +35,7 @@ class SignUp(Resource):
                 password_hash = json['password'].strip()
             )
             db.session.add(new_user)
+            db.session.commit()
             new_character = Character(
                 color = json['color'],
                 user_id = new_user.id,
@@ -157,6 +158,11 @@ class Friendship(Resource):
         db.session.commit()
         return '',201
 
+class AllCharacters(Resource):
+    def get(self):
+        char = Character.query.all()
+        if char:
+            return [cha.to_dict() for cha in char],200
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -169,6 +175,7 @@ api.add_resource(DirectMessage, '/api/send_message')
 api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
 api.add_resource(AllFriends, '/api/all_friends')
 api.add_resource(Friendship, '/api/friends/<int:user_id>')
+api.add_resource(AllCharacters, '/api/all_characters')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

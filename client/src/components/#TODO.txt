@@ -1,14 +1,6 @@
                                     TO DO
 USERS
-    Create an account
-        Signup menu
-        Signup screen
-        Signup Logic
 
-    Edit account
-        Edit account page
-        edit account logic
-        edit account api
 MESSAGES
     change message source (user-> server)
     Inboxes
@@ -72,20 +64,16 @@ CHARACTER
         item card
 
 FRIENDS
-    view friends list
-        friends list page
-        friends list card
-        friends list links
-
-    be friends w/ user
+    send friend rq to user
         friends api
         friends menu
 
-    remove from friends
-        remove friends api
-        remove friends screen
-        remove friends logic
-
+SHOP
+    Shop page
+    Shop model
+    Shop api
+        buy items/equipment/furniture
+        add to inventory
 
 MESSAGES
     All Chat

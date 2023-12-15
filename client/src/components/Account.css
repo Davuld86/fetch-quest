@@ -1,0 +1,7 @@
+.character-container{
+    display: flex;
+}
+
+.user-pfp{
+    max-width: 200px;
+}

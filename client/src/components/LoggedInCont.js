@@ -59,6 +59,7 @@ if (user){
 
         </div>
         <div style={{display:'flex', flexDirection:'column'}}>
+        {logout? <Link to={`/account/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Profile</button></Link>:null}
         {logout?<Link to={`/account-settings/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Account Settings</button></Link>:null}
         {logout?<button onClick={handleLogout}>Log out</button>:null}
         </div>
