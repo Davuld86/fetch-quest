@@ -12,3 +12,6 @@ export const signUpSchema = yup.object().shape({
     confirmPassword: yup.string().oneOf([yup.ref('password'),null], 'Passwords must match').required('Required')
 })
 
+export const messageSchema = yup.object().shape({
+    message: yup.string().required()
+})

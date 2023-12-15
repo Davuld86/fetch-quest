@@ -102,6 +102,26 @@ class UserMessages(Resource):
         else:
             return {'error':'No messages found'},404
 
+class DirectMessage(Resource):
+    def post(self):
+        json = request.get_json()
+        message = Message(
+                user_id = json['user_id'],
+                inbox_id = json['inbox_id'],
+                content = json['content']
+            )
+        db.session.add(message)
+        db.session.commit()
+
+        return message.to_dict()
+
+class DeleteMessage(Resource):
+    def delete(self,message_id):
+        message = Message.query.filter(Message.id == message_id).first()
+        db.session.delete(message)
+        db.session.commit()
+        return '',201
+
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -110,6 +130,8 @@ api.add_resource(Logout, '/api/logout')
 api.add_resource(UserID, '/api/user/<int:user_id>')
 api.add_resource(AllMessages, '/api/messages')
 api.add_resource(UserMessages, '/api/user_messages')
+api.add_resource(DirectMessage, '/api/send_message')
+api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

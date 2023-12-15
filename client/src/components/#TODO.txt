@@ -10,10 +10,6 @@ USERS
         edit account logic
         edit account api
 
-    Delete account
-        delete account box
-        delete account logic
-
 INVENTORY
     view inventory
         inventory page
@@ -75,11 +71,9 @@ CHARACTER
         character items screen (inventory)
         item card
 
-
 FRIENDS
     view friends list
         friends list page
-        friends list containter
         friends list card
         friends list links
 
@@ -95,7 +89,6 @@ FRIENDS
 
 MESSAGES
     All Chat
-
         message screen
         message filter
         messages api
