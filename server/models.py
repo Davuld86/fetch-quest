@@ -1,18 +1,14 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
+from sqlalchemy import UniqueConstraint, CheckConstraint
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from config import db, bcrypt
 from battle_helpers import *
+from enum import Enum
 
 # Models go here!
-
-friends_association = db.Table('friends_association',
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
-    db.Column('friend_id', db.Integer, db.ForeignKey('friends.id'), primary_key=True)
-)
-
 messages_association = db.Table('messages_association',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
     db.Column('message_id', db.Integer, db.ForeignKey('messages.id'), primary_key=True)
@@ -34,7 +30,6 @@ drops_association = db.Table('drops_association',
     db.Column('item_id', db.Integer, db.ForeignKey('items.id')),
 
                              )
-# Friends association
 # Equipment association
 # Items association
 # Drops association
@@ -42,7 +37,10 @@ drops_association = db.Table('drops_association',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-_password_hash','-chats.user', '-messages.sender')
+    serialize_rules = ('-chats.user','-sent_friend.sent_user' )
+    serialize_only = ('id', 'username', 'pfp', 'bio', 'coins',
+                    'created', 'character', 'base', 'chats',
+                    )
 
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String, nullable= False)
@@ -51,8 +49,6 @@ class User(db.Model, SerializerMixin):
     coins = db.Column(db.Integer, default= 100)
     created = db.Column(db.DateTime, default = datetime.utcnow)
 
-
-    friends = db.relationship('User', backref='user_friends', secondary= friends_association)
     character = db.relationship('Character', backref='user')
     base = db.relationship('Base', backref='user_base')
     _password_hash = db.Column(db.String, nullable=False)
@@ -69,13 +65,20 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
+class FriendEnum(Enum):
+    REQ_1 = 'sent to 1'
+    REQ_2 = 'sent to 2'
+    FRIEND = 'Friends'
+
 class Friend(db.Model, SerializerMixin):
     __tablename__ ='friends'
-
-    id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    friend_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    status = db.Column(db.String(20), nullable=False, default='pending')
+    serialize_only = ('id', 'user_id_1', 'user_id_2', 'status','user_1.username','user_1.pfp','user_2.username','user_2.pfp')
+    id = db.Column(db.Integer, primary_key=True)
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('users.id'))
+    status = db.Column(db.Enum(FriendEnum))
+    user_1 = db.relationship('User', foreign_keys=[user_id_1])
+    user_2 = db.relationship('User', foreign_keys=[user_id_2])
 
 class Inbox(db.Model, SerializerMixin):
     __tablename__ = 'inboxes'

@@ -122,6 +122,41 @@ class DeleteMessage(Resource):
         db.session.commit()
         return '',201
 
+class AllFriends(Resource):
+    def get(self):
+        f = Friend.query.all()
+        return [fr.to_dict() for fr in f], 200
+
+class Friendship(Resource):
+    def get(self, user_id):
+        check_1 = Friend.query.filter(Friend.user_id_1 == user_id).all()
+        check_2 = Friend.query.filter(Friend.user_id_2 == user_id).all()
+        friends = check_1 +check_2
+        if friends:
+            return [friend.to_dict() for friend in friends],200
+        else:
+            return {'error':'This user does not have any friends'}, 404
+    #send friend rq
+    def post(self, user_id):
+        #check if uid1 > user_id2 post
+        pass
+    #accepting friend rq
+    def patch(self, user_id):
+        json = request.get_json()
+        friend = Friend.query.filter(Friend.id== user_id).first()
+        for attribute in json:
+            setattr(friend, attribute, json[attribute])
+        db.session.add(friend)
+        db.session.commit()
+        return friend.to_dict(), 200
+
+    #reject/remove from friends
+    def delete(self, user_id):
+        friend = Friend.query.filter(Friend.id== user_id).first()
+        db.session.delete(friend)
+        db.session.commit()
+        return '',201
+
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -132,7 +167,8 @@ api.add_resource(AllMessages, '/api/messages')
 api.add_resource(UserMessages, '/api/user_messages')
 api.add_resource(DirectMessage, '/api/send_message')
 api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
-
+api.add_resource(AllFriends, '/api/all_friends')
+api.add_resource(Friendship, '/api/friends/<int:user_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

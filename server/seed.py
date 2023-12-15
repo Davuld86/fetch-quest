@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import app, db
-from models import Message, Inbox
+from models import Message, Inbox, Friend
 
 msg = [
         {'user_id':1, 'inbox_id':1 , 'content':'hi'},
@@ -27,13 +27,31 @@ inbox = [
     {'user_id':1 , 'sender_id':5},
 ]
 
+friends = [
+    {'user_id_1': 1, 'user_id_2':2, 'status': 'REQ_1'},
+    {'user_id_1': 1, 'user_id_2':3, 'status': 'REQ_2'},
+    {'user_id_1': 1, 'user_id_2':2, 'status': 'FRIEND'},
+    {'user_id_1': 1, 'user_id_2':4, 'status': 'FRIEND'},
+]
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        Message.query.delete()
+        Friend.query.delete()
+        for friend in friends:
+            new_friend = Friend(
+                user_id_1 = friend['user_id_1'],
+                user_id_2 = friend['user_id_2'],
+                status= friend['status']
+            )
+            db.session.add(new_friend)
+            print(new_friend)
+        db.session.commit()
+
+        '''Message.query.delete()
         Inbox.query.delete()
+
 
         db.session.commit()
         for box in inbox:
@@ -51,10 +69,7 @@ if __name__ == '__main__':
             )
             db.session.add(new_message)
             db.session.commit()
-
-
-
-
+'''
 
 
 

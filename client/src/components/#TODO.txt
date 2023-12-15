@@ -9,6 +9,11 @@ USERS
         Edit account page
         edit account logic
         edit account api
+MESSAGES
+    change message source (user-> server)
+    Inboxes
+        create inbox
+        close inbox
 
 INVENTORY
     view inventory
@@ -39,7 +44,6 @@ MOVEMENT
             play char animation
             set to stand
 
-
 CHARACTER
     Create character
         create character screen
@@ -51,10 +55,6 @@ CHARACTER
         character stats container
         health bar
         experience bar
-
-    Delete Character
-        delete character screen
-        delete character api
 
     Edit Character Job
         edit character screen
@@ -91,11 +91,6 @@ MESSAGES
     All Chat
         message screen
         message filter
-        messages api
-
-    Dm other users
-        dm screen
-        message cards
         messages api
 
 BASES
