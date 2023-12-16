@@ -49,14 +49,13 @@ function handleLogout(){
 if (user){
     return(
         <div style={{display:'flex', flexDirection:'column'}} >
-        <div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+        <div style={{display:'flex', flexDirection:'row', alignItems:'center'}} className='logged-in'>
         <h5>{user.username}</h5>
         <h5>{user.coins==null?0: user.coins}🪙</h5>
         <img src={user.pfp} style={{width:'50px', height:'50px', borderRadius:'50%', border:'2px solid black'}}/>
-        <Link to={`/messages`}><h5 title='Messages'>🗨️</h5></Link>
-        <h5 onClick={()=>toggleLogout((p)=>!p)} title='Settings'>🔽</h5>
-        <img title='Friends' onClick={()=>toggleFriends((p)=>!p)} src='../images/friends.png' style={{width:'25px',height:'25px', cursor:'pointer'}}/>
-
+        <Link to={`/messages`}><img title='Messages' src='../images/msg.png' /></Link>
+        <img title='Friends' onClick={()=>toggleFriends((p)=>!p)} src='../images/friends.png' style={{width:'40px',height:'40px', cursor:'pointer'}}/>
+        <img onClick={()=>toggleLogout((p)=>!p)} title='Settings' src='../images/down.png' style={{width:'25px',height:'25px', cursor:'pointer'}}/>
         </div>
         <div style={{display:'flex', flexDirection:'column'}}>
         {logout? <Link to={`/account/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Profile</button></Link>:null}

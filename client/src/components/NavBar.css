@@ -1,0 +1,14 @@
+.nav-bar{
+    height: 100px;
+}
+.nav-bar img{
+    max-height: 100px;
+}
+
+.logged-in img{
+    margin-left: 2px;
+    margin-right: 2px;
+    max-width: 50px;
+    max-height: 50px;
+}
+

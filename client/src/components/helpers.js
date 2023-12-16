@@ -9,3 +9,13 @@ export function check_session(){
         }
       })
 }
+
+export function checkFriend(friends, pageUser){
+  let f = friends.filter((friend)=> friend.user_id_1 ==pageUser.id || friend.user_id_2==pageUser.id)
+  if(f[0]){
+      return 'Unfriend'
+  }
+  else{
+      return 'Add Friend'
+  }
+}

@@ -39,7 +39,12 @@ class SignUp(Resource):
             new_character = Character(
                 color = json['color'],
                 job = json['job'],
-                user_id = new_user.id
+                hp = json['hp'],
+                mp = json['mp'],
+                atk=  json['atk'],
+                matk = json['matk'],
+                defense = json['defense'],
+                user_id = new_user.id,
             )
             db.session.add(new_character)
             db.session.commit()
@@ -167,8 +172,25 @@ class Friendship(Resource):
     #send friend rq
     def post(self, user_id):
         #check if uid1 > user_id2 post
-        pass
+        data = request.get_json()
+        if int(data['request']) > int(data['friend']):
+            new_friend = Friend(
+                status= 'REQ_1',
+                user_id_1 = data['friend'],
+                user_id_2 = data['request'],
+            )
+            db.session.add(new_friend)
+        elif int(data['request']) < int(data['friend']):
+            new_friend = Friend(
+                status = 'REQ_2',
+                user_id_1 = data['request'],
+                user_id_2 = data['friend'],
+            )
+            db.session.add(new_friend)
+        db.session.commit()
+        return new_friend.to_dict(),200
     #accepting friend rq
+    # PATCH AND DELETE actually uses friend id instead of uid, kept becasue ¯\_(ツ)_/¯
     def patch(self, user_id):
         json = request.get_json()
         friend = Friend.query.filter(Friend.id== user_id).first()

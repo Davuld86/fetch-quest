@@ -41,6 +41,7 @@ class User(db.Model, SerializerMixin):
 
     serialize_only = ('id', 'username', 'pfp', 'bio', 'coins',
                     'created', 'character', 'base', 'chats',
+
                     )
 
     id = db.Column(db.Integer, primary_key = True)

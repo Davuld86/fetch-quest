@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
 import './Register.css'
 import { UserContext } from './App';
+import { stat } from './descriptions';
 export default function Register() {
   const [user, setUser]= useContext(UserContext)
   const [showPassword,setShowPassword] = useState(false)
@@ -24,6 +25,11 @@ export default function Register() {
         password: formData.password,
         color: color,
         job: job,
+        hp: 100+ stat[job].HP,
+        mp: 100+ stat[job].MP,
+        atk: 20+ stat[job].ATK,
+        matk:  20+ stat[job].MATK,
+        defense:  20+ stat[job].DEF,
       })
     }).then((res)=>{
       if(res.ok){
