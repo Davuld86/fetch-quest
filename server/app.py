@@ -12,7 +12,7 @@ from config import app, db, api
 
 # Add your model imports
 from models import *
-
+#auto login
 class CheckSession(Resource):
     def get(self):
         if session['user_id']:
@@ -23,7 +23,7 @@ class CheckSession(Resource):
                 return {'error':'No user found'}, 404
         else:
             return {'error': 'Not logged in'}, 401
-
+#user stuff
 class SignUp(Resource):
     def post(self):
         json = request.get_json()
@@ -87,6 +87,32 @@ class UserID(Resource):
         db.session.delete(user)
         db.session.commit()
         return '', 204
+
+#character stuff
+class CharacterID(Resource):
+    def get(self, char_id):
+        character = Character.query.filter(Character.id==char_id).first()
+        if character:
+            return character.to_dict(),200
+        return {'error', 'Character not found!'}, 404
+
+    def patch(self, char_id):
+        data = request.get_json()
+        character = Character.query.filter(Character.id==char_id).first()
+        if character:
+            for attribute in data:
+                setattr(character, attribute, data[attribute])
+            db.session.add(character)
+            db.session.commit()
+            return character.to_dict(),200
+        else:
+            return {'error', 'Character not found!'}, 404
+
+class AllCharacters(Resource):
+    def get(self):
+        char = Character.query.all()
+        if char:
+            return [cha.to_dict() for cha in char],200
 
 class AllMessages(Resource):
     def get(self):
@@ -159,11 +185,7 @@ class Friendship(Resource):
         db.session.commit()
         return '',201
 
-class AllCharacters(Resource):
-    def get(self):
-        char = Character.query.all()
-        if char:
-            return [cha.to_dict() for cha in char],200
+
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -177,6 +199,7 @@ api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
 api.add_resource(AllFriends, '/api/all_friends')
 api.add_resource(Friendship, '/api/friends/<int:user_id>')
 api.add_resource(AllCharacters, '/api/all_characters')
+api.add_resource(CharacterID, '/api/character/<int:char_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

@@ -11,7 +11,7 @@ export default function Register() {
   const [showPassword,setShowPassword] = useState(false)
   const [registered, setRegistered] = useState(false)
   const [color, setColor] = useState('red')
-  const [job, setJob] = useState('sword')
+  const [job, setJob] = useState('swordsman')
 
   function handleSubmit(formData){
     fetch('/api/signup',{
@@ -54,7 +54,7 @@ else {
           <h2>Choose a class</h2>
             <div className='job-buttons'>
             <button value={'thief'} onClick={(e)=> setJob(e.target.value)}>Theif</button>
-            <button value={'sword'} onClick={(e)=> setJob(e.target.value)}>Swordsman</button>
+            <button value={'swordsman'} onClick={(e)=> setJob(e.target.value)}>Swordsman</button>
             <button value={'wizard'} onClick={(e)=> setJob(e.target.value)}>Wizard</button>
             <button value={'archer'} onClick={(e)=> setJob(e.target.value)}>Archer</button>
             </div>

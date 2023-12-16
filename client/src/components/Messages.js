@@ -62,7 +62,7 @@ if (user.chats){
         {user.chats.map((chat)=>(<Inbox key={chat.id} setBox={setBox} id={chat.id} name={chat.sender.username} pfp={chat.sender.pfp}/>))}
         </div>
 
-        <div className='chat-container'>Messages
+        <div className='chat-container'>
             <ChatContainer handleDelete={handleDelete} name={m[0].sender.username}  inbox_id= {box} handleSubmit={handleSubmit} messages={messages}/>
         </div>
     </div>
