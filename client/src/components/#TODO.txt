@@ -1,6 +1,9 @@
                                     TO DO
 USERS
 
+Raccoons:
+make a raccoon for each color/ class
+
 MESSAGES
     change message source (user-> server)
     Inboxes
@@ -38,8 +41,6 @@ MOVEMENT
 
 CHARACTER
     Create character
-        create character screen
-        create character api
         create character logic
 
     View Character stats

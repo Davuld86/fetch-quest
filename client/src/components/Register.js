@@ -11,6 +11,7 @@ export default function Register() {
   const [showPassword,setShowPassword] = useState(false)
   const [registered, setRegistered] = useState(false)
   const [color, setColor] = useState('red')
+  const [job, setJob] = useState('sword')
 
   function handleSubmit(formData){
     fetch('/api/signup',{
@@ -21,7 +22,8 @@ export default function Register() {
       body: JSON.stringify({
         username:formData.username,
         password: formData.password,
-        color: color
+        color: color,
+        job: job,
       })
     }).then((res)=>{
       if(res.ok){
@@ -48,7 +50,15 @@ else {
     <div style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
 
         <div className='character'>
-          <ColorCharacter setColor={setColor}/>
+          <ColorCharacter setColor={setColor} job={job}/>
+          <h2>Choose a class</h2>
+            <div className='job-buttons'>
+            <button value={'thief'} onClick={(e)=> setJob(e.target.value)}>Theif</button>
+            <button value={'sword'} onClick={(e)=> setJob(e.target.value)}>Swordsman</button>
+            <button value={'wizard'} onClick={(e)=> setJob(e.target.value)}>Wizard</button>
+            <button value={'archer'} onClick={(e)=> setJob(e.target.value)}>Archer</button>
+            </div>
+            <h3>You can change these later</h3>
         </div>
         <div className='signup' style={{display:'grid', justifyContent:'center', alignItems:'center'}}>
         <Formik

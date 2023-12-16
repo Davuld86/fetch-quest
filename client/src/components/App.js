@@ -11,6 +11,7 @@ import EditAccount from "./EditAccount";
 import FriendContainer from "./FriendContainer";
 import Messages from "./Messages";
 import Account from "./Account";
+import EditCharacter from "./EditCharacter";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -43,6 +44,7 @@ function App() {
         <Route exact path='/play'><PlayHome/></Route>
         <Route path='/register'><Register/></Route>
         <Route path='/account/:uid'><Account/></Route>
+        <Route path='/edit-character/:uid'><EditCharacter/></Route>
         <Route path='/account-settings/:uid'><EditAccount/></Route>
         <Route path='/create-character'><CreateCharacter/></Route>
         <Route path='/messages'><Messages/></Route>

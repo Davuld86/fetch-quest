@@ -44,7 +44,7 @@ export default function Account() {
                     {user.id==pageUser.id?<Link to={`/account-settings/${user.id}`}><button>Edit Account</button></Link>:null}
                     </div>
                     <h2>Character</h2>
-                    <CharacterContainer character={pageUser.character[0]}/>
+                    {pageUser.character[0]?<CharacterContainer character={pageUser.character[0]}/>:null}
 
                 </div>
               )

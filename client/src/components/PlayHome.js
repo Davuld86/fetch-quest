@@ -4,9 +4,15 @@ export default function PlayHome() {
 
   return (
     <div>
-        <h1>play home</h1>
-        <h2>Login</h2>
-        <h2>Register</h2>
+        <h1>Battle</h1>
+        <div style={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
+        <button>Fight bat</button>
+        <button>Fight spider</button>
+        <button>Fight slime</button>
+        <button>Fight skeleton</button>
+        <button>Fight genie</button>
+        <button>Fight Wood Golem</button>
+        </div>
     </div>
   )
 }

@@ -38,7 +38,8 @@ class SignUp(Resource):
             db.session.commit()
             new_character = Character(
                 color = json['color'],
-                user_id = new_user.id,
+                job = json['job'],
+                user_id = new_user.id
             )
             db.session.add(new_character)
             db.session.commit()

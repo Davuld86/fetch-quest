@@ -14,7 +14,7 @@ export default function CharacterContainer({character}) {
       <h3>Magic Atk: {character.matk}</h3>
       <h3>Defense: {character.defense}</h3>
       </div>
-     <CharacterImage color={character.color}/>
+     <CharacterImage color={character.color} job={character.job}/>
     </div>
   )
 }

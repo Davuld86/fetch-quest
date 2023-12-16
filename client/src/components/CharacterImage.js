@@ -1,11 +1,10 @@
 import React from 'react'
 import './CharacterImage.css'
-export default function CharacterImage({color}) {
+export default function CharacterImage({color, job}) {
   return (
     <div className='character-image'>
-        <img src={`../images/overlays/overlay_${color}.png`} className='overlay' />
-        <img src={`../images/raccoon.png`} className='raccoon'/>
-        <img/>
+        <img className='hat'/>
+        <img src={`../images/characters/${job}_${color}.png`} className='raccoon' loading='lazy' />
     </div>
   )
 }
