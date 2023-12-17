@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import app, db
-from models import Message, Inbox, Friend
+from models import Message, Inbox, Friend, Item
 
 msg = [
         {'user_id':1, 'inbox_id':1 , 'content':'hi'},
@@ -34,10 +34,35 @@ friends = [
     {'user_id_1': 1, 'user_id_2':4, 'status': 'FRIEND'},
 ]
 
+items = [
+    {'name':'Hp Potion','image':'../images/shop/hp.jpg','price':200, 'category':'battle'},
+    {'name':'Mp Potion','image':'../images/shop/mp.jpg','price':200, 'category':'battle'},
+    {'name':'Bed','image':'../images/shop/bed.jpg','price':1000, 'category':'furniture'},
+    {'name':'Rabbit Plush ','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture'},
+    {'name':'Orange Scarf','image':'../images/shop/orange_scarf.png','price':500, 'category':'clothes'},
+    {'name':'Rug','image':'../images/shop/rug.jpg','price':500, 'category':'furniture'},
+    {'name':'Christmas Hat','image':'../images/shop/christmas_hat.png','price':400, 'category':'clothes'},
+]
+
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
+        Item.query.delete()
+        for item in items:
+            new_item = Item(
+                name = item['name'],
+                image = item['image'],
+                price = item['price'],
+                category= item['category']
+            )
+            db.session.add(new_item)
+        db.session.commit()
+
+
+        '''Message.query.delete()
+        Inbox.query.delete()
+
         Friend.query.delete()
         for friend in friends:
             new_friend = Friend(
@@ -48,9 +73,6 @@ if __name__ == '__main__':
             db.session.add(new_friend)
             print(new_friend)
         db.session.commit()
-
-        '''Message.query.delete()
-        Inbox.query.delete()
 
 
         db.session.commit()

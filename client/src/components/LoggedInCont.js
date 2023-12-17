@@ -57,11 +57,13 @@ if (user){
         <img title='Friends' onClick={()=>toggleFriends((p)=>!p)} src='../images/friends.png' style={{width:'40px',height:'40px', cursor:'pointer'}}/>
         <img onClick={()=>toggleLogout((p)=>!p)} title='Settings' src='../images/down.png' style={{width:'25px',height:'25px', cursor:'pointer'}}/>
         </div>
-        <div style={{display:'flex', flexDirection:'column'}}>
-        {logout? <Link to={`/account/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Profile</button></Link>:null}
-        {logout?<Link to={`/account-settings/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Account Settings</button></Link>:null}
-        {logout?<Link to='/'><button onClick={handleLogout}>Log out</button> </Link>:null}
-        </div>
+        {logout?
+        <div className='menu-items' style={{display:'flex', flexDirection:'column', zIndex:'9'}}>
+         <Link to={`/account/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Profile</button></Link>
+        <Link to={`/account-settings/${user.id}`}><button onClick={()=>toggleLogout((p)=>!p)}>Account Settings</button></Link>
+       <Link to='/'><button onClick={handleLogout}>Log out</button> </Link>
+        </div>:null
+        }
         </div>
     )
 }
@@ -72,7 +74,7 @@ else{
         <img src='../images/def_pfp.png' style={{width:'50px', height:'50px', borderRadius:'50%', border:'2px solid black'}}/>
         <h5 onClick={()=>toggleDropDown((p)=>!p)}>🔽</h5>
         </div>
-        <div style={{display:'flex'}}>
+        <div className='menu-items' style={{display:'flex'}}>
         {dropdown?<button onClick={()=>{toggleLoginForm(true); toggleDropDown(false)}}>Login</button>:null}
         </div>
         {loginForm?<LoginForm handleLogin={handleLogin} toggleLoginForm={toggleLoginForm}/>:null}

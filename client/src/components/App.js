@@ -12,6 +12,7 @@ import FriendContainer from "./FriendContainer";
 import Messages from "./Messages";
 import Account from "./Account";
 import EditCharacter from "./EditCharacter";
+import Shop from "./Shop";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -48,6 +49,7 @@ function App() {
         <Route path='/account-settings/:uid'><EditAccount/></Route>
         <Route path='/create-character'><CreateCharacter/></Route>
         <Route path='/messages'><Messages/></Route>
+        <Route path='/store'><Shop/></Route>
         <Route path='*'><NotFound/></Route>
       </Switch>
       </FriendContext.Provider>

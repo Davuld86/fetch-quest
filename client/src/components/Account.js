@@ -25,6 +25,9 @@ export default function Account() {
         }).then(()=>{
             if(user){
             fetch(`/api/friends/${user.id}`).then((res)=>{
+                if(res.ok){
+
+
                 res.json().then((d)=>{
                     let f = d.filter((friend)=> friend.user_id_1 ==pageUser.id || friend.user_id_2==pageUser.id)
                     if(f[0]){
@@ -34,6 +37,7 @@ export default function Account() {
                         setStatus({status:'Add Friend'})
                     }
                 })
+            }
             })
         }
     }).then(setLoading(false))

@@ -20,7 +20,7 @@ equipment_association = db.Table('equipment_association',
                                  )
 
 items_association = db.Table('items_association',
-    db.Column('character_id', db.Integer, db.ForeignKey('characters.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('item_id', db.Integer, db.ForeignKey('items.id'))
                              )
 
@@ -40,8 +40,7 @@ class User(db.Model, SerializerMixin):
     serialize_rules = ('-chats.user','-sent_friend.sent_user',  )
 
     serialize_only = ('id', 'username', 'pfp', 'bio', 'coins',
-                    'created', 'character', 'base', 'chats',
-
+                    'created', 'character', 'base', 'chats', 'inventory'
                     )
 
     id = db.Column(db.Integer, primary_key = True)
@@ -51,6 +50,7 @@ class User(db.Model, SerializerMixin):
     coins = db.Column(db.Integer, default= 2500)
     created = db.Column(db.DateTime, default = datetime.utcnow)
 
+    inventory = db.relationship('Item', secondary=items_association)
     character = db.relationship('Character')
     base = db.relationship('Base', backref='user_base')
     _password_hash = db.Column(db.String, nullable=False)
@@ -125,7 +125,7 @@ class Character(db.Model, SerializerMixin):
     exp = db.Column(db.Integer, default=0)
     position = db.Column(db.String, default='{"area":0,"x": 0, "y": 0}')
     equipment = db.relationship('Equipment', backref='character')
-    inventory = db.relationship('Item', backref='character')
+
 
 
 class Equipment(db.Model, SerializerMixin):
@@ -143,9 +143,10 @@ class Item(db.Model, SerializerMixin):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
-    character_id  = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    user_id  = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     name = db.Column(db.String)
-    action = db.Column(db.String)
+    price = db.Column(db.Integer, default =200)
+    category = db.Column(db.String)
     image = db.Column(db.String)
     enemy_id = db.Column(db.String, nullable=True)
 

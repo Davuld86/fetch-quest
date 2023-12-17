@@ -127,13 +127,20 @@ class AllMessages(Resource):
 
 class UserMessages(Resource):
     def get(self):
-        sent_messages = Message.query.filter(Message.sender_id== session['user_id']).all()
+        sent_messages = Message.query.filter(Message.sender.id== session['user_id']).all()
         received_messages = Message.query.filter(Message.receiver_id== session['user_id']).all()
         messages =  sent_messages + received_messages
         if messages:
             return [message.to_dict() for message in messages],200
         else:
             return {'error':'No messages found'},404
+
+class InboxMessages(Resource):
+    def get(self, box_id):
+        inbox = Inbox.query.filter(Inbox.id== box_id).first()
+        if inbox:
+            return inbox.to_dict(),200
+        return {'error':'inbox does not exist'},404
 
 class DirectMessage(Resource):
     def post(self):
@@ -207,6 +214,27 @@ class Friendship(Resource):
         db.session.commit()
         return '',201
 
+class AllItems(Resource):
+    def get(self):
+        items = Item.query.all()
+        return [item.to_dict() for item in items],200
+class ItemId(Resource):
+    def get(self, item_id):
+        item = Item.query.filter(Item.id == item_id).first()
+        if item:
+            return item.to_dict(), 200
+        return {'error':'item not found'}
+
+    def post(self, item_id):
+        data = request.get_json()
+        item = Item.query.filter(Item.id == item_id).first()
+        user = User.query.filter(User.id==data['user_id']).first()
+
+        user.coins = user.coins - data['price']
+        user.inventory.append(item)
+        db.session.commit()
+        return user.to_dict(), 200
+
 
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
@@ -222,6 +250,9 @@ api.add_resource(AllFriends, '/api/all_friends')
 api.add_resource(Friendship, '/api/friends/<int:user_id>')
 api.add_resource(AllCharacters, '/api/all_characters')
 api.add_resource(CharacterID, '/api/character/<int:char_id>')
+api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
+api.add_resource(AllItems, '/api/all_items')
+api.add_resource(ItemId, '/api/item/<int:item_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

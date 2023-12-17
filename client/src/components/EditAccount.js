@@ -21,7 +21,7 @@ export default function EditAccount() {
             },
             body: JSON.stringify({
                 bio: data.bio,
-                pfp: data.pfp
+                pfp: data.check?`../images/characters/${user.character[0].job}_${user.character[0].color}.png`:data.pfp
             })
         })
         .then((res)=>{
@@ -55,19 +55,27 @@ if(user.id == parseInt(id)){
         <h2>Username: {user.username}</h2>
     <Formik
     initialValues={{
-        pfp: user.pfp=='../images/def_pfp.png'? '': user.pfp,
+        pfp: user.pfp=='../images/def_pfp.png'? '':user.pfp==`../images/characters/${user.character[0].job}_${user.character[0].color}.png`?'': user.pfp,
         bio: user.bio,
+        check: user.pfp ==`../images/characters/${user.character[0].job}_${user.character[0].color}.png`?true:false
+
     }}
     onSubmit={(values)=>{
         handleSubmit(values)
     }}
     >
-        {({values})=>
+        {({values, setFieldValue})=>
         <Form autoComplete='off'>
             <label htmlFor='pfp'> Profile Picture URL: </label>
-            <Field type='text' name='pfp'></Field>
+            <Field type='text' name='pfp'/>
+
+            <label htmlFor='check'>Use character image</label>
+            <Field  type='checkbox' name='check' onClick={()=>setFieldValue('pfp',`../images/characters/${user.character[0].job}_${user.character[0].color}.png`)}/>
             <br/>
-            {values.pfp==''?<img src='../images/def_pfp.png' style={{maxHeight:'150px'}}/>:<img src={values.pfp} style={{maxHeight:'150px'}}/>}
+
+            {values.check? <img src={`../images/characters/${user.character[0].job}_${user.character[0].color}.png`} style={{maxHeight:'150px'}}/>
+            :values.pfp==''?<img src='../images/def_pfp.png' style={{maxHeight:'150px'}}/>
+            :<img src={values.pfp} style={{maxHeight:'150px'}}/>}
             <br/>
             <label htmlFor='bio'> Bio:</label>
             <br/>
