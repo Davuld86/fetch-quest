@@ -218,6 +218,7 @@ class AllItems(Resource):
     def get(self):
         items = Item.query.all()
         return [item.to_dict() for item in items],200
+
 class ItemId(Resource):
     def get(self, item_id):
         item = Item.query.filter(Item.id == item_id).first()
@@ -235,6 +236,17 @@ class ItemId(Resource):
         db.session.commit()
         return user.to_dict(), 200
 
+class AllEnemies(Resource):
+    def get(self):
+        enemies = Enemy.query.all()
+        return [enemy.to_dict() for enemy in enemies], 200
+
+class EnemyId(Resource):
+    def get(self, enemy_id):
+        foe = Enemy.query.filter(Enemy.id == enemy_id).first()
+        if foe:
+            return foe.to_dict(), 200
+        return {'error':'enemy not found'}, 404
 
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
@@ -253,6 +265,8 @@ api.add_resource(CharacterID, '/api/character/<int:char_id>')
 api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
 api.add_resource(AllItems, '/api/all_items')
 api.add_resource(ItemId, '/api/item/<int:item_id>')
+api.add_resource(AllEnemies, '/api/all_enemies')
+api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

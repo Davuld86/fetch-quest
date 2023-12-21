@@ -1,3 +1,4 @@
+import Battle from "./Battle";
 
 export function check_session(){
     fetch("/api/check_session").then((r) => {
@@ -18,4 +19,11 @@ export function checkFriend(friends, pageUser){
   else{
       return 'Add Friend'
   }
+}
+
+
+export function startBattle(enemy){
+  return(
+      <Battle enemy = {enemy}/>
+  )
 }

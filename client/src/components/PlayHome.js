@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Battle from './Battle'
 
 export default function PlayHome() {
 
@@ -13,6 +14,8 @@ export default function PlayHome() {
         <button>Fight genie</button>
         <button>Fight Wood Golem</button>
         </div>
+
+        <Battle enemy_id={2}/>
     </div>
   )
 }

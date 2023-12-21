@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import app, db
-from models import Message, Inbox, Friend, Item
+from models import Message, Inbox, Friend, Item, Enemy
 
 msg = [
         {'user_id':1, 'inbox_id':1 , 'content':'hi'},
@@ -35,13 +35,22 @@ friends = [
 ]
 
 items = [
-    {'name':'Hp Potion','image':'../images/shop/hp.jpg','price':200, 'category':'battle'},
-    {'name':'Mp Potion','image':'../images/shop/mp.jpg','price':200, 'category':'battle'},
+    {'name':'Hp Potion','image':'../images/shop/hp.png','price':200, 'category':'battle'},
+    {'name':'Mp Potion','image':'../images/shop/mp.png','price':200, 'category':'battle'},
     {'name':'Bed','image':'../images/shop/bed.jpg','price':1000, 'category':'furniture'},
     {'name':'Rabbit Plush ','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture'},
     {'name':'Orange Scarf','image':'../images/shop/orange_scarf.png','price':500, 'category':'clothes'},
     {'name':'Rug','image':'../images/shop/rug.jpg','price':500, 'category':'furniture'},
     {'name':'Christmas Hat','image':'../images/shop/christmas_hat.png','price':400, 'category':'clothes'},
+]
+
+enemies = [
+    {'name':'Rat', 'hp':100,'atk':10,'defense':10,'matk':10,'coins':50,'item_drops':[1], 'image':'../images/enemies/rat.png', 'exp':25},
+    {'name':'Leaf Monster', 'hp':150,'atk':15,'defense':10,'matk':15,'coins':100,'item_drops':[2], 'image':'../images/enemies/leaf_monster.png', 'exp':40},
+    {'name':'Slime', 'hp':400,'atk':10,'defense':5,'matk':20 ,'coins':200,'item_drops':[4], 'image':'../images/enemies/slime.png', 'exp':75},
+    {'name':'Skeleton', 'hp':250,'atk':30,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/skeleton.png', 'exp':140},
+    {'name':'Spirit', 'hp':500,'atk':25,'defense':30,'matk':45,'coins':500,'item_drops':[7], 'image':'../images/enemies/spirit.png', 'exp':450},
+    {'name':'Wood Golem', 'hp':1000,'atk':60,'defense':40,'matk':0,'coins':1000,'item_drops':[3], 'image':'../images/enemies/wood_golem.png', 'exp':800},
 ]
 
 if __name__ == '__main__':
@@ -59,6 +68,20 @@ if __name__ == '__main__':
             db.session.add(new_item)
         db.session.commit()
 
+        Enemy.query.delete()
+        for enemy in enemies:
+            new_enemy = Enemy(
+                name = enemy['name'],
+                hp = enemy['hp'],
+                atk = enemy['atk'],
+                defense = enemy['defense'],
+                matk = enemy['matk'],
+                coins = enemy['coins'],
+                exp = enemy['exp'],
+                image = enemy['image'],
+            )
+            db.session.add(new_enemy)
+        db.session.commit()
 
         '''Message.query.delete()
         Inbox.query.delete()

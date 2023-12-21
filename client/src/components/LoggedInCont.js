@@ -74,9 +74,11 @@ else{
         <img src='../images/def_pfp.png' style={{width:'50px', height:'50px', borderRadius:'50%', border:'2px solid black'}}/>
         <h5 onClick={()=>toggleDropDown((p)=>!p)}>🔽</h5>
         </div>
+        {dropdown?
         <div className='menu-items' style={{display:'flex'}}>
-        {dropdown?<button onClick={()=>{toggleLoginForm(true); toggleDropDown(false)}}>Login</button>:null}
+       <button onClick={()=>{toggleLoginForm(true); toggleDropDown(false)}}>Login</button>
         </div>
+        :null}
         {loginForm?<LoginForm handleLogin={handleLogin} toggleLoginForm={toggleLoginForm}/>:null}
         </div>
       )

@@ -26,7 +26,6 @@ items_association = db.Table('items_association',
 
 drops_association = db.Table('drops_association',
     db.Column('enemy_id', db.Integer, db.ForeignKey('enemies.id')),
-    db.Column('equipment_id', db.Integer, db.ForeignKey('equipment.id')),
     db.Column('item_id', db.Integer, db.ForeignKey('items.id')),
 
                              )
@@ -155,16 +154,14 @@ class Enemy(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(20), nullable=False)
+    exp = db.Column(db.Integer, default=100)
     hp = db.Column(db.Integer, default =100)
-    mp = db.Column(db.Integer, default =100)
-    atk = db.Column(db.Integer, default =20)
-    matk = db.Column(db.Integer, default =20)
-    defense = db.Column(db.Integer, default =20)
-    level = db.Column(db.Integer, default=1)
-    coins = db.Column(db.Integer, default=20)
-
-    item_drops = db.relationship('Item', backref='dropped_by', secondary= drops_association)
-    equip_drops = db.relationship('Equipment', backref='dropped_by', secondary= drops_association)
+    atk = db.Column(db.Integer, default =10)
+    matk = db.Column(db.Integer, default =10)
+    defense = db.Column(db.Integer, default =10)
+    coins = db.Column(db.Integer, default=50)
+    image = db.Column(db.String)
+    item_drops = db.relationship('Item', secondary= drops_association)
 
 class Base(db.Model, SerializerMixin):
     __tablename__ = 'bases'

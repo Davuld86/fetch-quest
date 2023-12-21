@@ -23,7 +23,11 @@ export default function Shop() {
         console.log(category)
     }
     function buyItem(id, price){
-        fetch(`/api/item/${id}`,{
+        if (user.coins < price){
+            alert('not enough gold!')
+        }
+        else{
+            fetch(`/api/item/${id}`,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -37,6 +41,8 @@ export default function Shop() {
                 res.json().then((d)=> setUser(d))
             }
         })
+        }
+
     }
     if(allItems){
 

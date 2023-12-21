@@ -1,0 +1,40 @@
+.banner{
+    z-index: -1;
+    position: absolute;
+    top: 5%;
+    filter: brightness(80%);
+
+}
+.home-page a{
+    border:none;
+}
+.home-page a :hover{
+box-shadow:  0 0 100px greenyellow;;
+
+}
+
+.play-button{
+ width:500px;
+ border:none;
+}
+
+.home-page h1{
+    color: white;
+    font-size: 70px;
+    align-self: center;
+    -webkit-text-stroke: 1px black;
+    color: white;
+    text-shadow:
+        3px 3px 0 #000,
+      -1px -1px 0 #000,
+       1px -1px 0 #000,
+       -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+.home-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

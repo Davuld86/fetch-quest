@@ -1,0 +1,55 @@
+.game-canvas {
+    border:5px solid black;
+  }
+
+  .character {
+    transition: top 0.3s, left 0.3s; /* Apply the same transitions as in the inline style */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100px;
+    max-width: 90px;
+    border: none;
+
+
+}
+.character img{
+    max-width: 90px;
+    max-height: 90px;
+    z-index: 2;
+}
+
+.character p{
+    background-color: white;
+}
+
+.shadow{
+    border:none;
+    margin: none;
+    max-width: 90px;
+    opacity: 20%;
+    z-index: 1;
+}
+
+.enemy{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100px;
+    max-width: 90px;
+    border: none;
+}
+
+.enemy img{
+    max-width: 90px;
+    max-height: 90px;
+    z-index: 2;
+}
+.enemy-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
