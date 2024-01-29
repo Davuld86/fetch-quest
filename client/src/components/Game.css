@@ -13,7 +13,7 @@
 
 
 }
-.character img{
+.char-img{
     max-width: 90px;
     max-height: 90px;
     z-index: 2;
@@ -52,4 +52,8 @@
     padding: 2px;
     border: 2px solid black;
     border-radius: 5px;
+}
+
+.message-box{
+z-index: 6;
 }

@@ -48,7 +48,7 @@ export default function Game() {
         ></canvas>
         <GameCharacter position={characterPosition} message={displayedText} />
         <OWEnemy positionX={850} positionY={600} startBattle={startBattle} />
-        <div style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
+        <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>
           <input
             type="text"

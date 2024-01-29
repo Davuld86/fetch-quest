@@ -8,7 +8,7 @@ wizard: "Wielding the ancient art of magic, the Wizard's essence is intertwined 
 }
 
 export const stat = {
-    swordsman: { HP: +50, ATK: +20, MATK: -10, DEF: +10, MP: 0,},
+    swordsman: { HP: +50, ATK: +25, MATK: -10, DEF: +10, MP: 0,},
     thief: { HP: +20, ATK: +10, MATK: +10, DEF: -15, MP: 0, },
     archer: {HP: +30, ATK: +15, MATK: +5, DEF: -5, MP: 0,},
     wizard: { HP: +10, ATK: -10, MATK: +30, DEF: -5, MP: +50 }

@@ -27,3 +27,11 @@
     font-size: larger;
     width: 500px;
 }
+
+.submit{
+    position: relative;
+    left: 50%;
+    width: auto;
+    height: 50px;
+    font-size: large;
+}

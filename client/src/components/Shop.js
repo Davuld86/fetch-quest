@@ -20,7 +20,7 @@ export default function Shop() {
         setCategory(category)
         let temp = allItems.filter((item)=> item.category== category)
         setItems(temp)
-        console.log(category)
+
     }
     function buyItem(id, price){
         if (user.coins < price){
@@ -56,7 +56,7 @@ export default function Shop() {
         </div>
         <h2>{category=='battle'? 'Battle Items':category=='clothes'?'Clothes':'Furniture'}</h2>
         <div className='item-container'>
-            {items? items.map((item)=>(<ShopItems buyItem={buyItem} item={item}/>)):null}
+            {items? items.map((item)=>(<ShopItems key={item.id} buyItem={buyItem} item={item}/>)):null}
         </div>
     </div>
   )

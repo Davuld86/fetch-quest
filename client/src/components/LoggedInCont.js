@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import LoginForm from './LoginForm'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 import { FriendContext, UserContext } from './App'
 
 
@@ -42,6 +42,7 @@ function handleLogout(){
     }).then((res)=>{
         if(res.ok){
             setUser(null)
+            return (<Redirect to='/'/>)
         }
     })
 }

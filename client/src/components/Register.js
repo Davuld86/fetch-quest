@@ -55,7 +55,7 @@ else {
       <h1>Register</h1>
     <div style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
 
-        <div className='character'>
+        <div className='avatar'>
           <ColorCharacter setColor={setColor} job={job}/>
           <h2>Choose a class</h2>
             <div className='job-buttons'>

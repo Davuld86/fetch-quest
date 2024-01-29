@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import app, db
-from models import Message, Inbox, Friend, Item, Enemy
+from models import Message, Inbox, Friend, Item, Enemy, Move
 
 msg = [
         {'user_id':1, 'inbox_id':1 , 'content':'hi'},
@@ -35,13 +35,18 @@ friends = [
 ]
 
 items = [
-    {'name':'Hp Potion','image':'../images/shop/hp.png','price':200, 'category':'battle'},
-    {'name':'Mp Potion','image':'../images/shop/mp.png','price':200, 'category':'battle'},
-    {'name':'Bed','image':'../images/shop/bed.jpg','price':1000, 'category':'furniture'},
-    {'name':'Rabbit Plush ','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture'},
-    {'name':'Orange Scarf','image':'../images/shop/orange_scarf.png','price':500, 'category':'clothes'},
-    {'name':'Rug','image':'../images/shop/rug.jpg','price':500, 'category':'furniture'},
-    {'name':'Christmas Hat','image':'../images/shop/christmas_hat.png','price':400, 'category':'clothes'},
+    {'name':'Hp Potion','image':'../images/shop/hp.png','price':200, 'category':'battle', 'furn_type': None},
+    {'name':'Mp Potion','image':'../images/shop/mp.png','price':200, 'category':'battle', 'furn_type': None},
+
+    {'name':'Bed','image':'../images/shop/bed.jpg','price':1000, 'category':'furniture', 'furn_type': 'furniture'},
+    {'name':'Rabbit Plush ','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture','furn_type': 'furniture'},
+
+    {'name':'Cool Poster','image':'../images/shop/cool_poster.png','price':850, 'category':'furniture','furn_type':'wall'},
+    {'name':'Leaf Wall Clock ','image':'../images/shop/leaf_clock.png','price':500, 'category':'furniture','furn_type':'wall'},
+
+    {'name':'Orange Scarf','image':'../images/shop/orange_scarf.png','price':500, 'category':'clothes','furn_type': None},
+    {'name':'Red Rug','image':'../images/shop/rug.jpg','price':500, 'category':'furniture', 'furn_type': 'floor'},
+    {'name':'Christmas Hat','image':'../images/shop/christmas_hat.png','price':400, 'category':'clothes', 'furn_type': None},
 ]
 
 enemies = [
@@ -51,6 +56,28 @@ enemies = [
     {'name':'Skeleton', 'hp':250,'atk':30,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/skeleton.png', 'exp':140},
     {'name':'Spirit', 'hp':500,'atk':25,'defense':30,'matk':45,'coins':500,'item_drops':[7], 'image':'../images/enemies/spirit.png', 'exp':450},
     {'name':'Wood Golem', 'hp':1000,'atk':60,'defense':40,'matk':0,'coins':1000,'item_drops':[3], 'image':'../images/enemies/wood_golem.png', 'exp':800},
+]
+
+moves = [
+    {'name':'Slash', 'job':'swordsman', 'type':'physical','accuracy':80, 'base':30, 'cost':0},
+    {'name':'Forceful Blow', 'job':'swordsman', 'type':'physical','accuracy':90, 'base':40, 'cost':20},
+    {'name':'Cresent Edge', 'job':'swordsman', 'type':'physical','accuracy':85, 'base':75, 'cost':30},
+    {'name':'Omni-Slash', 'job':'swordsman', 'type':'physical','accuracy':100, 'base':120, 'cost':60},
+
+    {'name':'Shoot', 'job':'archer', 'type':'physical','accuracy':100, 'base':20, 'cost':0},
+    {'name':'Double Shot', 'job':'archer', 'type':'physical','accuracy':100, 'base':20, 'cost':20},
+    {'name':'Wind Cutter', 'job':'archer', 'type':'magic','accuracy':100, 'base':40, 'cost':30},
+    {'name':'Cyclone', 'job':'archer', 'type':'magic','accuracy':95, 'base':80, 'cost':50},
+
+    {'name':'Stab', 'job':'thief', 'type':'physical','accuracy':80, 'base':20, 'cost':0},
+    {'name':'Backstab', 'job':'thief', 'type':'physical','accuracy':95, 'base':40, 'cost':8},
+    {'name':'Throat Chop', 'job':'thief', 'type':'physical','accuracy':50, 'base':120, 'cost':16},
+    {'name':'Shadow Strike', 'job':'thief', 'type':'magic','accuracy':90, 'base':80, 'cost':32},
+
+    {'name':'Lucky Star', 'job':'wizard', 'type':'magic','accuracy':90, 'base':40, 'cost':10},
+    {'name':'Fireball', 'job':'wizard', 'type':'magic','accuracy':90, 'base':70, 'cost':40},
+    {'name':'Ice Shard', 'job':'wizard', 'type':'magic','accuracy':90, 'base':80, 'cost':40},
+    {'name':'Thunder', 'job':'wizard', 'type':'magic','accuracy':90, 'base':140, 'cost':60},
 ]
 
 if __name__ == '__main__':
@@ -63,7 +90,8 @@ if __name__ == '__main__':
                 name = item['name'],
                 image = item['image'],
                 price = item['price'],
-                category= item['category']
+                category= item['category'],
+                furn_type = item['furn_type']
             )
             db.session.add(new_item)
         db.session.commit()
@@ -81,6 +109,20 @@ if __name__ == '__main__':
                 image = enemy['image'],
             )
             db.session.add(new_enemy)
+        db.session.commit()
+
+        Move.query.delete()
+        for move in moves:
+            print(move['name'])
+            new_move = Move(
+                name = move['name'],
+                job = move['job'],
+                type = move['type'],
+                accuracy = move['accuracy'],
+                base = move['base'],
+                cost = move['cost']
+            )
+            db.session.add(new_move)
         db.session.commit()
 
         '''Message.query.delete()

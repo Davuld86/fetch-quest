@@ -18,7 +18,7 @@ if(user){
     <div style={characterStyle} className='character'>
         {message?<p style={{top: `${position.y - 40}px`}}>{message}</p>:null}
         <h4>{user.username}</h4>
-        <img src={`../images/characters/${c.job}_${c.color}.png`}/>
+        <img className='char-img' src={`../images/characters/${c.job}_${c.color}.png`}/>
         <img className='shadow' src='../images/shadow.png'/>
     </div>
 

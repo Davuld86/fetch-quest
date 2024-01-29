@@ -14,6 +14,7 @@ import Account from "./Account";
 import EditCharacter from "./EditCharacter";
 import Shop from "./Shop";
 import Game from "./Game";
+import TreeHouse from "./TreeHouse";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -52,6 +53,7 @@ function App() {
         <Route path='/messages'><Messages/></Route>
         <Route path='/store'><Shop/></Route>
         <Route path='/game'><Game/></Route>
+        <Route path='/base/:uid'><TreeHouse/></Route>
         <Route path='*'><NotFound/></Route>
       </Switch>
       </FriendContext.Provider>

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 # Standard library imports
+import asyncio
+import websockets
 
 # Remote library imports
 from flask import request, session, make_response, jsonify
@@ -47,6 +49,8 @@ class SignUp(Resource):
                 user_id = new_user.id,
             )
             db.session.add(new_character)
+            new_house = Base(user_id = new_user.id)
+            db.session.add(new_house)
             db.session.commit()
             session['user_id'] = new_user.id
             return new_user.to_dict(),201
@@ -248,6 +252,30 @@ class EnemyId(Resource):
             return foe.to_dict(), 200
         return {'error':'enemy not found'}, 404
 
+class JobMoves(Resource):
+    def get(self,job):
+        moves = Move.query.filter(Move.job == job).all()
+        if moves:
+            return [move.to_dict() for move in moves], 200
+        return {'error':'moves not found'}
+
+class UserHouse(Resource):
+    def get(self, user_id):
+        house  = Base.query.filter(Base.user_id == user_id).first()
+        if house:
+            return house.to_dict(),200
+        return {'error':'No Treehouse found'}
+
+    def patch(self, user_id):
+        data = request.get_json()
+        print(data)
+        house = Base.query.filter(Base.user_id == user_id).first()
+        for attribute in data:
+            setattr(house, attribute, data[attribute])
+        db.session.add(house)
+        db.session.commit()
+        return house.to_dict(),200
+
 # Views go here!
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -267,6 +295,9 @@ api.add_resource(AllItems, '/api/all_items')
 api.add_resource(ItemId, '/api/item/<int:item_id>')
 api.add_resource(AllEnemies, '/api/all_enemies')
 api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
+api.add_resource(JobMoves, '/api/moves/<string:job>')
+api.add_resource(UserHouse,'/api/treehouse/<int:user_id>')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
 

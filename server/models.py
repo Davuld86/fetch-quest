@@ -27,7 +27,6 @@ items_association = db.Table('items_association',
 drops_association = db.Table('drops_association',
     db.Column('enemy_id', db.Integer, db.ForeignKey('enemies.id')),
     db.Column('item_id', db.Integer, db.ForeignKey('items.id')),
-
                              )
 # Equipment association
 # Items association
@@ -36,7 +35,7 @@ drops_association = db.Table('drops_association',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-chats.user','-sent_friend.sent_user',  )
+    serialize_rules = ('-chats.user','-sent_friend.sent_user', '-base.user_base' )
 
     serialize_only = ('id', 'username', 'pfp', 'bio', 'coins',
                     'created', 'character', 'base', 'chats', 'inventory'
@@ -85,6 +84,7 @@ class Inbox(db.Model, SerializerMixin):
     __tablename__ = 'inboxes'
 
     serialize_only=('id', 'messages','user.id', 'sender.id', 'user.pfp','sender.pfp','user.username','sender.username' )
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -113,7 +113,7 @@ class Character(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
-    job = db.Column(db.String, default='Freelancer')
+    job = db.Column(db.String, default='swordsman')
     color = db.Column(db.String)
     hp = db.Column(db.Integer, default =100)
     mp = db.Column(db.Integer, default =100)
@@ -124,8 +124,6 @@ class Character(db.Model, SerializerMixin):
     exp = db.Column(db.Integer, default=0)
     position = db.Column(db.String, default='{"area":0,"x": 0, "y": 0}')
     equipment = db.relationship('Equipment', backref='character')
-
-
 
 class Equipment(db.Model, SerializerMixin):
     __tablename__ = 'equipment'
@@ -147,6 +145,7 @@ class Item(db.Model, SerializerMixin):
     price = db.Column(db.Integer, default =200)
     category = db.Column(db.String)
     image = db.Column(db.String)
+    furn_type = db.Column(db.String, default=None)
     enemy_id = db.Column(db.String, nullable=True)
 
 class Enemy(db.Model, SerializerMixin):
@@ -166,9 +165,37 @@ class Enemy(db.Model, SerializerMixin):
 class Base(db.Model, SerializerMixin):
     __tablename__ = 'bases'
 
+    serialize_only = ('id', 'user_id', 'user_base.username', 'wall', 'rug', 'furniture_1', 'furniture_2', 'furniture_3')
+
     id = db.Column(db.Integer, primary_key=True)
-    user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
-    background = db.Column(db.String)
-    rug = db.Column(db.String)
-    banner = db.Column(db.String)
-    chair = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    wall_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    rug_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    furniture_1_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    furniture_2_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    furniture_3_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+
+    wall = db.relationship('Item', foreign_keys=[wall_id])
+    rug = db.relationship('Item', foreign_keys=[rug_id])
+    furniture_1 = db.relationship('Item', foreign_keys=[furniture_1_id])
+    furniture_2 = db.relationship('Item', foreign_keys=[furniture_2_id])
+    furniture_3 = db.relationship('Item', foreign_keys=[furniture_3_id])
+
+
+
+
+class Move(db.Model, SerializerMixin):
+    __tablename__ = 'moves'
+
+    serialize_rules =('-id', '-job')
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    job = db.Column(db.String)
+    type = db.Column(db.String)
+    accuracy = db.Column(db.Integer)
+    base = db.Column(db.Integer)
+    cost = db.Column(db.Integer)
+
+
+

@@ -5,6 +5,7 @@ import CharacterContainer from './CharacterContainer'
 import { Link, useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
 import './Account.css'
+import Loading from './Loading'
 export default function Account() {
     const [user, setUser] = useContext(UserContext)
     const [isLoading, setLoading] = useState(true)
@@ -37,6 +38,9 @@ export default function Account() {
                         setStatus({status:'Add Friend'})
                     }
                 })
+            }
+            else{
+                setStatus({status:'Add Friend'})
             }
             })
         }
@@ -72,7 +76,7 @@ export default function Account() {
     }
 
     if(isLoading){
-        return <h1>loading...</h1>
+        return <Loading/>
     }
 
     else if (pageUser){
@@ -89,7 +93,7 @@ export default function Account() {
                    <Fragment>
                    {user.id!= pageUser.id?<Link to={'/messages'}><button>Message</button></Link>:null}
                     {user.id==pageUser.id?<Link to={`/account-settings/${user.id}`}><button>Edit Account</button></Link>:null}
-                   {stat.status? user.id!=pageUser.id? <button value={stat} onClick={(e)=>handleFriend(stat)}>{stat.status=='Friends'?'Friends':'Pending' }</button>:null :null}
+                   {stat.status? user.id!=pageUser.id? <button value={stat} onClick={(e)=>handleFriend(stat)}>{stat.status=='Friends'?'Friends': stat.status=='Add Friend'?'Add Friend':'Pending'}</button>:null :null}
                     </Fragment>
                     :null
                     }
@@ -99,7 +103,7 @@ export default function Account() {
                 </div>
               )
         }
-    else{
+    if(pageUser==null && !isLoading){
         return <NotFound title={'No user here!'} text={'This user does not exist'}/>
     }
 

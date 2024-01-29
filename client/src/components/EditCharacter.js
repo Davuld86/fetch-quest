@@ -49,6 +49,7 @@ export default function EditCharacter() {
         }))
     }).then((res)=>{
         if (res.ok){
+            res.json().then((d)=> setUser({...user, character: [d]}))
             setSubmit(true)
         }
     })
@@ -95,7 +96,7 @@ else if(char){
     return (
         <div>
         <div className='edit-character-page'>
-            <div className='character'>
+            <div className='avatar'>
             <h2>Change Color</h2>
             <ColorCharacter job={job} setColor={setColor} start={col[color]}/>
             <br/>
@@ -148,7 +149,7 @@ else if(char){
                 </div>
             </div>
         </div>
-        <button onClick={()=> handleSubmit()}>Submit Changes</button>
+        <button className='submit' onClick={()=> handleSubmit()}>Submit Changes</button>
         </div>
       )
 }
