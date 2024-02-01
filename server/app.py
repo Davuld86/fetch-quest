@@ -234,7 +234,6 @@ class ItemId(Resource):
         data = request.get_json()
         item = Item.query.filter(Item.id == item_id).first()
         user = User.query.filter(User.id==data['user_id']).first()
-
         user.coins = user.coins - data['price']
         user.inventory.append(item)
         db.session.commit()
@@ -268,7 +267,6 @@ class UserHouse(Resource):
 
     def patch(self, user_id):
         data = request.get_json()
-        print(data)
         house = Base.query.filter(Base.user_id == user_id).first()
         for attribute in data:
             setattr(house, attribute, data[attribute])

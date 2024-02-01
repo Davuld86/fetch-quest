@@ -39,10 +39,10 @@ items = [
     {'name':'Mp Potion','image':'../images/shop/mp.png','price':200, 'category':'battle', 'furn_type': None},
 
     {'name':'Bed','image':'../images/shop/bed.jpg','price':1000, 'category':'furniture', 'furn_type': 'furniture'},
-    {'name':'Rabbit Plush ','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture','furn_type': 'furniture'},
+    {'name':'Rabbit Plush','image':'../images/shop/plush_rabbit.jpg','price':650, 'category':'furniture','furn_type': 'furniture'},
 
     {'name':'Cool Poster','image':'../images/shop/cool_poster.png','price':850, 'category':'furniture','furn_type':'wall'},
-    {'name':'Leaf Wall Clock ','image':'../images/shop/leaf_clock.png','price':500, 'category':'furniture','furn_type':'wall'},
+    {'name':'Leaf Wall Clock','image':'../images/shop/leaf_clock.png','price':500, 'category':'furniture','furn_type':'wall'},
 
     {'name':'Orange Scarf','image':'../images/shop/orange_scarf.png','price':500, 'category':'clothes','furn_type': None},
     {'name':'Red Rug','image':'../images/shop/rug.jpg','price':500, 'category':'furniture', 'furn_type': 'floor'},

@@ -29,22 +29,25 @@ export default function TreeHouse() {
   }, [])
 
   function setItems(type){
-    const ownerInventory = owner.inventory.filter((item)=> (item.furn_type == type && item.id != (house[select]? house[select].id: null)))
+    const ownerInventory = owner.inventory.filter((item)=>{
+      return (item.furn_type == type && !Object.values(house).some((row)=>row?row.id==item.id:null) )
+    })
     items = ownerInventory
     setMenuItems(()=>ownerInventory)
   }
 
+
+
   function placeFurniture(furniture){
     let copy = house
     let sid = `${select}_id`
-    console.log(select,furniture)
     if(furniture=='none'){
       copy[`${select}`]= null
     }
     else{
       copy[`${select}`]= furniture
     }
-    setHouse(copy)
+
     fetch(`/api/treehouse/${ownerId}`,{
       method: 'PATCH',
       headers:{
@@ -56,7 +59,7 @@ export default function TreeHouse() {
     }
     ).then((res)=>{
       if(res.ok){
-        console.log('house changed')
+        setHouse(copy)
       }
     })
   }

@@ -146,6 +146,7 @@ class Item(db.Model, SerializerMixin):
     category = db.Column(db.String)
     image = db.Column(db.String)
     furn_type = db.Column(db.String, default=None)
+    position = db.Column(db.String, default=None)
     enemy_id = db.Column(db.String, nullable=True)
 
 class Enemy(db.Model, SerializerMixin):
