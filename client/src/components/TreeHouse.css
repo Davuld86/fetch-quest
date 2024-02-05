@@ -101,3 +101,39 @@
 .furn3:hover{
     border: 3px solid red;
 }
+
+.vrug{
+    position:absolute;
+    width: 90px;
+    top: 600px;
+    left: 700px;
+}
+
+.vwall{
+    position:absolute;
+    width: 90px;
+    top: 360px;
+    z-index: 2;
+    left: 700px;
+}
+
+.vfurn1{
+    position:absolute;
+    width: 90px;
+    top: 550px;
+    left: 480px;
+}
+
+.vfurn2{
+    position:absolute;
+    width: 90px;
+    top: 500px;
+    left: 760px;
+}
+
+.vfurn3{
+    position:absolute;
+    width: 90px;
+    top: 550px;
+    left: 930px;
+}

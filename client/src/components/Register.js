@@ -26,6 +26,8 @@ export default function Register() {
         color: color,
         job: job,
         hp: 100+ stat[job].HP,
+        max_hp: 100+ stat[job].HP,
+        max_mp: 100+ stat[job].MP,
         mp: 100+ stat[job].MP,
         atk: 20+ stat[job].ATK,
         matk:  20+ stat[job].MATK,
@@ -94,7 +96,7 @@ else {
           <Field name="confirmPassword" type={showPassword? 'text': 'password'} />
           {errors.confirmPassword && touched.confirmPassword ? (<p>{errors.confirmPassword}</p>):null}
           <br/>
-          <button type='button'  onClick={()=> setShowPassword((prev)=> (!prev))}>Show Password {showPassword?'ON':'OFF'}</button>
+          <button type='button' title={showPassword?'hide password':'show password'}  onClick={()=> setShowPassword((prev)=> (!prev))}>{showPassword?'🕶️':'👓'}</button>
           <br/>
           <button type="submit" disabled={isSubmitting || !errors}>
             Submit

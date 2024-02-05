@@ -59,7 +59,7 @@ enemies = [
 ]
 
 moves = [
-    {'name':'Slash', 'job':'swordsman', 'type':'physical','accuracy':80, 'base':30, 'cost':0},
+    {'name':'Slash', 'job':'swordsman', 'type':'physical','accuracy':80, 'base':30, 'cost':-10},
     {'name':'Forceful Blow', 'job':'swordsman', 'type':'physical','accuracy':90, 'base':40, 'cost':20},
     {'name':'Cresent Edge', 'job':'swordsman', 'type':'physical','accuracy':85, 'base':75, 'cost':30},
     {'name':'Omni-Slash', 'job':'swordsman', 'type':'physical','accuracy':100, 'base':120, 'cost':60},
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 image = item['image'],
                 price = item['price'],
                 category= item['category'],
-                furn_type = item['furn_type']
+                furn_type = item['furn_type'],
             )
             db.session.add(new_item)
         db.session.commit()
@@ -101,6 +101,7 @@ if __name__ == '__main__':
             new_enemy = Enemy(
                 name = enemy['name'],
                 hp = enemy['hp'],
+                max_hp = enemy['hp'],
                 atk = enemy['atk'],
                 defense = enemy['defense'],
                 matk = enemy['matk'],

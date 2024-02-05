@@ -12,13 +12,17 @@ export default function Shop() {
     useEffect(()=>{
        fetch('/api/all_items').then((res)=>{
         if(res.ok){
-            res.json().then((d)=>{setAllItems(d); setItems(d.filter((item)=> item.category==category))})
+            res.json().then((d)=>{setAllItems(d); setItems(d.filter((item)=> item.category==category).filter((obj, index, array) => {
+                return array.findIndex(item => item.name === obj.name) === index;
+              }))})
         }
        })
     },[])
     function filterItems(category){
         setCategory(category)
-        let temp = allItems.filter((item)=> item.category== category)
+        let temp = allItems.filter((item)=> item.category== category).filter((obj, index, array) => {
+            return array.findIndex(item => item.name === obj.name) === index;
+          })
         setItems(temp)
 
     }

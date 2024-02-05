@@ -42,6 +42,8 @@ class SignUp(Resource):
                 color = json['color'],
                 job = json['job'],
                 hp = json['hp'],
+                max_hp = json['max_hp'],
+                max_mp = json['max_mp'],
                 mp = json['mp'],
                 atk=  json['atk'],
                 matk = json['matk'],
@@ -234,8 +236,15 @@ class ItemId(Resource):
         data = request.get_json()
         item = Item.query.filter(Item.id == item_id).first()
         user = User.query.filter(User.id==data['user_id']).first()
+        new_item = Item(
+            name = item.name,
+            image = item.image,
+            price = item.price,
+            category= item.category,
+            furn_type = item.furn_type,
+        )
         user.coins = user.coins - data['price']
-        user.inventory.append(item)
+        user.inventory.append(new_item)
         db.session.commit()
         return user.to_dict(), 200
 

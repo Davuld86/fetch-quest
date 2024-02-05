@@ -41,11 +41,13 @@ export default function TreeHouse() {
   function placeFurniture(furniture){
     let copy = house
     let sid = `${select}_id`
+    let fid = null
     if(furniture=='none'){
       copy[`${select}`]= null
     }
     else{
       copy[`${select}`]= furniture
+      fid = furniture.id
     }
 
     fetch(`/api/treehouse/${ownerId}`,{
@@ -54,7 +56,7 @@ export default function TreeHouse() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        [sid]: furniture.id
+        [sid]: fid
       })
     }
     ).then((res)=>{
@@ -93,7 +95,6 @@ export default function TreeHouse() {
   }
   if (owner){
     if(ownerId == user.id){
-
       return (
             <div className='housePage'>
                 <h2> Your Treehouse</h2>
@@ -107,13 +108,17 @@ export default function TreeHouse() {
             </div>
           )
     }
-
     else{
       return(
-          <div>
+          <div className='housePage'>
               <h2>{owner.username}'s Treehouse</h2>
                   {menuToggle?<TreeMenu setMenuToggle={setMenuToggle}/>:null}
                   <img className='treehouse' src='../images/house.png'/>
+                  <img className='vrug' src={house.rug?house.rug.image:null}/>
+                  <img className='vwall' src={house.wall? house.wall.image:null}/>
+                  <img className='vfurn1' src={house.furniture_1? house.furniture_1.image:null}/>
+                  <img className='vfurn2' src={house.furniture_2? house.furniture_2.image:null}/>
+                <img className='vfurn3' src={house.furniture_3? house.furniture_3.image: null}/>
           </div>
       )
     }

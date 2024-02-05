@@ -116,6 +116,8 @@ class Character(db.Model, SerializerMixin):
     job = db.Column(db.String, default='swordsman')
     color = db.Column(db.String)
     hp = db.Column(db.Integer, default =100)
+    max_hp = db.Column(db.Integer, default =100)
+    max_mp = db.Column(db.Integer, default =100)
     mp = db.Column(db.Integer, default =100)
     atk = db.Column(db.Integer, default =20)
     matk = db.Column(db.Integer, default =20)
@@ -155,6 +157,7 @@ class Enemy(db.Model, SerializerMixin):
 
     name = db.Column(db.String(20), nullable=False)
     exp = db.Column(db.Integer, default=100)
+    max_hp = db.Column(db.Integer, default =100)
     hp = db.Column(db.Integer, default =100)
     atk = db.Column(db.Integer, default =10)
     matk = db.Column(db.Integer, default =10)

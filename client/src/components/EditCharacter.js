@@ -41,8 +41,10 @@ export default function EditCharacter() {
         body:(JSON.stringify({
             color: color,
             job: job,
-            hp: ch.hp -stat[ch.job].HP + stat[job].HP,
-            mp: ch.mp -stat[ch.job].MP  + stat[job].MP,
+            max_hp: ch.max_hp -stat[ch.job].HP + stat[job].HP,
+            hp: ch.max_hp -stat[ch.job].HP + stat[job].HP,
+            mp: ch.max_mp -stat[ch.job].MP  + stat[job].MP,
+            max_mp: ch.max_mp -stat[ch.job].MP  + stat[job].MP,
             atk: ch.atk -stat[ch.job].ATK + stat[job].ATK,
             defense: ch.defense -stat[ch.job].DEF + stat[job].DEF,
             matk: ch.matk -stat[ch.job].MATK + stat[job].MATK
@@ -118,13 +120,13 @@ else if(char){
                     <h2>Stat Changes</h2>
                     <div className='stat'>
                         <h3 className={setName('hp', c.hp -stat[c.job].HP + stat[job].HP)}>
-                            HP: {c.hp -stat[c.job].HP + stat[job].HP}</h3>
+                            Max HP: {c.hp -stat[c.job].HP + stat[job].HP}</h3>
                         <h3>({math('hp',c.hp -stat[c.job].HP + stat[job].HP)})</h3>
                     </div>
 
                     <div className='stat'>
                     <h3 className={setName('mp', c.mp -stat[c.job].MP + stat[job].MP)}>
-                            MP: {c.mp -stat[c.job].MP  + stat[job].MP}</h3>
+                            Max MP: {c.mp -stat[c.job].MP  + stat[job].MP}</h3>
                          <h3>({math('mp',c.mp -stat[c.job].MP  + stat[job].MP)})</h3>
                          </div>
 

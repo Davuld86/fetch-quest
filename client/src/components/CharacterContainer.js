@@ -7,8 +7,8 @@ export default function CharacterContainer({character}) {
       <div className='character-stats'>
       <h3>Job: {character.job}</h3>
       <h3>Level: {character.level}</h3>
-      <h3>HP: {character.hp}</h3>
-      <h3>MP: {character.mp}</h3>
+      <h3>HP: {character.hp} / {character.max_hp}</h3>
+      <h3>MP: {character.mp} / {character.max_mp}</h3>
       <h3>Exp: {character.exp}</h3>
       <h3>Attack: {character.atk}</h3>
       <h3>Magic Atk: {character.matk}</h3>
