@@ -159,3 +159,19 @@
     border-bottom: 10px solid rgb(255, 230, 91);
 
 }
+
+.defeat{
+    position: absolute;
+    display: grid;
+    background-color: rgba(2, 18, 32, 0.801);
+    width: 1080px;
+    height: 630px;
+    z-index: 5;
+    color: white;
+    top: 32px;
+    border-top: 10px solid rgb(102, 7, 7);
+    border-bottom: 10px solid rgb(102, 7, 7);
+    justify-items: center;
+    align-content: center;
+
+}

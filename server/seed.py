@@ -50,7 +50,7 @@ items = [
 ]
 
 enemies = [
-    {'name':'Rat', 'hp':100,'atk':10,'defense':10,'matk':10,'coins':50,'item_drops':[1], 'image':'../images/enemies/rat.png', 'exp':25},
+    {'name':'Giant Rat', 'hp':100,'atk':10,'defense':10,'matk':10,'coins':50,'item_drops':[1], 'image':'../images/enemies/rat.png', 'exp':25},
     {'name':'Leaf Monster', 'hp':150,'atk':15,'defense':10,'matk':15,'coins':100,'item_drops':[2], 'image':'../images/enemies/leaf_monster.png', 'exp':40},
     {'name':'Slime', 'hp':400,'atk':10,'defense':5,'matk':20 ,'coins':200,'item_drops':[4], 'image':'../images/enemies/slime.png', 'exp':75},
     {'name':'Skeleton', 'hp':250,'atk':30,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/skeleton.png', 'exp':140},

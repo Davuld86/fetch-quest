@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from './App'
 
 export default function VictoryScreen({enemy, character, setCharacter,exitBattle}) {
-
+    const [user, setUser] = useContext(UserContext)
     let lvl = false
     let n = character.level
     let diff = 0
@@ -37,6 +38,7 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
             matk: character.matk +statChanges.matk,
             defense: character.defense + statChanges.defense,
         })
+        setUser({...user, coins:user.coins+enemy.coins})
         exitBattle()
     }
 

@@ -6,16 +6,20 @@ import PlayerStats from './PlayerStats';
 import BattleItems from './BattleItems';
 import EnemyStats from './EnemyStats';
 import VictoryScreen from './VictoryScreen';
+import DefeatScreen from './DefeatScreen';
 
 export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, showBattle}) {
   const [user,setUser] =useContext(UserContext)
+  const [items, setItems] = useState(user.inventory)
   const [character, setCharacter] = useState(user.character[0])
   const [enemy, setEnemy] = useState(null)
   const [userTurn, setUserTurn] = useState(true)
   const [moves, setMoves] = useState(null)
   const [victory, setVictory] = useState(false)
+  const [defeat, setDefeat] = useState(false)
   const [log, setLog] = useState(null)
   const [showMoves, setShowMoves] = useState(true)
+
 
   useEffect(()=>{
     fetch(`/api/enemy/${enemy_id}`).then((res)=>{
@@ -32,30 +36,44 @@ export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, sh
 
 
   function enemyAttack(){
-
     setLog(`${enemy.name} attacks!`)
     setTimeout(function(){
-      setUserTurn(true);
+      enemyDamageCalc()
       setShowMoves(true)
-      },1500)
+      },500)
+      setUserTurn(true)
+  }
+
+  function enemyDamageCalc(){
+    const variance = (Math.random() *20 * 2) - 20
+    let damage = Math.floor((enemy.atk*3.5)-(character.defense*2) +variance)
+    if(damage<=0){
+      damage=1
+    }
+    setLog(`You lost ${damage} HP`)
+    if (character.hp-damage<0){
+      setCharacter({...character, hp:0})
+      setDefeat(true)
+    }
+    else{
+    setCharacter({...character, hp: character.hp-damage})
+    }
   }
 
 function handleMove(move){
-
   if(character.mp >= move.cost) {
     setCharacter({...character, mp : (character.mp-move.cost>=character.max_mp?character.max_mp:character.mp-move.cost)})
     setShowMoves(false)
     setLog(`You attack with: ${move.name}`)
     if(Math.random() <= (move.accuracy/100)){
-
       setTimeout(function(){
         playerDamageCalc(move)
         setUserTurn((p)=>!p)
         },1500)
     }
     else{
-      setLog('Your attack missed!')
       setTimeout(function(){
+        setLog('You missed!')
         setUserTurn((p)=>!p)
         },1500)
     }
@@ -63,17 +81,31 @@ function handleMove(move){
   }
 
   function playerDamageCalc(move){
-    const variance = (Math.random() *20 * 2) - 20;
+    const variance = (Math.random() *20 * 2) - 20
     if(move.type=='physical'){
-      const damage = Math.floor((move.base* character.atk)-(enemy.defense*2) +variance)
-      setLog(`${enemy.name} lost ${damage} hp`)
+      let damage = Math.floor(((move.base* character.atk)/15)-(enemy.defense*2) +variance)
+      if (damage<= 0){
+        damage =1
+      }
+      setLog(`${enemy.name} lost ${damage} HP`)
       setEnemy({...enemy, hp:enemy.hp - damage})
     }
     else if(move.type=='magic'){
-      const damage = Math.floor((move.base* character.matk)-(enemy.defense*2.2) +variance)
-      setLog(`${enemy.name} lost ${damage} hp`)
+      let damage = Math.floor(((move.base* character.matk)/15)-(enemy.defense*2.2) +variance)
+      if(damage<=0){
+        damage=1
+      }
+      setLog(`${enemy.name} lost ${damage} HP`)
       setEnemy({...enemy, hp:enemy.hp - damage})
     }
+  }
+
+  function playerAnim(){
+    //move player in attacking motion
+  }
+
+  function enemyAnim(){
+    //move enemy in attacking motion
   }
 
   function handleItem(item){
@@ -91,15 +123,34 @@ function handleMove(move){
     }
     setTimeout(function(){
     setUserTurn((p)=>!p)
-    },1000)
+    },1500)
   }
 
   function recover(stat, amt){
     if(stat=='hp'){
       setLog(`You recovered ${amt} HP`)
+      if(character.hp+amt> character.max_hp){
+        setCharacter({...character, hp: character.max_hp})
+      }
+      else{
+        setCharacter({...character, hp: character.hp+amt })
+      }
+      let ptns = items.filter((item)=> item.name =="Hp Potion").length>1?items.filter((item)=> item.name =="Hp Potion").pop():[]
+      let inventory = items.filter((item)=> item.name !="Hp Potion")
+      setItems([...inventory, ptns])
+
     }
     else if(stat=='mp'){
       setLog(`You recovered ${amt} MP`)
+      if(character.mp+amt> character.max_mp){
+        setCharacter({...character, mp: character.max_mp})
+      }
+      else{
+        setCharacter({...character, mp: character.mp+amt})
+      }
+      let ptns = items.filter((item)=> item.name =="Mp Potion").length>1?items.filter((item)=> item.name =="Mp Potion").pop():[]
+      let inventory = items.filter((item)=> item.name !="Mp Potion")
+      setItems([...inventory, ptns])
     }
   }
 
@@ -115,64 +166,82 @@ function handleMove(move){
   };
 
 if(showBattle==true){
-if(victory){
-  return(
+
+  if(defeat){
+    return(
     <div style={canvasStyle} className='battle-screen'>
-      <VictoryScreen enemy={enemy} character={character} setCharacter={setCharacter} exitBattle={closeBattle}/>
-       <div className='battleHeader'>
-      <PlayerStats character={character}/>
-      <div className='battleInfo'>
-      <h1 className='turn'>{userTurn?'Your Turn':'Enemy Turn'}</h1>
-       <h3 className='logs'>{log? log: null}</h3>
-      </div>
-       <EnemyStats enemy={enemy}/>
-       </div>
-      <div className='battle-character'>
-          <img alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
-        </div>
+    <DefeatScreen exitBattle={closeBattle} setCharacter={setCharacter} character={character}/>
+    <div className='battleHeader'>
+    <PlayerStats character={character}/>
+    <div className='battleInfo'>
+    <h1 className='turn'>{userTurn?'Your Turn':'Enemy Turn'}</h1>
+    <h3 className='logs'>{log? log: null}</h3>
     </div>
-  )
-}
-if(character&&enemy){
-  if(enemy.hp<=0){
-    setLog(`${enemy.name} is slain!`)
-    setVictory(true)
-  }
-  if (userTurn==false){
-    if(enemy.hp>0){
-      setTimeout(function(){
-      enemyAttack()
-    },1500)
-    }
-  }
-
-  return (
-    <div style={canvasStyle} className='battle-screen'>
-      <div className='battleHeader'>
-      <PlayerStats character={character}/>
-      <div className='battleInfo'>
-      <h1 className='turn'>{userTurn?'Your Turn':'Enemy Turn'}</h1>
-       <h3 className='logs'>{log? log: null}</h3>
+    <EnemyStats enemy={enemy}/>
+    </div>
+    <div className='battle-character'>
+        <img alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
       </div>
+  </div>
+    )}
 
-       <EnemyStats enemy={enemy}/>
-       </div>
-       <button onClick={closeBattle}>
-          Run!
-        </button>
-
+  else if(victory){
+    return(
+      <div style={canvasStyle} className='battle-screen'>
+        <VictoryScreen enemy={enemy} character={character} setCharacter={setCharacter} exitBattle={closeBattle}/>
+        <div className='battleHeader'>
+        <PlayerStats character={character}/>
+        <div className='battleInfo'>
+        <h1 className='turn'>{userTurn?'Your Turn':'Enemy Turn'}</h1>
+        <h3 className='logs'>{log? log: null}</h3>
+        </div>
+        <EnemyStats enemy={enemy}/>
+        </div>
         <div className='battle-character'>
-          <img  alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
-          {userTurn&&showMoves?<BattleItems items={user.inventory.filter((item)=>item.category=='battle')} handleItem={handleItem}/>:null}
-          {moves&&userTurn&&showMoves?<Moves moves={moves} handleMove={handleMove} />:null}
-        </div>
-        <div className='battle-enemy'>
-        <img alt="Enemy" src={enemy.image}/>
+            <img alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
+          </div>
+      </div>
+    )
+  }
+  else if(character&&enemy){
+    if(enemy.hp<=0){
+      setLog(`${enemy.name} is slain!`)
+      setVictory(true)
+    }
+    if (userTurn==false&&showMoves==false){
+      if(enemy.hp>0){
+        setTimeout(function(){
+        enemyAttack()
+      },1500)
+      }
+    }
 
+    return (
+      <div style={canvasStyle} className='battle-screen'>
+        <div className='battleHeader'>
+        <PlayerStats character={character}/>
+        <div className='battleInfo'>
+        <h1 className='turn'>{userTurn?'Your Turn':'Enemy Turn'}</h1>
+        <h3 className='logs'>{log? log: null}</h3>
         </div>
+        <EnemyStats enemy={enemy}/>
+        </div>
+        <button onClick={closeBattle}>
+            Run!
+          </button>
 
-    </div>
-  )
-}
+          <div className='battle-character'>
+            <img  alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
+            {userTurn&&showMoves?<BattleItems items={items.filter((item)=>item.category=='battle')} handleItem={handleItem}/>:null}
+            {moves&&userTurn&&showMoves?<Moves moves={moves} handleMove={handleMove} />:null}
+          </div>
+          <div className='battle-enemy'>
+          <img alt="Enemy" src={enemy.image}/>
+
+          </div>
+
+      </div>
+    )
+  }
 }
 }
