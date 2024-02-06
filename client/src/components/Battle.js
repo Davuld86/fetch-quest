@@ -108,6 +108,7 @@ function handleMove(move){
     //move enemy in attacking motion
   }
 
+
   function handleItem(item){
     setShowMoves(false)
     if(item=='hp'){
@@ -126,7 +127,11 @@ function handleMove(move){
     },1500)
   }
 
+//ADD FETCH TO THIS
+  //MORE TEXT TO CATCH YOUR EYES
+  //DO YA SEE IT YET?
   function recover(stat, amt){
+    let itemID = null
     if(stat=='hp'){
       setLog(`You recovered ${amt} HP`)
       if(character.hp+amt> character.max_hp){
@@ -135,10 +140,10 @@ function handleMove(move){
       else{
         setCharacter({...character, hp: character.hp+amt })
       }
+      itemID = items.filter((item)=> item.name =="Hp Potion")[0].id
       let ptns = items.filter((item)=> item.name =="Hp Potion").length>1?items.filter((item)=> item.name =="Hp Potion").pop():[]
       let inventory = items.filter((item)=> item.name !="Hp Potion")
       setItems([...inventory, ptns])
-
     }
     else if(stat=='mp'){
       setLog(`You recovered ${amt} MP`)
@@ -148,10 +153,15 @@ function handleMove(move){
       else{
         setCharacter({...character, mp: character.mp+amt})
       }
+      itemID=items.filter((item)=> item.name =="Mp Potion")[0].id
       let ptns = items.filter((item)=> item.name =="Mp Potion").length>1?items.filter((item)=> item.name =="Mp Potion").pop():[]
       let inventory = items.filter((item)=> item.name !="Mp Potion")
       setItems([...inventory, ptns])
     }
+    fetch(`/api/item/${itemID}`, {
+      method:'DELETE',
+      headers:{'Content-Type':'application/json'}
+    })
   }
 
   const canvasStyle = {
@@ -226,7 +236,7 @@ if(showBattle==true){
         </div>
         <EnemyStats enemy={enemy}/>
         </div>
-        <button onClick={closeBattle}>
+        <button onClick={()=>closeBattle(character,items,user)}>
             Run!
           </button>
 

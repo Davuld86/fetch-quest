@@ -225,7 +225,7 @@ class AllItems(Resource):
         items = Item.query.all()
         return [item.to_dict() for item in items],200
 
-class ItemId(Resource):
+class ItemID(Resource):
     def get(self, item_id):
         item = Item.query.filter(Item.id == item_id).first()
         if item:
@@ -247,6 +247,14 @@ class ItemId(Resource):
         user.inventory.append(new_item)
         db.session.commit()
         return user.to_dict(), 200
+
+    def delete(self, item_id):
+        item = Item.query.filter(Item.id == item_id).first()
+        if item:
+            db.session.delete(item)
+            db.session.commit()
+            return '',201
+        return {'error':'no item found'}
 
 class AllEnemies(Resource):
     def get(self):
@@ -299,7 +307,7 @@ api.add_resource(AllCharacters, '/api/all_characters')
 api.add_resource(CharacterID, '/api/character/<int:char_id>')
 api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
 api.add_resource(AllItems, '/api/all_items')
-api.add_resource(ItemId, '/api/item/<int:item_id>')
+api.add_resource(ItemID, '/api/item/<int:item_id>')
 api.add_resource(AllEnemies, '/api/all_enemies')
 api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
 api.add_resource(JobMoves, '/api/moves/<string:job>')

@@ -28,18 +28,20 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
         return result;
 }
     function handleExit(){
-        setCharacter({
-            ...character,
-            exp: character.exp+xpDrop,
+        let ch = character
+        ch ={
+            ...ch,
+            exp: ch.exp+xpDrop,
             level: n,
-            max_hp: character.max_hp + statChanges.hp,
-            max_mp: character.max_mp + statChanges.mp,
-            atk: character.atk + statChanges.atk,
-            matk: character.matk +statChanges.matk,
-            defense: character.defense + statChanges.defense,
-        })
+            max_hp: ch.max_hp + statChanges.hp,
+            max_mp: ch.max_mp + statChanges.mp,
+            atk: ch.atk + statChanges.atk,
+            matk: ch.matk +statChanges.matk,
+            defense: ch.defense + statChanges.defense,
+        }
         setUser({...user, coins:user.coins+enemy.coins})
-        exitBattle()
+        setCharacter(ch)
+        exitBattle(ch, user)
     }
 
     if(calculateLevel(character.exp+xpDrop, character.level)> character.level){

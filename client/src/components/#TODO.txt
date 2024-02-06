@@ -1,11 +1,9 @@
                                     TO DO
-USERS
 
-Raccoons:
-make a raccoon for each color/ class
+
 
 MESSAGES
-    change message source (user-> server)
+fix messages to show up properly
     Inboxes
         create inbox
         close inbox
@@ -24,12 +22,11 @@ BATTLE
     Battle monsters
         Battle screen
         battle api
-        battle animations
+        battle animations (uhh yeah...)
         batle logic
     gain loot
         loot screen
         add gold api
-
 
 MOVEMENT
     Move character
@@ -64,17 +61,6 @@ CHARACTER
         character items screen (inventory)
         item card
 
-FRIENDS
-    send friend rq to user
-        friends api
-        friends menu
-
-SHOP
-    Shop page
-    Shop model
-    Shop api
-        buy items/equipment/furniture
-        add to inventory
 
 MESSAGES
     All Chat
@@ -82,18 +68,4 @@ MESSAGES
         message filter
         messages api
 
-BASES
-    go to base
-        base screen
-        base logic
-        base api
-
-    edit base
-        edit base menu
-        edit base logic
-        edit base api
-
-    go to user's base
-        menu on user
-        user base logic
 
