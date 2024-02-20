@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import GameCharacter from './GameCharacter';
-
 import './Game.css'
-import OWEnemy from './OWEnemy';
-import { startBattle } from './helpers';
-export default function Game() {
-    const [characterPosition, setCharacterPosition] = useState({ x: 0, y: 0 });
+
+export default function Game({char, setChar, area ='plaza'}) {
+    const [characterPosition, setCharacterPosition] = useState({ x: char.x, y: char.y })
+    const [show, setShow] = useState(true)
     const [textInput, setTextInput] = useState('');
     const [displayedText, setDisplayedText] = useState('');
-    const [showBattle, setShowBattle] = useState(false);
+
 
     useEffect(() => {
       if (displayedText) {
@@ -17,50 +16,54 @@ export default function Game() {
         }, 3000);
         return () => clearTimeout(timer);
       }
-    }, [displayedText]);
+    }, [displayedText])
 
-    const handleCanvasClick = (event) => {
-      const canvas = event.target;
-      const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
 
-      setCharacterPosition({x, y});
-    };
+    function handleCanvasClick(event){
+      const x = event.clientX - 75;
+      const y = event.clientY - 25;
+      setCharacterPosition({x, y})
+      setChar({
+        ...char,
+        x:characterPosition.x,
+        y:characterPosition.y,
+        area: area
+      })
+    }
 
-    const handleInputChange = (event) => {
+    function censor(text){
+
+    }
+
+    function handleInputChange(event){
       setTextInput(event.target.value);
-    };
+    }
 
-    const handleInputSubmit = () => {
+    function handleInputSubmit(){
+
       setDisplayedText(textInput);
       setTextInput('');
-    };
+    }
 
     return (
-        <div style={{display:'grid', justifyContent:'center'}}>
+        <div style={{display:'grid', justifyContent:'center', overflow:'hidden'}}>
         <canvas
           onClick={handleCanvasClick}
           className="game-canvas"
-          width={1080}
+          width={1500}
           height={720}
-          style={{ backgroundImage: `url('./path/to/background/image.jpg')`, backgroundSize: 'cover' }}
+          style={{ backgroundImage: `url(../images/areas/${area==''?'plaza':area}.png)`, backgroundSize: 'cover' }}
         ></canvas>
-        <GameCharacter position={characterPosition} message={displayedText} />
-        <OWEnemy positionX={850} positionY={600} startBattle={startBattle} />
+        <GameCharacter position={characterPosition} message={displayedText} show ={show}/>
         <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>
           <input
-            type="text"
-            value={textInput}
-            onChange={handleInputChange}
-            placeholder="Type here..."
-            className="text-input"
-            style={{ padding: '8px', marginRight: '8px' }}
-          />
+          type="text" value={textInput} onChange={handleInputChange} placeholder="Type here..."  className="text-input"  maxLength='140'
+          style={{ padding: '8px', marginRight: '8px' }}
+            />
           <button type='submit' className="submit-button">🗨️</button>
           </form>
         </div>
       </div>
-    );
+    )
 }

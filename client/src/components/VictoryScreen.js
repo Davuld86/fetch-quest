@@ -46,8 +46,8 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
 
     if(calculateLevel(character.exp+xpDrop, character.level)> character.level){
         diff = n-character.level
-        lvl = true
 
+        lvl=true
         statChanges={
             hp: calcWithVar(7,diff),
             mp:calcWithVar(5,diff),
@@ -63,8 +63,8 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
         <div style={{display:'flex'}}>
         <div>
             <h2>Experience:</h2>
-            <h2>You gained: {xpDrop} XP</h2>
-            <h2>Level: {n} {lvl?'[LEVEL UP!]':null}</h2>
+            <h2>You gained: {xpDrop} xp</h2>
+            <h2>Level: {n} {lvl==true?'[LEVEL UP!]':null}</h2>
             <h2>EXP: {character.exp+xpDrop}/{threshold}</h2>
             <h2>Stats:</h2>
             <h3>Max HP: {character.max_hp} {lvl? `+${statChanges.hp}`:null} </h3>

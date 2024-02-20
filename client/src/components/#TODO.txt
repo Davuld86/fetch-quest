@@ -1,71 +1,18 @@
-                                    TO DO
+TO DO:
 
+GAME:
+    move to screens
+    place enemies
+        start battle
+        make enemy dissappear for a while after defeated
+    place other enteties
+    click on player and add friend/ goto house/ message
 
+MESSAGES:
+    fix messages
+    open and close inboxes
 
-MESSAGES
-fix messages to show up properly
-    Inboxes
-        create inbox
-        close inbox
-
-INVENTORY
-    view inventory
-        inventory page
-        inventory card
-        inventory logic
-        inventory api
-
-    delete items from inventory
-        inventory delete api
-
-BATTLE
-    Battle monsters
-        Battle screen
-        battle api
-        battle animations (uhh yeah...)
-        batle logic
-    gain loot
-        loot screen
-        add gold api
-
-MOVEMENT
-    Move character
-        find cursor position
-        animate character towards position
-            set to animate
-            play char animation
-            set to stand
-
-CHARACTER
-    Create character
-        create character logic
-
-    View Character stats
-        character stats screen
-        character stats container
-        health bar
-        experience bar
-
-    Edit Character Job
-        edit character screen
-        edit character api
-        edit character logic
-
-    Edit character equipment
-        equipment screen (part of inventory)
-        equipment card
-        equipment change api
-
-    Edit character items
-        character items api
-        character items screen (inventory)
-        item card
-
-
-MESSAGES
-    All Chat
-        message screen
-        message filter
-        messages api
-
-
+WEBSOCKET:
+    add to GAME
+    add to messages
+    add to battle

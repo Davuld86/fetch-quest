@@ -11,7 +11,7 @@ const [user, setUser]=  useContext(UserContext)
     <div className='home-page'>
 
         <h1>Welcome to Ringtail Realm!</h1>
-        <Link to={user?'/play':'/register'}> <img className='play-button' src='../images/play_button.png'/> </Link>
+        <Link to={user?'/game':'/register'}> <img className='play-button' src='../images/play_button.png'/> </Link>
         <img className='banner' src='../images/banner_image.png'/>
 
     </div>

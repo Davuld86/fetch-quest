@@ -127,9 +127,6 @@ function handleMove(move){
     },1500)
   }
 
-//ADD FETCH TO THIS
-  //MORE TEXT TO CATCH YOUR EYES
-  //DO YA SEE IT YET?
   function recover(stat, amt){
     let itemID = null
     if(stat=='hp'){
@@ -165,15 +162,8 @@ function handleMove(move){
   }
 
   const canvasStyle = {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '1080px',
-    height: '720px',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     backgroundImage:`url(${bg})`,
-    zIndex: '2',
-  };
+  }
 
 if(showBattle==true){
 
@@ -236,7 +226,7 @@ if(showBattle==true){
         </div>
         <EnemyStats enemy={enemy}/>
         </div>
-        <button onClick={()=>closeBattle(character,items,user)}>
+        <button onClick={()=>closeBattle(character,user)}>
             Run!
           </button>
 

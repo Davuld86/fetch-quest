@@ -14,7 +14,6 @@ export default function PlayerStats({character}) {
         <h3>MP: {character.mp} / {character.max_mp}</h3>
         <div style={{height:'25px', backgroundColor:'aqua',maxWidth:'200px', minWidth:'0px', border:'7px solid black', borderRadius:'10px', width:`${(character.mp/character.max_mp)*100*.8}%`}}/>
         </div>
-
     </div>
   )
 }

@@ -17,7 +17,7 @@ export default function NavBar() {
         <Link to='/store'> <h4>Shop</h4> </Link>
         </Fragment>
         :null}
-        {user?<Link to={`/edit-character/${user.id}`}><h4>Edit Character</h4></Link>:<Link to='/register'><h4>Register</h4></Link>}
+        {<Link to={user? `/edit-character/${user.id}`:'/register'}><h4>{user?'Edit Character':'Register'}</h4></Link>}
         <LoggedInCont/>
     </div>
   )

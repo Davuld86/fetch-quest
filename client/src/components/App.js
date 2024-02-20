@@ -15,6 +15,13 @@ import EditCharacter from "./EditCharacter";
 import Shop from "./Shop";
 import Game from "./Game";
 import TreeHouse from "./TreeHouse";
+import Plaza from "./Plaza";
+import Graveyard from "./Graveyard";
+import Forest from "./Forest";
+import Boneyard from "./Boneyard";
+import Bridge from "./Bridge";
+import Clearing from "./Clearing";
+import CrystalCave from "./CrystalCave";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -34,7 +41,6 @@ function App() {
           })
 
     },[])
-
   return(
     <Fragment>
     <BrowserRouter>
@@ -52,7 +58,15 @@ function App() {
         <Route path='/create-character'><CreateCharacter/></Route>
         <Route path='/messages'><Messages/></Route>
         <Route path='/store'><Shop/></Route>
-        <Route path='/game'><Game/></Route>
+
+        <Route exact path='/game/'><Plaza/></Route>
+        <Route exact path='/game/graveyard'><Graveyard/></Route>
+        <Route exact path='/game/forest'><Forest/></Route>
+        <Route exact path='/game/clearing'><Clearing/></Route>
+        <Route exact path='/game/boneyard'><Boneyard/></Route>
+        <Route exact path='/game/bridge'><Bridge/></Route>
+        <Route exact path='/game/crystal-cave'><CrystalCave/></Route>
+
         <Route path='/base/:uid'><TreeHouse/></Route>
         <Route path='*'><NotFound/></Route>
       </Switch>

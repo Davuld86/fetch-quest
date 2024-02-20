@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 
 export default function EnemyMenu({onAttack, onClose}) {
 
+
+
+
+
     const menuStyle = {
         position: 'absolute',
         top: '50%',

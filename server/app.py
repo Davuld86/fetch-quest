@@ -29,7 +29,7 @@ class CheckSession(Resource):
 class SignUp(Resource):
     def post(self):
         json = request.get_json()
-        if User.query.filter_by(username = json['username'].lower()).first():
+        if User.query.filter(func.lower(User.username) == json['username'].lower()).first():
             return ({'error': 'Username already taken.'}, 401)
         else:
             new_user = User(
@@ -268,6 +268,13 @@ class EnemyId(Resource):
             return foe.to_dict(), 200
         return {'error':'enemy not found'}, 404
 
+class EnemyName(Resource):
+    def get(self,name):
+        enemy = Enemy.query.filter(func.lower(Enemy.name) ==name.lower().replace('%20+', '')).first()
+        if enemy:
+            return enemy.to_dict(), 200
+        return {'error': 'no enemy with that name found'}, 404
+
 class JobMoves(Resource):
     def get(self,job):
         moves = Move.query.filter(Move.job == job).all()
@@ -310,6 +317,7 @@ api.add_resource(AllItems, '/api/all_items')
 api.add_resource(ItemID, '/api/item/<int:item_id>')
 api.add_resource(AllEnemies, '/api/all_enemies')
 api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
+api.add_resource(EnemyName, '/api/enemy/<string:name>')
 api.add_resource(JobMoves, '/api/moves/<string:job>')
 api.add_resource(UserHouse,'/api/treehouse/<int:user_id>')
 

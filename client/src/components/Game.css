@@ -3,9 +3,9 @@
   }
 
   .character {
-    transition: top 0.3s, left 0.3s; /* Apply the same transitions as in the inline style */
+    transition: top 0.3s, left 0.3s;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
     max-height: 100px;
     max-width: 90px;
@@ -19,13 +19,9 @@
     z-index: 2;
 }
 
-.character p{
-    background-color: white;
-}
-
 .shadow{
     border:none;
-    margin: none;
+    margin: -10px;
     max-width: 90px;
     opacity: 20%;
     z-index: 1;
@@ -35,14 +31,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 100px;
-    max-width: 90px;
+
     border: none;
 }
 
 .enemy img{
-    max-width: 90px;
-    max-height: 90px;
+    max-width: inherit;
+    max-height: inherit;
     z-index: 2;
 }
 .enemy-menu{
@@ -56,4 +51,40 @@
 
 .message-box{
 z-index: 6;
+background-color: green;
+padding: 5px;
+border-top-right-radius: 10px;
+border-top-left-radius: 10px;
+padding-left: 15px;
+padding-right: 15px;
+margin-bottom: -1px;
 }
+
+.message-box input{
+    width: 300px;
+}
+
+.charUsername{
+    margin-bottom: -1px;
+}
+
+.textBubble{
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 15%;
+    max-width: 300px;
+    min-width: 70px;
+    width:max-content;
+    height: max-content;
+
+    margin-bottom: -10px;
+    background-color: white;
+
+}
+
+.textBubble p {
+    padding: 5%;
+    word-wrap: break-word;
+}
+

@@ -21,9 +21,3 @@ export function checkFriend(friends, pageUser){
   }
 }
 
-
-export function startBattle(enemy){
-  return(
-      <Battle enemy = {enemy}/>
-  )
-}
