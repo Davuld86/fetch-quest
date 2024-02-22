@@ -8,6 +8,8 @@ export default function Game({char, setChar, area ='plaza'}) {
     const [show, setShow] = useState(true)
     const [textInput, setTextInput] = useState('');
     const [displayedText, setDisplayedText] = useState('');
+    let Filter = require('bad-words')
+    let filter = new Filter()
 
 
     useEffect(() => {
@@ -39,17 +41,14 @@ export default function Game({char, setChar, area ='plaza'}) {
       })
     }
 
-    function censor(text){
-      console.log(text)
-    }
+
 
     function handleInputChange(event){
       setTextInput(event.target.value);
     }
 
     function handleInputSubmit(){
-      censor(textInput)
-      setDisplayedText(textInput);
+      setDisplayedText(filter.clean(textInput));
       setTextInput('');
     }
 
