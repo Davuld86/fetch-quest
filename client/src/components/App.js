@@ -22,30 +22,37 @@ import Boneyard from "./Boneyard";
 import Bridge from "./Bridge";
 import Clearing from "./Clearing";
 import CrystalCave from "./CrystalCave";
+import FunitureShop from "./FurnitureShop";
+import PotionShop from "./PotionShop";
+import ClothesShop from "./ClothesShop";
+import { charDefault, userDefault } from "./default";
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
+export const CharacterContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(userDefault)
+  const [character, setCharacter] = useState(charDefault)
   const [friends, toggleFriends] = useState(false)
 
     useEffect(()=>{
         fetch("/api/check_session").then((r) => {
             if (r.ok) {
-              r.json().then((user) => {setUser(user)});
+              r.json().then((user) => {setUser(user); setCharacter(user.character[0])});
             }
             else{
                 return (null)
             }
           })
-
     },[])
   return(
     <Fragment>
     <BrowserRouter>
     <UserContext.Provider value={[user, setUser]}>
     <FriendContext.Provider value={[friends, toggleFriends]}>
+    <CharacterContext.Provider value={[character, setCharacter]}>
+
     <NavBar/>
     {friends?<FriendContainer/>:null}
       <Switch>
@@ -60,6 +67,10 @@ function App() {
         <Route path='/store'><Shop/></Route>
 
         <Route exact path='/game/'><Plaza/></Route>
+        <Route exact path='/game/furniture-shop'><FunitureShop/></Route>
+        <Route exact path='/game/potion-shop'><PotionShop/></Route>
+        <Route exact path='/game/clothes-shop'><ClothesShop/></Route>
+        <Route exact path='/game/graveyard'><Graveyard/></Route>
         <Route exact path='/game/graveyard'><Graveyard/></Route>
         <Route exact path='/game/forest'><Forest/></Route>
         <Route exact path='/game/clearing'><Clearing/></Route>
@@ -70,6 +81,8 @@ function App() {
         <Route path='/base/:uid'><TreeHouse/></Route>
         <Route path='*'><NotFound/></Route>
       </Switch>
+
+      </CharacterContext.Provider>
       </FriendContext.Provider>
       </UserContext.Provider>
     </BrowserRouter>

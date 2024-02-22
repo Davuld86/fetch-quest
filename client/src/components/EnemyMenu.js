@@ -14,7 +14,7 @@ export default function EnemyMenu({onAttack, onClose}) {
         border: '1px solid black',
         padding: '10px',
         backgroundColor: 'white',
-        zIndex: '1', // Ensure the menu is above other elements
+        zIndex: '10', // Ensure the menu is above other elements
       };
 
       return (

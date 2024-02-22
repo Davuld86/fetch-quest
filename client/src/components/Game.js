@@ -4,6 +4,7 @@ import './Game.css'
 
 export default function Game({char, setChar, area ='plaza'}) {
     const [characterPosition, setCharacterPosition] = useState({ x: char.x, y: char.y })
+    const [flip, setFlip] = useState(false)
     const [show, setShow] = useState(true)
     const [textInput, setTextInput] = useState('');
     const [displayedText, setDisplayedText] = useState('');
@@ -19,9 +20,16 @@ export default function Game({char, setChar, area ='plaza'}) {
     }, [displayedText])
 
 
+
     function handleCanvasClick(event){
       const x = event.clientX - 75;
       const y = event.clientY - 25;
+      if(x <characterPosition.x){
+        setFlip(true)
+      }
+      else if(x>characterPosition.x){
+        setFlip(false)
+      }
       setCharacterPosition({x, y})
       setChar({
         ...char,
@@ -32,7 +40,7 @@ export default function Game({char, setChar, area ='plaza'}) {
     }
 
     function censor(text){
-
+      console.log(text)
     }
 
     function handleInputChange(event){
@@ -40,7 +48,7 @@ export default function Game({char, setChar, area ='plaza'}) {
     }
 
     function handleInputSubmit(){
-
+      censor(textInput)
       setDisplayedText(textInput);
       setTextInput('');
     }
@@ -54,7 +62,7 @@ export default function Game({char, setChar, area ='plaza'}) {
           height={720}
           style={{ backgroundImage: `url(../images/areas/${area==''?'plaza':area}.png)`, backgroundSize: 'cover' }}
         ></canvas>
-        <GameCharacter position={characterPosition} message={displayedText} show ={show}/>
+        <GameCharacter position={characterPosition} message={displayedText} show ={show} flip={flip}/>
         <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>
           <input

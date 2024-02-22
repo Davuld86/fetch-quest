@@ -1,6 +1,6 @@
 .item-container{
     display: grid;
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(5, 200px);
 }
 .item-card{
     display: flex;
@@ -10,9 +10,16 @@
     margin: 3%;
     padding: 2%;
     border-radius: 15px;
+    max-height: min-content;
 }
 .item-card img{
     max-width: 150px;
     background-color: beige;
     border-radius: 10px;
+}
+
+.shop{
+    display: grid;
+    justify-content: center;
+    justify-items:center;
 }

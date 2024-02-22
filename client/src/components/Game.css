@@ -31,7 +31,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    max-height: 100px;
+    max-width: 90px;
     border: none;
 }
 
@@ -57,11 +58,12 @@ border-top-right-radius: 10px;
 border-top-left-radius: 10px;
 padding-left: 15px;
 padding-right: 15px;
-margin-bottom: -1px;
+margin-bottom: 30px;
 }
 
 .message-box input{
-    width: 300px;
+    width: 400px;
+    height: 20px;
 }
 
 .charUsername{

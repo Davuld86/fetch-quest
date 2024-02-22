@@ -29,6 +29,7 @@
     transition: 150ms;
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 11;
 }
 
 .friends-header{

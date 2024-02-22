@@ -8,7 +8,7 @@ import EnemyStats from './EnemyStats';
 import VictoryScreen from './VictoryScreen';
 import DefeatScreen from './DefeatScreen';
 
-export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, showBattle}) {
+export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, showBattle, setShowEnemy}) {
   const [user,setUser] =useContext(UserContext)
   const [items, setItems] = useState(user.inventory)
   const [character, setCharacter] = useState(user.character[0])
@@ -27,7 +27,7 @@ export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, sh
         res.json().then((d)=>setEnemy(d))
       }
     })
-    fetch(`api/moves/${character.job}`).then((res)=>{
+    fetch(`/api/moves/${character.job}`).then((res)=>{
       if(res.ok){
         res.json().then((d)=> {setMoves(d)})
       }
@@ -207,6 +207,7 @@ if(showBattle==true){
     if(enemy.hp<=0){
       setLog(`${enemy.name} is slain!`)
       setVictory(true)
+      setShowEnemy(false)
     }
     if (userTurn==false&&showMoves==false){
       if(enemy.hp>0){

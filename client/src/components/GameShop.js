@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ShopItems from './ShopItems'
 
-import './Shop.css'
+import './GameShop.css'
 import { UserContext } from './App'
-export default function Shop() {
+export default function GameShop({cat='furniture', closeShop}) {
     const[user,setUser]= useContext(UserContext)
     const[allItems, setAllItems] = useState(null)
     const[items, setItems] = useState(null)
-    const[category, setCategory]= useState('battle')
+    const[category, setCategory]= useState(cat)
 
     useEffect(()=>{
        fetch('/api/all_items').then((res)=>{
@@ -18,14 +18,7 @@ export default function Shop() {
         }
        })
     },[])
-    function filterItems(category){
-        setCategory(category)
-        let temp = allItems.filter((item)=> item.category== category).filter((obj, index, array) => {
-            return array.findIndex(item => item.name === obj.name) === index;
-          })
-        setItems(temp)
 
-    }
     function buyItem(id, price){
         if (user.coins < price){
             alert('not enough gold!')
@@ -51,14 +44,13 @@ export default function Shop() {
     if(allItems){
 
     return (
-    <div className='shop'>
-        <h1>Bandit's Bazaar</h1>
-        <div className='shop-buttons'>
-            <button value={'battle'} onClick={(e)=>filterItems(e.target.value)}>Battle-Items</button>
-            <button value={'clothes'} onClick={(e)=>filterItems(e.target.value)}>Clothing</button>
-            <button value={'furniture'} onClick={(e)=>filterItems(e.target.value)}>Furiture</button>
-        </div>
-        <h2>{category=='battle'? 'Battle Items':category=='clothes'?'Clothes':'Furniture'}</h2>
+    <div className='gameShop'>
+        <span style={{display:'flex', alignItems:'center' }}>
+
+        <h1>{category=='battle'? 'Battle Items':category=='clothes'?'Clothes':'Furniture'} Store</h1>
+        <button onClick={closeShop}>Close</button>
+        </span>
+
         <div className='item-container'>
             {items? items.map((item)=>(<ShopItems key={item.id} buyItem={buyItem} item={item}/>)):null}
         </div>
