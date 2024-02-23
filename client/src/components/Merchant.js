@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import GameShop from './GameShop';
 
-export default function Merchant({store='furniture', positionX=170, positionY=410, size=120}) {
+export default function Merchant({store='furniture', positionX=170, positionY=410, size=120, flip=false}) {
     const [showShop, setShowShop] = useState(false)
     //`..images/characters/${store}_merchant.png`
     const merchantStyle = {
@@ -17,8 +17,8 @@ export default function Merchant({store='furniture', positionX=170, positionY=41
     <Fragment>
         {showShop?<GameShop cat={store} closeShop={()=>setShowShop(false)}/>:null}
     <div className='merchant' style={merchantStyle} onClick={()=>setShowShop(true)}>
-        <h5 style={{color:'blue', width:'max-content', maxWidth:`${size}px`}} >{store[0].toUpperCase()+store.slice(1)} Merchant</h5>
-        <img style={{maxHeight:'inherit', maxWidth:'inherit'}} src='../images/characters/archer_blue.png'></img>
+        <h4 className='merchantName'>{store[0].toUpperCase()+store.slice(1)} Merchant</h4>
+        <img style={{maxHeight:'inherit', maxWidth:'inherit',transform:`scaleX(${flip?-1:1})`}} src='../images/characters/archer_blue.png'></img>
     </div>
     </Fragment>
   )

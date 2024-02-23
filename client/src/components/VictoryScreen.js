@@ -31,6 +31,8 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
         let ch = character
         ch ={
             ...ch,
+            hp: ch.hp,
+            mp: ch.mp,
             exp: ch.exp+xpDrop,
             level: n,
             max_hp: ch.max_hp + statChanges.hp,
@@ -39,9 +41,30 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
             matk: ch.matk +statChanges.matk,
             defense: ch.defense + statChanges.defense,
         }
-        setUser({...user, coins:user.coins+enemy.coins})
+        let u = {...user, coins:user.coins+enemy.coins}
+        setUser(u)
         setCharacter(ch)
-        exitBattle(ch, user)
+        fetch(`/api/user/${u.id}`, {
+            method: 'PATCH',
+            headers: {'Content-Type':'application/json'},
+            body:(JSON.stringify({coins: u.coins}))
+        })
+        fetch(`/api/character/${ch.id}`,{
+            method:'PATCH',
+            headers:{
+                'Content-Type':'application/json'
+            },
+        body:(JSON.stringify({
+            exp: ch.exp,
+            level: ch.level,
+            max_hp: ch.max_hp,
+            max_mp: ch.max_mp,
+            atk: ch.atk,
+            matk: ch.matk,
+            defense: ch.defense,
+        }))
+    })
+        exitBattle(ch, u)
     }
 
     if(calculateLevel(character.exp+xpDrop, character.level)> character.level){

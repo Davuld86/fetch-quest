@@ -21,6 +21,7 @@ if(user){
       <img className='shadow' src='../images/shadow.png'/>
       <img className='char-img' style={{transform:`scaleX(${flip?-1:1})`, transition:'transform 0.2s',transformStyle:'preserve-3d'}} src={`../images/characters/${c.job}_${c.color}.png`}/>
       <h4 className='charUsername'>{user.username}</h4>
+      <h4 style={{color:'gold', marginBottom:'-40px', zIndex:'4'}}>{user.username}</h4>
       {message?<div className='textBubble'><p style={{top: `${position.y - 40}px`}}>{message}</p></div>:null}
     </div>
 

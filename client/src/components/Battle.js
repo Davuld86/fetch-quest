@@ -227,14 +227,14 @@ if(showBattle==true){
         </div>
         <EnemyStats enemy={enemy}/>
         </div>
-        <button onClick={()=>closeBattle(character,user)}>
-            Run!
-          </button>
+
 
           <div className='battle-character'>
             <img  alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
             {userTurn&&showMoves?<BattleItems items={items.filter((item)=>item.category=='battle')} handleItem={handleItem}/>:null}
-            {moves&&userTurn&&showMoves?<Moves moves={moves} handleMove={handleMove} />:null}
+
+            {showMoves?<button className='runButton' onClick={()=>closeBattle(character,user)}><img src='../images/run_icon.png' style={{width:'50px'}}></img>Run!</button>:null}
+            {moves&&userTurn&&showMoves?<Moves moves={moves} handleMove={handleMove} /> :null}
           </div>
           <div className='battle-enemy'>
           <img alt="Enemy" src={enemy.image}/>

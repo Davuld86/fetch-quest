@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AlertBox.css';
 
-const AlertBox = ({ message }) => {
+const AlertBox = ({ message, color }) => {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const AlertBox = ({ message }) => {
   return (
     <>
       {visible && (
-        <div className="alert-box">
+        <div className="alert-box" style={{backgroundColor:`${color}`}}>
           <span className="message">{message}</span>
         </div>
       )}

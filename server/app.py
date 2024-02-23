@@ -85,6 +85,7 @@ class UserID(Resource):
 
     def patch(self,user_id):
         data = request.get_json()
+        print(data)
         user = User.query.filter(User.id == user_id).first()
         for attribute in data:
             setattr(user, attribute, data[attribute])

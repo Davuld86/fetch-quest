@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import { CharacterContext } from './App'
 
-export default function ScreenTrigger({link,width, height,x, y, xPos, yPos,}) {
+export default function ScreenTrigger({link,width, height,x, y, xPos, yPos, direction = 'e'}) {
   const [char, setChar] = useContext(CharacterContext)
   let history = useHistory()
 
@@ -38,7 +38,7 @@ export default function ScreenTrigger({link,width, height,x, y, xPos, yPos,}) {
       height: `${height}px`,
       backgroundColor:'blue',
       opacity:'0',
-      cursor:'ew-resize'
+      cursor:`${direction}-resize`
     }}
     >
 

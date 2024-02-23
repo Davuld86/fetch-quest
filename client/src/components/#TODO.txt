@@ -1,11 +1,7 @@
 TO DO:
 
 GAME:
-    move to screens
-    place enemies
-        start battle
-        make enemy dissappear for a while after defeated
-    place other enteties
+
     click on player and add friend/ goto house/ message
 
 MESSAGES:

@@ -21,11 +21,11 @@ useEffect(()=>{
 if(char){
   return (
     <div>
-      <ScreenTrigger link ={'/game/furniture-shop'} width={100} height={130} x={480} y={300} char={char} setChar={setChar} xPos={775} yPos={540}/>
-      <ScreenTrigger link ={'/game/potion-shop'} width={100} height={130} x={815} y={300} char={char} setChar={setChar} xPos={775} yPos={540}/>
-      <ScreenTrigger link ={'/game/clothes-shop'} width={100} height={130} x={1120} y={340} char={char} setChar={setChar} xPos={775} yPos={540}/>
-      <ScreenTrigger link ={'/game/graveyard'} width={100} height={200} x={65} y={350} char={char} setChar={setChar} xPos={1330} yPos={540}/>
-      <ScreenTrigger link ={'/game/forest'} width={100} height={200} x={1480} y={400} xPos={200} yPos={480} />
+      <ScreenTrigger link ={'/game/furniture-shop'} width={100} height={130} x={480} y={300} char={char} setChar={setChar} xPos={775} yPos={540} direction='n'/>
+      <ScreenTrigger link ={'/game/potion-shop'} width={100} height={130} x={815} y={300} char={char} setChar={setChar} xPos={775} yPos={540} direction='n'/>
+      <ScreenTrigger link ={'/game/clothes-shop'} width={100} height={130} x={1120} y={340} char={char} setChar={setChar} xPos={775} yPos={540} direction='n'/>
+      <ScreenTrigger link ={'/game/graveyard'} width={100} height={200} x={65} y={350} char={char} setChar={setChar} xPos={1330} yPos={540} direction='w'/>
+      <ScreenTrigger link ={'/game/forest'} width={100} height={200} x={1480} y={400} xPos={200} yPos={480} direction='e' />
         <Game char={char} setChar={setChar} area='plaza'/>
     </div>
   )

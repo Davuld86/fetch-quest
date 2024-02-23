@@ -43,12 +43,20 @@
 }
 .enemy-menu{
     display: flex;
+    position: absolute;
     flex-direction: column;
     align-items: center;
+    top: 50%;
+    left: 60px;
     padding: 2px;
-    border: 2px solid black;
+    border: 5px solid black;
+    padding:10px;
+    background-color: white;
     border-radius: 5px;
+    transform: translateY(-50%) translateX(+75%);
+    z-index: 10;
 }
+
 
 .message-box{
 z-index: 6;
@@ -58,7 +66,7 @@ border-top-right-radius: 10px;
 border-top-left-radius: 10px;
 padding-left: 15px;
 padding-right: 15px;
-margin-bottom: 30px;
+margin-bottom: 28px;
 }
 
 .message-box input{
@@ -68,8 +76,14 @@ margin-bottom: 30px;
 
 .charUsername{
     margin-bottom: -1px;
+    -webkit-text-fill-color: gold;
+    -webkit-text-stroke: 5px black;
 }
-
+.enemyName{
+    width:max-content;
+    -webkit-text-fill-color: rgb(255, 0, 0);
+    -webkit-text-stroke: 5px black;
+}
 .textBubble{
     display: flex;
     justify-content: center;
@@ -79,10 +93,8 @@ margin-bottom: 30px;
     min-width: 70px;
     width:max-content;
     height: max-content;
-
     margin-bottom: -10px;
     background-color: white;
-
 }
 
 .textBubble p {
@@ -90,3 +102,14 @@ margin-bottom: 30px;
     word-wrap: break-word;
 }
 
+.merchant:hover{
+    cursor:pointer;
+}
+.merchantName{
+    width:max-content;
+    -webkit-text-fill-color: rgb(0, 68, 255);
+    background-color: rgb(243, 156, 98);
+    border:2px solid black;
+    padding: 2px;
+    border-radius: 4px;
+}
