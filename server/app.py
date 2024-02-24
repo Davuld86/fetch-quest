@@ -100,6 +100,22 @@ class UserID(Resource):
         db.session.commit()
         return '', 204
 
+class UserHouse(Resource):
+    def get(self, user_id):
+        house  = Base.query.filter(Base.user_id == user_id).first()
+        if house:
+            return house.to_dict(),200
+        return {'error':'No Treehouse found'}
+
+    def patch(self, user_id):
+        data = request.get_json()
+        house = Base.query.filter(Base.user_id == user_id).first()
+        for attribute in data:
+            setattr(house, attribute, data[attribute])
+        db.session.add(house)
+        db.session.commit()
+        return house.to_dict(),200
+
 #character stuff
 class CharacterID(Resource):
     def get(self, char_id):
@@ -126,6 +142,7 @@ class AllCharacters(Resource):
         if char:
             return [cha.to_dict() for cha in char],200
 
+#messages
 class AllMessages(Resource):
     def get(self):
         mes = Message.query.all()
@@ -169,6 +186,7 @@ class DeleteMessage(Resource):
         db.session.commit()
         return '',201
 
+#friends
 class AllFriends(Resource):
     def get(self):
         f = Friend.query.all()
@@ -221,6 +239,7 @@ class Friendship(Resource):
         db.session.commit()
         return '',201
 
+#items
 class AllItems(Resource):
     def get(self):
         items = Item.query.all()
@@ -257,6 +276,7 @@ class ItemID(Resource):
             return '',201
         return {'error':'no item found'}
 
+#enemies
 class AllEnemies(Resource):
     def get(self):
         enemies = Enemy.query.all()
@@ -276,6 +296,7 @@ class EnemyName(Resource):
             return enemy.to_dict(), 200
         return {'error': 'no enemy with that name found'}, 404
 
+#moves
 class JobMoves(Resource):
     def get(self,job):
         moves = Move.query.filter(Move.job == job).all()
@@ -283,44 +304,36 @@ class JobMoves(Resource):
             return [move.to_dict() for move in moves], 200
         return {'error':'moves not found'}
 
-class UserHouse(Resource):
-    def get(self, user_id):
-        house  = Base.query.filter(Base.user_id == user_id).first()
-        if house:
-            return house.to_dict(),200
-        return {'error':'No Treehouse found'}
-
-    def patch(self, user_id):
-        data = request.get_json()
-        house = Base.query.filter(Base.user_id == user_id).first()
-        for attribute in data:
-            setattr(house, attribute, data[attribute])
-        db.session.add(house)
-        db.session.commit()
-        return house.to_dict(),200
-
-# Views go here!
+# Views
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
 api.add_resource(Login, '/api/login')
 api.add_resource(Logout, '/api/logout')
 api.add_resource(UserID, '/api/user/<int:user_id>')
+api.add_resource(UserHouse,'/api/treehouse/<int:user_id>')
+
 api.add_resource(AllMessages, '/api/messages')
 api.add_resource(UserMessages, '/api/user_messages')
 api.add_resource(DirectMessage, '/api/send_message')
 api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
+api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
+
 api.add_resource(AllFriends, '/api/all_friends')
 api.add_resource(Friendship, '/api/friends/<int:user_id>')
+
 api.add_resource(AllCharacters, '/api/all_characters')
 api.add_resource(CharacterID, '/api/character/<int:char_id>')
-api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
+
+
 api.add_resource(AllItems, '/api/all_items')
 api.add_resource(ItemID, '/api/item/<int:item_id>')
+
 api.add_resource(AllEnemies, '/api/all_enemies')
 api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
 api.add_resource(EnemyName, '/api/enemy/<string:name>')
+
 api.add_resource(JobMoves, '/api/moves/<string:job>')
-api.add_resource(UserHouse,'/api/treehouse/<int:user_id>')
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

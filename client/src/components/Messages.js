@@ -8,24 +8,8 @@ import ChatContainer from './ChatContainer'
 import Inbox from './Inbox'
 export default function Messages() {
     const [user, setUser] = useContext(UserContext)
-    const [box, setBox] = useState(user.chats[0]? user.chats[0].id:0)
-    const [messages, setMessages]= useState(null)
-    const [isLoading, setLoading] = useState(true)
-    const [name, setName] = useState(null)
+    const [inbox, setBox] = useState({name:'', id:0})
     const [list, setList] = useState([])
-
-    useEffect(()=>{
-        setBox(box)
-        fetch(` /api/inbox_messages/${box}`).then((res)=>{
-            if(res.ok){
-                res.json().then((d)=>(setMessages(d), setName(d.sender.username), setList(d.messages)))
-            }
-        }).then(
-            setLoading(false)
-        )
-
-    },[box, list])
-
 
     function handleSubmit(msg, inbox, user_id){
         msg=msg.trim()
@@ -46,12 +30,10 @@ export default function Messages() {
                 })
             }).then((res)=>{
                 if(res.ok){
-                    let m = [messages.messages]
                    res.json().then((d)=> {setList(...list,d)})
                 }
             })
         }
-
     }
 
     function handleDelete(message_id){
@@ -63,51 +45,25 @@ export default function Messages() {
             }
         })
     }
-if(isLoading){
-return <h1>Loading...</h1>
-}
-else if (user){
-    return (
-    <div>
-        <div style={{display:'flex'}}>
-        <div style={{display:'flex', flexDirection:'column'}} className='inbox-container'>
-        <h4>Direct Messages</h4>
-        {user.chats.map((chat)=>(<Inbox key={chat.id} setBox={setBox} id={chat.id} name={chat.sender.username} pfp={chat.sender.pfp}/>))}
-        </div>
-        <div className='chat-container'>
-            {list[0]? <ChatContainer messages={list} name={name} inbox_id={box} handleDelete={handleDelete} handleSubmit={handleSubmit}/>:null}
 
-        </div>
-
-        </div>
-    </div>
-  )
-}
-else{
     return (
         <div style={{display:'flex'}}>
-            <div style={{display:'flex', flexDirection:'column'}}> Convos
-                <ul>
+            <div style={{display:'flex', flexDirection:'column'}}>
+                <h2>Direct Messages</h2>
+                    {user.chats.map((chat)=> <Inbox chat={chat} setBox={setBox}/>)}
                     <li>users</li>
                     <li>users</li>
                     <li>users</li>
                     <li>users</li>
-                </ul>
                 </div>
-            <div>
-                Messages
-                <ul>
-                    <li>stuff</li>
-                    <li>stuff</li>
-                    <li>stuff</li>
-                    <li>stuff</li>
-                    <li>stuff</li>
-                </ul>
+            <div style={{marginLeft:'20px'}}>
+                <h2>Messages</h2>
+                <ChatContainer inbox={inbox} handleSubmit={handleSubmit} handleDelete={handleDelete}/>
                 </div>
 
         </div>
       )
 }
-}
+
 
 

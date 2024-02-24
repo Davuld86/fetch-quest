@@ -22,7 +22,7 @@ if(char){
   return (
     <div>
 
-        <Merchant store='furniture'/>
+        <Merchant store='furniture' flip={true}/>
       <ScreenTrigger link ={'/game'} width={300} height={100} x={700} y={700} xPos={490} yPos={480}/>
         <Game char={char} setChar={setChar} area='furniture-shop'/>
     </div>

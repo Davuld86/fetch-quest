@@ -12,6 +12,7 @@ export default function Account() {
     const [pageUser, setPageUser] = useState(0)
     const [stat, setStatus]= useState('Add Friend')
     const location = useLocation()
+    const status = {'Friends':'Friends', 'Add Friend':'Add'}
 
     useEffect(()=>{
         fetch(`/api/user/${window.location.pathname.slice(9)}`)
@@ -45,8 +46,14 @@ export default function Account() {
     }).then(setLoading(false))
 
     },[location])
-
-
+    function openInbox(pageUser){
+        let filter = user.chats.filter((ch)=> ch.id ==pageUser.id)
+        console.log(filter)
+        let info  = {id:pageUser.id, username:pageUser.username}
+        let u = {...user, chats:[info,...user.chats]}
+        setUser(u)
+        console.log(u.chats)
+    }
 
     function handleFriend(friend){
         if(friend.status=='Friends'){
@@ -84,12 +91,11 @@ export default function Account() {
                     <img src={`${pageUser.pfp}`} className='user-pfp'/>
                     <h3>Bio:</h3>
                     <p>{pageUser.bio}</p>
-
                     <div style={{display:'flex'}}>
                     <Link to={`/base/${window.location.pathname.slice(9)}`}><button>Go to Treehouse</button></Link>
                    {user?
                    <Fragment>
-                   {user.id!= pageUser.id?<Link to={'/messages'}><button>Message</button></Link>:null}
+                   {user.id!= pageUser.id?<Link to={'/messages'}><button onClick={()=>openInbox(pageUser)}>Message</button></Link>:null}
                     {user.id==pageUser.id?<Link to={`/account-settings/${user.id}`}><button>Edit Account</button></Link>:null}
                    {stat.status? user.id!=pageUser.id? <button value={stat} onClick={(e)=>handleFriend(stat)}>{stat.status=='Friends'?'Friends': stat.status=='Add Friend'?'Add Friend':'Pending'}</button>:null :null}
                     </Fragment>
