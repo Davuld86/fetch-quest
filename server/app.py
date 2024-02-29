@@ -2,12 +2,15 @@
 
 # Standard library imports
 import asyncio
-import websockets
 
 # Remote library imports
 from flask import request, session, make_response, jsonify
+from flask_socketio import SocketIO
 from flask_restful import Resource
 from difflib import SequenceMatcher
+
+
+
 
 # Local imports
 from config import app, db, api
@@ -159,6 +162,19 @@ class UserMessages(Resource):
         else:
             return {'error':'No messages found'},404
 
+class InboxID(Resource):
+    def post(self, user_id, box_id):
+        user = User.query.filter(User.id == user_id).first()
+        inbox = Inbox(
+            user_id = user_id,
+            owner_id = box_id
+        )
+        db.session.add(inbox)
+        user.chats.append(inbox)
+        db.session.add(user)
+        db.session.commit()
+        return inbox.to_dict(), 200
+
 class InboxMessages(Resource):
     def get(self, box_id):
         inbox = Inbox.query.filter(Inbox.id== box_id).first()
@@ -170,14 +186,29 @@ class DirectMessage(Resource):
     def post(self):
         json = request.get_json()
         message = Message(
-                user_id = json['user_id'],
-                inbox_id = json['inbox_id'],
-                content = json['content']
+                sent_to = json['sent_to'],
+                sent_from = json['sent_from'],
+                content = json['content'],
             )
+        sender = user.query.filter(User.id==json['sent_from']).first()
+        user = User.query.filter(User.id == json['sent_to']).first()
+        sender_inbox = Inbox.query.filter(Inbox.user_id== json['sent_from'] and Inbox.owner_id==json['sent_to']).first()
+        inbox = Inbox.query.filter(Inbox.user_id== json['sent_to'] and Inbox.owner_id==json['sent_from']).first()
+
+        sender.chats.remove(sender_inbox)
+        sender.chats.insert(0,sender_inbox)
+        if inbox in user.chats:
+            user.chats.remove(inbox)
+            user.chats.insert(0,inbox)
+        else:
+            new_box = Inbox(
+            user_id = json['sent_to'],
+            owner_id = json['sent_from']
+                )
+            db.session.add(new_box)
         db.session.add(message)
         db.session.commit()
-
-        return message.to_dict()
+        return message.to_dict(),200
 
 class DeleteMessage(Resource):
     def delete(self,message_id):
@@ -316,6 +347,8 @@ api.add_resource(AllMessages, '/api/messages')
 api.add_resource(UserMessages, '/api/user_messages')
 api.add_resource(DirectMessage, '/api/send_message')
 api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
+
+api.add_resource(InboxID,'/api/inbox/<int:user_id>/<int:box_id>')
 api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
 
 api.add_resource(AllFriends, '/api/all_friends')

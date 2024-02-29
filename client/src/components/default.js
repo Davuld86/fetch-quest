@@ -28,16 +28,16 @@ export  const charDefault ={
     "hp": 100,
     "equipment": [],
     "color": "red",
-    "atk": 81,
-    "defense": 49,
+    "atk": 25,
+    "defense": 30,
     "area": 'plaza',
     "job": "swordsman",
-    "exp": 517,
-    "id": 17,
-    "level": 8,
+    "exp": 0,
+    "id": 1,
+    "level": 1,
     "max_hp": 100,
     "y": 750,
     "x": 500,
-    "mp": 157
+    "mp": 100
 }
 

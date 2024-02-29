@@ -7,6 +7,8 @@
     color: white
 }
  .message-history{
+    display: flex;
+    flex-direction: column;
     height: 500px;
     overflow-y: auto;
  }
@@ -36,6 +38,8 @@
 .message-header{
     display: flex;
     align-items: center;
+    width: 150px;
+    justify-content: space-between;
 }
 
 .timestamp{

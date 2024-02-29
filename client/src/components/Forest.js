@@ -20,7 +20,7 @@ export default function Forest() {
     if(char){
       return (
         <div>
-            <OWEnemy positionX={1265} positionY={490} enemy_id='Rat'/>
+            <OWEnemy positionX={1265} positionY={490} enemy_id='Giant Rat'/>
             <OWEnemy positionX={1070} positionY={110} enemy_id='leaf monster'/>
             <OWEnemy positionX={410} positionY={270} enemy_id='slime'/>
             <ScreenTrigger link ={'/game/clearing'} width={100} height={200} x={1470} y={250} xPos={200} yPos={475}/>

@@ -101,6 +101,7 @@ if __name__ == '__main__':
 
         Enemy.query.delete()
         for enemy in enemies:
+            print(enemy['name'])
             new_enemy = Enemy(
                 name = enemy['name'],
                 hp = enemy['hp'],
@@ -128,6 +129,9 @@ if __name__ == '__main__':
             )
             db.session.add(new_move)
         db.session.commit()
+
+        Inbox.query.delete()
+        Message.query.delete()
 
         '''Message.query.delete()
         Inbox.query.delete()

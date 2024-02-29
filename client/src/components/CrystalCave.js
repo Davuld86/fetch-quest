@@ -20,7 +20,7 @@ export default function CrystalCave() {
     if(char){
       return (
         <div>
-            <OWEnemy positionX={800} positionY={360} enemy_id='wood golem' size={190}/>
+            <OWEnemy positionX={750} positionY={300} enemy_id='Royal Dragon' size={350}/>
             <ScreenTrigger link ={'/game/bridge'} width={100} height={100} x={150} y={200} char={char} setChar={setChar} xPos={1220} yPos={550} />
             <Game char={char} setChar={setChar} area='crystal_cave'/>
         </div>

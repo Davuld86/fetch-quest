@@ -47,12 +47,14 @@ export default function Account() {
 
     },[location])
     function openInbox(pageUser){
-        let filter = user.chats.filter((ch)=> ch.id ==pageUser.id)
-        console.log(filter)
-        let info  = {id:pageUser.id, username:pageUser.username}
-        let u = {...user, chats:[info,...user.chats]}
-        setUser(u)
-        console.log(u.chats)
+        fetch(`/api/inbox/${user.id}/${pageUser.id}`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+        }).then((res)=>{
+            if(res.ok){
+                res.json().then((d)=>{setUser({...user, chats:[d,...user.chats]})})
+            }
+        })
     }
 
     function handleFriend(friend){

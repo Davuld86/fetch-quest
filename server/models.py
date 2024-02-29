@@ -5,7 +5,6 @@ from sqlalchemy import UniqueConstraint, CheckConstraint
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from config import db, bcrypt
-from battle_helpers import *
 from enum import Enum
 
 # Models go here!
@@ -83,29 +82,31 @@ class Friend(db.Model, SerializerMixin):
 class Inbox(db.Model, SerializerMixin):
     __tablename__ = 'inboxes'
 
-    serialize_only=('id', 'messages','user.id', 'sender.id', 'user.pfp','sender.pfp','user.username','sender.username' )
+    serialize_only=('owner_id','inbox_owner', 'inbox_owner.pfp','inbox_owner.username')
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    messages = db.relationship('Message', backref= 'inbox')
-    user = db.relationship('User', foreign_keys=[user_id], backref='chats')
-    sender = db.relationship('User', foreign_keys =[sender_id], backref='received')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    chats = db.relationship('User', foreign_keys=[user_id], backref='chats')
+    inbox_owner = db.relationship('User', foreign_keys=[owner_id])
+
 
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    serialize_only=('id', 'content', 'timestamp','sender.pfp','sender.username')
+    serialize_only=('id', 'content', 'timestamp', 'sent_from', 'sent_to','sender.pfp','sender.username','receiver.pfp','receiver.username',)
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    inbox_id = db.Column(db.Integer, db.ForeignKey('inboxes.id'))
+    sent_from = db.Column(db.Integer, db.ForeignKey('users.id'))
+    sent_to = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    sender = db.relationship('User', backref= 'messages')
+    sender = db.relationship('User', foreign_keys=[sent_from])
+    receiver = db.relationship('User', foreign_keys=[sent_to])
 
 class Character(db.Model, SerializerMixin):
 
