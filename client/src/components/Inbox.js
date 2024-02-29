@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 
-export default function Inbox({chat, setBox}) {
+export default function Inbox({chat, setBox, removeBox}) {
   const [data, setData] = useState({pfp:'../images/def_pfp.png',recentMsg:'',username:'User'})
 
   useEffect(()=>{
@@ -17,6 +17,7 @@ export default function Inbox({chat, setBox}) {
     <div style={{display:'flex'}}>
        <img src={data.pfp}/>
     <h4>{data.username}</h4>
+    <button onClick={()=>removeBox(chat.owner_id)}>X</button>
     </div>
     <p style={{marginTop:'-2px', marginBottom:'3px'}}>{data.recentMsg.length<=19?data.recentMsg:data.recentMsg.slice(0,16)+'...'}</p>
     </div>

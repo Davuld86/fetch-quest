@@ -14,18 +14,26 @@ export default function Messages() {
         if(user.chats){
             setBox((box)=> box=user.chats[0])
         }
-     },[inbox])
+     },[])
 
      useEffect(()=>{
-
      },[inbox])
 
-    return (
+
+    function removeBox(id){
+        let c = user.chats.filter((chat)=> chat.owner_id != id)
+        setUser({...user, chats:c})
+        fetch(`/api/inbox/${user.id}/${id}`,{
+            method: 'DELETE'
+        })
+    }
+
+     return (
 
         <div style={{display:'flex'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <h2>Direct Messages</h2>
-                    {user.chats?user.chats.map((chat)=> <Inbox key={chat.owner_id} chat={chat} setBox={setBox}/>):null}
+                    {user.chats?user.chats.map((chat)=> <Inbox key={chat.owner_id} chat={chat} setBox={setBox} removeBox={removeBox}/>):null}
                 </div>
             <div style={{marginLeft:'20px'}}>
                 <h2>Messages</h2>

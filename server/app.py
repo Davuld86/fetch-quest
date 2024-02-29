@@ -163,17 +163,23 @@ class UserMessages(Resource):
             return {'error':'No messages found'},404
 
 class InboxID(Resource):
-    def post(self, user_id, box_id):
+    def post(self, user_id, owner_id):
         user = User.query.filter(User.id == user_id).first()
         inbox = Inbox(
             user_id = user_id,
-            owner_id = box_id
+            owner_id = owner_id
         )
         db.session.add(inbox)
         user.chats.append(inbox)
         db.session.add(user)
         db.session.commit()
         return inbox.to_dict(), 200
+
+    def delete(self,user_id, owner_id):
+        inbox = Inbox.query.filter(Inbox.user_id== user_id and Inbox.owner_id==owner_id).first()
+        db.session.delete(inbox)
+        db.session.commit()
+        return '', 201
 
 class InboxMessages(Resource):
     def get(self, box_id):
@@ -348,7 +354,7 @@ api.add_resource(UserMessages, '/api/user_messages')
 api.add_resource(DirectMessage, '/api/send_message')
 api.add_resource(DeleteMessage, '/api/delete_message/<int:message_id>')
 
-api.add_resource(InboxID,'/api/inbox/<int:user_id>/<int:box_id>')
+api.add_resource(InboxID,'/api/inbox/<int:user_id>/<int:owner_id>')
 api.add_resource(InboxMessages,'/api/inbox_messages/<int:box_id>')
 
 api.add_resource(AllFriends, '/api/all_friends')
