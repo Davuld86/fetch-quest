@@ -196,8 +196,9 @@ class DirectMessage(Resource):
                 sent_from = json['sent_from'],
                 content = json['content'],
             )
-        sender = user.query.filter(User.id==json['sent_from']).first()
+        sender = User.query.filter(User.id==json['sent_from']).first()
         user = User.query.filter(User.id == json['sent_to']).first()
+
         sender_inbox = Inbox.query.filter(Inbox.user_id== json['sent_from'] and Inbox.owner_id==json['sent_to']).first()
         inbox = Inbox.query.filter(Inbox.user_id== json['sent_to'] and Inbox.owner_id==json['sent_from']).first()
 
