@@ -54,7 +54,7 @@ enemies = [
     {'name':'Leaf Monster', 'hp':150,'atk':15,'defense':10,'matk':15,'coins':100,'item_drops':[2], 'image':'../images/enemies/leaf_monster.png', 'exp':40},
     {'name':'Slime', 'hp':400,'atk':10,'defense':5,'matk':20 ,'coins':200,'item_drops':[4], 'image':'../images/enemies/slime.png', 'exp':75},
     {'name':'Skeleton', 'hp':250,'atk':30,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/skeleton.png', 'exp':140},
-    {'name':'Admirial Amphibian', 'hp':350,'atk':40,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/admirial_amphibian.png', 'exp':300},
+    {'name':'Brohg', 'hp':350,'atk':40,'defense':10,'matk':5,'coins':250,'item_drops':[1], 'image':'../images/enemies/brohg.png', 'exp':300},
     {'name':'Spirit', 'hp':500,'atk':45,'defense':30,'matk':45,'coins':500,'item_drops':[7], 'image':'../images/enemies/spirit.png', 'exp':450},
     {'name':'Gargoyle', 'hp':800,'atk':50,'defense':40,'matk':25,'coins':700,'item_drops':[7], 'image':'../images/enemies/gargoyle.png', 'exp':650},
     {'name':'Wood Golem', 'hp':1000,'atk':60,'defense':50,'matk':0,'coins':1000,'item_drops':[3], 'image':'../images/enemies/wood_golem.png', 'exp':800},

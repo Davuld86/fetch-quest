@@ -5,11 +5,8 @@ import asyncio
 
 # Remote library imports
 from flask import request, session, make_response, jsonify
-from flask_socketio import SocketIO
 from flask_restful import Resource
 from difflib import SequenceMatcher
-
-
 
 
 # Local imports
@@ -377,4 +374,4 @@ api.add_resource(JobMoves, '/api/moves/<string:job>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-
+    socketio.run(app, debug=True)

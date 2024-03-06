@@ -40,7 +40,6 @@ export default function ChatContainer({inbox}) {
             }).then(()=>{
                 let f = user.chats.filter((chat)=> chat.owner_id != inbox.owner_id)
                 f= [inbox, ...f]
-                console.log(f)
                 setUser({...user, chats:f})
 
             })

@@ -5,8 +5,7 @@ GAME:
     click on player and add friend/ goto house/ message
 
 MESSAGES:
-    fix messages
-    open and close inboxes
+
 
 WEBSOCKET:
     add to GAME

@@ -125,8 +125,8 @@ class Character(db.Model, SerializerMixin):
     defense = db.Column(db.Integer, default =20)
     level = db.Column(db.Integer, default=1)
     exp = db.Column(db.Integer, default=0)
-    x = db.Column(db.Integer, default = 750)
-    y = db.Column(db.Integer, default = 580)
+    x = db.Column(db.Integer, default = 800)
+    y = db.Column(db.Integer, default = 550)
     area = db.Column(db.String, default = 'plaza')
     equipment = db.relationship('Equipment', backref='character')
 
