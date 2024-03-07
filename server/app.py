@@ -7,10 +7,10 @@ import asyncio
 from flask import request, session, make_response, jsonify
 from flask_restful import Resource
 from difflib import SequenceMatcher
-
+from flask_socketio import emit
 
 # Local imports
-from config import app, db, api
+from config import app, db, api, socketio
 
 # Add your model imports
 from models import *
@@ -339,6 +339,15 @@ class JobMoves(Resource):
             return [move.to_dict() for move in moves], 200
         return {'error':'moves not found'}
 
+
+@socketio.on("connect")
+def connected():
+    """event listener when client connects to the server"""
+    print(f'requestID: {request.sid}')
+    print("client has connected")
+    emit("connected",{"data":f"id: {request.sid} is connected"})
+
+
 # Views
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')
 api.add_resource(SignUp, '/api/signup')
@@ -373,5 +382,5 @@ api.add_resource(JobMoves, '/api/moves/<string:job>')
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    socketio.run(app,port=5555, debug=True)
 

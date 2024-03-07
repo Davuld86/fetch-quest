@@ -26,6 +26,17 @@ import FunitureShop from "./FurnitureShop";
 import PotionShop from "./PotionShop";
 import ClothesShop from "./ClothesShop";
 import { charDefault, userDefault } from "./default";
+import {io} from 'socket.io-client'
+
+
+const socket = io('http://127.0.0.1:5555/', {
+  transports: ["websocket"],
+  cors: {
+    origin: "http://localhost:3000/",
+  },
+})
+
+export const SocketContext = createContext(socket)
 
 export const UserContext = createContext(null);
 export const FriendContext = createContext(false);
@@ -39,13 +50,33 @@ function App() {
     useEffect(()=>{
         fetch("/api/check_session").then((r) => {
             if (r.ok) {
-              r.json().then((user) => {setUser(user); setCharacter(user.character[0])});
+              r.json().then((user) => {setUser(user); setCharacter(user.character[0])})
             }
             else{
                 return (null)
             }
           })
     },[])
+
+    useEffect(()=>{
+
+      socket.on("connected", (data) => {
+        console.log(data);
+      })
+
+      return function cleanup() {
+        socket.disconnect();
+      }
+    },[socket])
+
+
+
+
+
+
+
+
+
   return(
     <Fragment>
     <BrowserRouter>
