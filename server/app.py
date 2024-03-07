@@ -374,4 +374,4 @@ api.add_resource(JobMoves, '/api/moves/<string:job>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-    socketio.run(app, debug=True)
+

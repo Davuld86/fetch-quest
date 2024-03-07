@@ -1,6 +1,6 @@
 export const userDefault ={
     "coins": 0,
-    "id": 1,
+    "id": null,
     "username": "User",
     'character':[{"user_id": 1,
     "max_mp": 100,

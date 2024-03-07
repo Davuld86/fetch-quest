@@ -32,7 +32,7 @@ export const FriendContext = createContext(false);
 export const CharacterContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(userDefault)
+  const [user, setUser] = useState(null)
   const [character, setCharacter] = useState(charDefault)
   const [friends, toggleFriends] = useState(false)
 

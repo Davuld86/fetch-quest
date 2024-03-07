@@ -11,7 +11,7 @@ export default function Messages() {
     const [inbox, setBox] = useState({id:0, inbox_owner:{username:''}})
 
     useEffect(()=>{
-        if(user.chats){
+        if(user){
             setBox((box)=> box=user.chats[0])
         }
      },[])
@@ -27,13 +27,12 @@ export default function Messages() {
             method: 'DELETE'
         })
     }
-
-     return (
-
+    if(user){
+         return (
         <div style={{display:'flex'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <h2>Direct Messages</h2>
-                    {user.chats?user.chats.map((chat)=> <Inbox key={chat.owner_id} chat={chat} setBox={setBox} removeBox={removeBox}/>):null}
+                    {user.chats[0]?user.chats.map((chat)=> <Inbox key={chat.owner_id} chat={chat} setBox={setBox} removeBox={removeBox}/>):null}
                 </div>
             <div style={{marginLeft:'20px'}}>
                 <h2>Messages</h2>
@@ -42,6 +41,8 @@ export default function Messages() {
 
         </div>
       )
+    }
+
 }
 
 

@@ -13,11 +13,11 @@ export default function Inbox({chat, setBox, removeBox}) {
     })
  },[])
   return (
-    <div className='inbox' onClick={()=>setBox(chat)}>
-    <div style={{display:'flex'}}>
+    <div className='inbox'>
+    <div onClick={()=>setBox(chat)} style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
        <img src={data.pfp}/>
     <h4>{data.username}</h4>
-    <button onClick={()=>removeBox(chat.owner_id)}>X</button>
+    <button style={{height:'25px', marginRight:'5px'}} onClick={()=>removeBox(chat.owner_id)}>X</button>
     </div>
     <p style={{marginTop:'-2px', marginBottom:'3px'}}>{data.recentMsg.length<=19?data.recentMsg:data.recentMsg.slice(0,16)+'...'}</p>
     </div>

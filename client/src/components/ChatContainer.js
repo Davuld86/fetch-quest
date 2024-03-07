@@ -8,12 +8,20 @@ export default function ChatContainer({inbox}) {
     const [msg, setMsg]= useState('')
 
     useEffect(()=>{
-        fetch(`/api/messages`)
+        if (inbox){
+             fetch(`/api/messages`)
         .then((res)=>{
           if(res.ok){
-            res.json().then((d)=>{setMessages(d.filter((message=> (message.sent_from==user.id && message.sent_to==inbox.owner_id)||(message.sent_to ==user.id && message.sent_from==inbox.owner_id))))})
+            res.json().then((d)=>{setMessages(d.filter(
+                (message=>
+                    (message.sent_from==user.id && message.sent_to==inbox.owner_id)
+                    ||
+                    (message.sent_to ==user.id && message.sent_from==inbox.owner_id)))
+                )})
           }
         })
+        }
+
      },[inbox])
 
 
@@ -56,20 +64,39 @@ export default function ChatContainer({inbox}) {
         })
     }
 
-
+if(inbox){
     return (
     <div className='chat-container'>
-        <h3>Chat with {inbox.inbox_owner.username}</h3>
+        <h3>{inbox.inbox_owner.username==''? 'No inboxes':`Chat with ${inbox.inbox_owner.username}`}</h3>
         <div className='message-history'>
 
         {messages? messages.map((message)=> <Message key={message.id} handleDelete={handleDelete} message={message}/>):<p>No messages</p>}
         </div>
+        {inbox.id==0?
         <div className='message-input'>
             <form onSubmit={(e)=>{e.preventDefault(); handleSubmit(); setMsg('')}}>
                 <input type='text' placeholder={`#message-${inbox.inbox_owner.username}`} onChange={(e)=>setMsg(e.target.value)} value={msg}/>
                 <button type='submit'>⬆️</button>
             </form>
+
         </div>
+        :null
+        }
     </div>
   )
+}
+else{
+    return(
+        <div className='chat-container'>
+        <h3> No inboxes</h3>
+        <div className='message-history'>
+
+        {messages? messages.map((message)=> <Message key={message.id} handleDelete={handleDelete} message={message}/>):<p>No messages</p>}
+        </div>
+        <div className='message-input'>
+        </div>
+    </div>
+    )
+}
+
 }
