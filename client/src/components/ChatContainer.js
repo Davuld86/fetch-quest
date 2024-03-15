@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Message from './Message'
 import { SocketContext, UserContext } from './App'
+import MessageHistory from './MessageHistory'
 
 
 export default function ChatContainer({inbox}) {
@@ -8,6 +9,7 @@ export default function ChatContainer({inbox}) {
     const [user, setUser]= useContext(UserContext)
     const [messages, setMessages] = useState([])
     const [msg, setMsg]= useState('')
+
 
     useEffect(()=>{
         if (inbox){
@@ -27,8 +29,8 @@ export default function ChatContainer({inbox}) {
 
      useEffect(() => {
         socket.on("message", (data) => {
-            setMessages([...messages, data])
-            console.log(document.getElementsByClassName('message-history').scrollHeight)
+            setMessages(()=>[...messages, data])
+
         })
         return () => {
           socket.off("message", () => {
@@ -38,19 +40,14 @@ export default function ChatContainer({inbox}) {
 
       }, [socket, messages])
 
-      const messagesEnd = useRef(null)
-      useEffect(()=>{
-          scrollToBottom()
-      },[messages])
 
-      function scrollToBottom(){
-          messagesEnd.current.scrollIntoView({ behavior: "smooth" })
-        }
+      useEffect(()=>{
+
+      },[messages])
 
     function handleSubmit(){
         let m=msg.trim()
         if (msg==''){
-            console.log('nothing inputted')
         }
         else{
             socket.emit('message', {sent_from : user.id,
@@ -78,10 +75,8 @@ if(inbox){
     return (
     <div className='chat-container'>
         <h3>{inbox.inbox_owner.username==''? 'No inboxes':`Chat with ${inbox.inbox_owner.username}`}</h3>
-        <div  className='message-history'>
-        {messages? messages.map((message)=> <Message key={message.id} handleDelete={handleDelete} message={message}/>):<p>No messages</p>}
-        </div>
-        <div ref={messagesEnd}/>
+        <MessageHistory messages={messages} handleDelete={handleDelete}/>
+
         {inbox.id!=0?
         <div className='message-input'>
             <form onSubmit={(e)=>{e.preventDefault(); handleSubmit(); setMsg('')}}>
