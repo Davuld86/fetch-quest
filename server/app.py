@@ -347,6 +347,56 @@ def connected():
     print("client has connected")
     emit("connected",{"data":f"id: {request.sid} is connected"})
 
+@socketio.on("login")
+def handle_login(data):
+    '''listener when client logs in'''
+    print(f'requestID: {request.sid} logged in as {str(data)}')
+    print(str(data))
+    emit("data",{'data':data,'id':request.sid},broadcast=True)
+
+@socketio.on('message')
+
+def handle_message(data):
+    print(str(data))
+    message = Message(
+                sent_to = data['sent_to'],
+                sent_from = data['sent_from'],
+                content = data['content'],
+            )
+    sender = User.query.filter(User.id==data['sent_from']).first()
+    user = User.query.filter(User.id == data['sent_to']).first()
+
+    sender_inbox = Inbox.query.filter(Inbox.user_id== data['sent_from'] and Inbox.owner_id==data['sent_to']).first()
+    inbox = Inbox.query.filter(Inbox.user_id== data['sent_to'] and Inbox.owner_id==data['sent_from']).first()
+
+    sender.chats.remove(sender_inbox)
+    sender.chats.insert(0,sender_inbox)
+    if inbox in user.chats:
+        user.chats.remove(inbox)
+        user.chats.insert(0,inbox)
+    else:
+        new_box = Inbox(
+        user_id = data['sent_to'],
+        owner_id = data['sent_from']
+                )
+        db.session.add(new_box)
+    db.session.add(message)
+    db.session.commit()
+    emit("message",message.to_dict(),broadcast=True)
+
+@socketio.on("move")
+def handle_move(data):
+    print(str(data))
+    emit("data",{'data':data,'id':request.sid},broadcast=True)
+
+@socketio.on('join_server')
+def join_server(data):
+    print(str(data))
+
+@socketio.on("all_chat")
+def handle_all_chat(data):
+    print(f'requestID: {request.sid} says: {str(data)}')
+    emit("data",{'data':data,'id':request.sid},broadcast=True)
 
 # Views
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')

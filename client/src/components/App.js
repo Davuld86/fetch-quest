@@ -80,6 +80,7 @@ function App() {
   return(
     <Fragment>
     <BrowserRouter>
+    <SocketContext.Provider value = {socket}>
     <UserContext.Provider value={[user, setUser]}>
     <FriendContext.Provider value={[friends, toggleFriends]}>
     <CharacterContext.Provider value={[character, setCharacter]}>
@@ -116,6 +117,7 @@ function App() {
       </CharacterContext.Provider>
       </FriendContext.Provider>
       </UserContext.Provider>
+      </SocketContext.Provider>
     </BrowserRouter>
 
     </Fragment>

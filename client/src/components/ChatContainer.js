@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Message from './Message'
-import { UserContext } from './App'
+import { SocketContext, UserContext } from './App'
+
 
 export default function ChatContainer({inbox}) {
+    const socket = useContext(SocketContext)
     const [user, setUser]= useContext(UserContext)
     const [messages, setMessages] = useState([])
     const [msg, setMsg]= useState('')
@@ -21,9 +23,29 @@ export default function ChatContainer({inbox}) {
           }
         })
         }
-
      },[inbox])
 
+     useEffect(() => {
+        socket.on("message", (data) => {
+            setMessages([...messages, data])
+            console.log(document.getElementsByClassName('message-history').scrollHeight)
+        })
+        return () => {
+          socket.off("message", () => {
+            console.log("data event was removed");
+          })
+        }
+
+      }, [socket, messages])
+
+      const messagesEnd = useRef(null)
+      useEffect(()=>{
+          scrollToBottom()
+      },[messages])
+
+      function scrollToBottom(){
+          messagesEnd.current.scrollIntoView({ behavior: "smooth" })
+        }
 
     function handleSubmit(){
         let m=msg.trim()
@@ -31,28 +53,16 @@ export default function ChatContainer({inbox}) {
             console.log('nothing inputted')
         }
         else{
-            fetch('/api/send_message',{
-                method:'POST',
-                headers:{
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify({
-                    sent_from : user.id,
-                    sent_to : inbox.owner_id,
-                    content : m,
-                })
-            }).then((res)=>{
-                if(res.ok){
-                   res.json().then((d)=> {setMessages([...messages,d])})
-                }
-            }).then(()=>{
+            socket.emit('message', {sent_from : user.id,
+                sent_to : inbox.owner_id,
+                content : m,})
                 let f = user.chats.filter((chat)=> chat.owner_id != inbox.owner_id)
                 f= [inbox, ...f]
                 setUser({...user, chats:f})
-
-            })
         }
     }
+
+
 
     function handleDelete(message_id){
         fetch(`/api/delete_message/${message_id}`,{
@@ -68,11 +78,11 @@ if(inbox){
     return (
     <div className='chat-container'>
         <h3>{inbox.inbox_owner.username==''? 'No inboxes':`Chat with ${inbox.inbox_owner.username}`}</h3>
-        <div className='message-history'>
-
+        <div  className='message-history'>
         {messages? messages.map((message)=> <Message key={message.id} handleDelete={handleDelete} message={message}/>):<p>No messages</p>}
         </div>
-        {inbox.id==0?
+        <div ref={messagesEnd}/>
+        {inbox.id!=0?
         <div className='message-input'>
             <form onSubmit={(e)=>{e.preventDefault(); handleSubmit(); setMsg('')}}>
                 <input type='text' placeholder={`#message-${inbox.inbox_owner.username}`} onChange={(e)=>setMsg(e.target.value)} value={msg}/>
@@ -89,12 +99,6 @@ else{
     return(
         <div className='chat-container'>
         <h3> No inboxes</h3>
-        <div className='message-history'>
-
-        {messages? messages.map((message)=> <Message key={message.id} handleDelete={handleDelete} message={message}/>):<p>No messages</p>}
-        </div>
-        <div className='message-input'>
-        </div>
     </div>
     )
 }

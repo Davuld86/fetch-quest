@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LoginForm from './LoginForm'
 import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
-import { FriendContext, UserContext } from './App'
+import { FriendContext, SocketContext, UserContext } from './App'
 
 
 export default function LoggedInCont() {
+const socket = useContext(SocketContext)
 const [user, setUser] = useContext(UserContext)
 const [friends, toggleFriends] = useContext(FriendContext)
 const [loginForm,toggleLoginForm ] = useState(false)
@@ -12,7 +13,21 @@ const [dropdown, toggleDropDown] = useState(false)
 const [logout, toggleLogout] = useState(false)
 
 
+
+useEffect(()=>{
+
+    socket.on('login', (data) => {
+      console.log(data);
+    })
+
+    return function cleanup() {
+      socket.disconnect();
+    }
+  },[socket])
+
+
 function handleLogin(formData){
+    socket.emit('login', {username: formData.username,password: formData.password})
     fetch('/api/login', {
         method:'POST',
         headers:{
