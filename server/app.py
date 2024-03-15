@@ -355,9 +355,7 @@ def handle_login(data):
     emit("data",{'data':data,'id':request.sid},broadcast=True)
 
 @socketio.on('message')
-
 def handle_message(data):
-    print(str(data))
     message = Message(
                 sent_to = data['sent_to'],
                 sent_from = data['sent_from'],
@@ -383,6 +381,14 @@ def handle_message(data):
     db.session.add(message)
     db.session.commit()
     emit("message",message.to_dict(),broadcast=True)
+
+
+@socketio.on('delete_message')
+def handle_delete(data):
+    message = Message.query.filter(Message.id == data['id']).first()
+    db.session.delete(message)
+    db.session.commit()
+    emit("delete_message",data,broadcast=True)
 
 @socketio.on("move")
 def handle_move(data):

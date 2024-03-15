@@ -32,8 +32,12 @@ export default function ChatContainer({inbox}) {
             setMessages(()=>[...messages, data])
 
         })
+
+        socket.on('delete_message',(data)=>{
+            setMessages(messages.filter((message)=> message.id != data.id))
+        })
         return () => {
-          socket.off("message", () => {
+          socket.off("data", () => {
             console.log("data event was removed");
           })
         }
@@ -59,16 +63,8 @@ export default function ChatContainer({inbox}) {
         }
     }
 
-
-
     function handleDelete(message_id){
-        fetch(`/api/delete_message/${message_id}`,{
-            method: 'DELETE',
-        }).then((res)=>{
-            if(res.ok){
-                setMessages(messages.filter((message)=> message.id != message_id))
-            }
-        })
+        socket.emit('delete_message', {id:message_id})
     }
 
 if(inbox){
