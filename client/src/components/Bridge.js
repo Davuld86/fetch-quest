@@ -21,9 +21,9 @@ export default function Bridge() {
     if(char){
       return (
         <div>
-            <OWEnemy positionX={230} positionY={600} flip={true} enemy_id='4'/>
-            <OWEnemy positionX={150} positionY={215} flip={true} enemy_id='5'/>
-            <OWEnemy positionX={1260} positionY={300} enemy_id='3'/>
+            <OWEnemy positionX={230} positionY={600} flip={true} enemy_id='slime'/>
+            <OWEnemy positionX={150} positionY={215} flip={true} enemy_id='brohg'/>
+            <OWEnemy positionX={1260} positionY={300} enemy_id='slime'/>
             <ScreenTrigger link ={'/game/forest'} width={300} height={100} x={390} y={80} char={char} setChar={setChar} xPos={780} yPos={580} />
             <ScreenTrigger link ={'/game/crystal-cave'} width={200} height={200} x={1350} y={550} char={char} setChar={setChar} xPos={260} yPos={270} />
             <Game char={char} setChar={setChar} area='bridge'/>

@@ -339,6 +339,12 @@ class JobMoves(Resource):
             return [move.to_dict() for move in moves], 200
         return {'error':'moves not found'}
 
+class Server(Resource):
+    def get(self):
+        users = GameServer.query.all()
+        if users:
+            return [user.to_dict() for user in users], 200
+        return {'error': 'no users in server'}, 401
 
 @socketio.on("connect")
 def connected():
@@ -346,13 +352,6 @@ def connected():
     print(f'requestID: {request.sid}')
     print("client has connected")
     emit("connected",{"data":f"id: {request.sid} is connected"})
-
-@socketio.on("login")
-def handle_login(data):
-    '''listener when client logs in'''
-    print(f'requestID: {request.sid} logged in as {str(data)}')
-    print(str(data))
-    emit("data",{'data':data,'id':request.sid},broadcast=True)
 
 @socketio.on('message')
 def handle_message(data):
@@ -398,6 +397,11 @@ def handle_move(data):
 @socketio.on('join_server')
 def join_server(data):
     print(str(data))
+    emit('join_server', data, broadcast=True)
+
+@socketio.on('leave_server')
+def join_server(data):
+    print(str(data))
 
 @socketio.on("all_chat")
 def handle_all_chat(data):
@@ -435,6 +439,8 @@ api.add_resource(EnemyId, '/api/enemy/<int:enemy_id>')
 api.add_resource(EnemyName, '/api/enemy/<string:name>')
 
 api.add_resource(JobMoves, '/api/moves/<string:job>')
+api.add_resource(Server, '/api/server_status')
+
 
 
 if __name__ == '__main__':

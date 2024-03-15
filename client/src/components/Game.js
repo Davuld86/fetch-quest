@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import GameCharacter from './GameCharacter';
 import './Game.css'
+import { SocketContext } from './App';
 
 export default function Game({char, setChar, area ='plaza'}) {
+    const socket = useContext(SocketContext)
     const [characterPosition, setCharacterPosition] = useState({ x: char.x, y: char.y })
     const [flip, setFlip] = useState(false)
     const [show, setShow] = useState(true)
@@ -10,6 +12,29 @@ export default function Game({char, setChar, area ='plaza'}) {
     const [displayedText, setDisplayedText] = useState('');
     let Filter = require('bad-words')
     let filter = new Filter()
+
+    useEffect(()=>{
+      socket.emit('join_server', {user_id:char.user_id})
+    },[])
+
+    useEffect(()=>{
+      socket.on('join_server',(data) => {
+        console.log(data)
+      })
+
+      socket.on('leave_server',(data) => {
+        console.log(data)
+      })
+
+      socket.on('all_chat', (data)=>{
+        console.log(data)
+      })
+
+      return function cleanup() {
+        socket.disconnect()
+      }
+
+    },[socket, displayedText])
 
 
     useEffect(() => {
@@ -20,6 +45,7 @@ export default function Game({char, setChar, area ='plaza'}) {
         return () => clearTimeout(timer);
       }
     }, [displayedText])
+
 
 
 
@@ -41,15 +67,24 @@ export default function Game({char, setChar, area ='plaza'}) {
       })
     }
 
-
-
     function handleInputChange(event){
       setTextInput(event.target.value);
     }
 
     function handleInputSubmit(){
-      setDisplayedText(filter.clean(textInput));
-      setTextInput('');
+      if(textInput!=''){
+        try{
+          setDisplayedText(filter.clean(textInput.toString()))
+          setTextInput('')
+        }
+        catch{
+          console.log('emoticon')
+          setDisplayedText(textInput.toString())
+          setTextInput('')
+        }
+
+      }
+
     }
 
     return (
@@ -62,6 +97,7 @@ export default function Game({char, setChar, area ='plaza'}) {
           style={{ backgroundImage: `url(../images/areas/${area==''?'plaza':area}.png)`, backgroundSize: 'cover' }}
         ></canvas>
         <GameCharacter position={characterPosition} message={displayedText} show ={show} flip={flip}/>
+
         <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>
           <input

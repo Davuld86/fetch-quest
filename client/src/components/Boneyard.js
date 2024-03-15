@@ -20,7 +20,7 @@ export default function Boneyard() {
     if(char){
       return (
         <div>
-            <OWEnemy positionX={450} positionY={400} enemy_id='4' size={130} flip={true}/>
+            <OWEnemy positionX={370} positionY={310} enemy_id='gargoyle' size={250} flip={true}/>
             <ScreenTrigger link ={'/game/graveyard'} width={100} height={200} x={1480} y={475} xPos={300} yPos={220} />
             <Game char={char} setChar={setChar} area='boneyard'/>
         </div>

@@ -7,7 +7,7 @@ from datetime import datetime
 from config import db, bcrypt
 from enum import Enum
 
-# Models go here!
+
 messages_association = db.Table('messages_association',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
     db.Column('message_id', db.Integer, db.ForeignKey('messages.id'), primary_key=True)
@@ -188,9 +188,6 @@ class Base(db.Model, SerializerMixin):
     furniture_2 = db.relationship('Item', foreign_keys=[furniture_2_id])
     furniture_3 = db.relationship('Item', foreign_keys=[furniture_3_id])
 
-
-
-
 class Move(db.Model, SerializerMixin):
     __tablename__ = 'moves'
 
@@ -204,5 +201,10 @@ class Move(db.Model, SerializerMixin):
     base = db.Column(db.Integer)
     cost = db.Column(db.Integer)
 
+class GameServer(db.Model, SerializerMixin):
+    __tablename__ = 'game_server'
 
-
+    serialize_only = ('id', 'user.character')
+    id = db.Column(db.Integer, primary_key=True)
+    user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')

@@ -67,3 +67,9 @@
     height: 50px;
 
 }
+
+.message-content{
+    font-size: medium;
+    margin-top: -10px;
+    font-family: cursive;
+}

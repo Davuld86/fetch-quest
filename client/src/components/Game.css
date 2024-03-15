@@ -51,12 +51,15 @@
     padding: 2px;
     border: 5px solid black;
     padding:10px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.807);
     border-radius: 5px;
     transform: translateY(-50%) translateX(+75%);
     z-index: 10;
 }
 
+.enemy-menu button{
+    margin:4px;
+}
 
 .message-box{
 z-index: 6;
@@ -95,11 +98,13 @@ margin-bottom: 28px;
     height: max-content;
     margin-bottom: -10px;
     background-color: white;
+    z-index: 9;
 }
 
 .textBubble p {
     padding: 5%;
     word-wrap: break-word;
+
 }
 
 .merchant:hover{

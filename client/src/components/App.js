@@ -13,7 +13,6 @@ import Messages from "./Messages";
 import Account from "./Account";
 import EditCharacter from "./EditCharacter";
 import Shop from "./Shop";
-import Game from "./Game";
 import TreeHouse from "./TreeHouse";
 import Plaza from "./Plaza";
 import Graveyard from "./Graveyard";
@@ -59,22 +58,13 @@ function App() {
     },[])
 
     useEffect(()=>{
-
       socket.on("connected", (data) => {
-        console.log(data);
       })
 
       return function cleanup() {
         socket.disconnect();
       }
     },[socket])
-
-
-
-
-
-
-
 
 
   return(
