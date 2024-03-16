@@ -204,7 +204,7 @@ class Move(db.Model, SerializerMixin):
 class GameServer(db.Model, SerializerMixin):
     __tablename__ = 'game_server'
 
-    serialize_only = ('id', 'user.character')
+    serialize_only = ('id', 'user.character','user.username', 'user.id')
     id = db.Column(db.Integer, primary_key=True)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User')

@@ -29,7 +29,12 @@ export default function ChatContainer({inbox}) {
 
      useEffect(() => {
         socket.on("message", (data) => {
-            setMessages(()=>[...messages, data])
+            if((data.sent_from==user.id && data.sent_to==inbox.owner_id)
+            ||
+            (data.sent_to ==user.id && data.sent_from==inbox.owner_id)){
+               setMessages(()=>[...messages,data])
+            }
+
 
         })
 
@@ -79,7 +84,6 @@ if(inbox){
                 <input type='text' placeholder={`#message-${inbox.inbox_owner.username}`} onChange={(e)=>setMsg(e.target.value)} value={msg}/>
                 <button type='submit'>⬆️</button>
             </form>
-
         </div>
         :null
         }

@@ -60,6 +60,9 @@ function App() {
     useEffect(()=>{
       socket.on("connected", (data) => {
       })
+      socket.on("disconnected", (data) => {
+        console.log(data)
+      })
 
       return function cleanup() {
         socket.disconnect();

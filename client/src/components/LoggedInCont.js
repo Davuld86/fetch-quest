@@ -49,6 +49,7 @@ function handleLogin(formData){
 }
 
 function handleLogout(){
+    socket.emit('disconnected', {user_id:user.id, username:user.username})
     fetch('/api/logout',{
         method:'DELETE',
         headers:{

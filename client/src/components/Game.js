@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import GameCharacter from './GameCharacter';
 import './Game.css'
 import { SocketContext } from './App';
+import Player from './Player';
 
 export default function Game({char, setChar, area ='plaza'}) {
     const socket = useContext(SocketContext)
@@ -10,6 +11,9 @@ export default function Game({char, setChar, area ='plaza'}) {
     const [show, setShow] = useState(true)
     const [textInput, setTextInput] = useState('');
     const [displayedText, setDisplayedText] = useState('');
+    const [loaded, setLoaded] = useState(false)
+    const [players, setPlayers] = useState([])
+
     let Filter = require('bad-words')
     let filter = new Filter()
 
@@ -18,8 +22,18 @@ export default function Game({char, setChar, area ='plaza'}) {
     },[])
 
     useEffect(()=>{
+      fetch('/api/server_status').then((res)=>{
+        if(res.ok){
+          res.json()
+          .then((d)=>setPlayers(d.filter((player)=>player.user.character[0].area===area&& player.user.id!=char.user_id)))
+          .then(setLoaded(true))
+        }
+    })
+    },[])
+
+    useEffect(()=>{
       socket.on('join_server',(data) => {
-        console.log(data)
+        setPlayers([...players,data])
       })
 
       socket.on('leave_server',(data) => {
@@ -30,12 +44,23 @@ export default function Game({char, setChar, area ='plaza'}) {
         console.log(data)
       })
 
-      return function cleanup() {
-        socket.disconnect()
+      socket.on('moved', (data)=>{
+        let p = players.filter((player)=> player.user.id!=data.user.id && player.user.id!=char.user_id)
+        let d = [...p, data]
+        if(data.user.id != char.user_id){
+          setPlayers(d.filter((player)=>player.user.character[0].area===area&& player.user.id!=char.user_id))
+        }
+        else{
+
+        }
+      })
+
+      return () => {
+        socket.off("data", () => {
+          console.log("data event was removed");
+        })
       }
-
-    },[socket, displayedText])
-
+    },[socket, displayedText, players])
 
     useEffect(() => {
       if (displayedText) {
@@ -45,8 +70,6 @@ export default function Game({char, setChar, area ='plaza'}) {
         return () => clearTimeout(timer);
       }
     }, [displayedText])
-
-
 
 
     function handleCanvasClick(event){
@@ -65,6 +88,7 @@ export default function Game({char, setChar, area ='plaza'}) {
         y:characterPosition.y,
         area: area
       })
+      socket.emit('move',{user_id:char.user_id, x: char.x, y:char.y,area:char.area})
     }
 
     function handleInputChange(event){
@@ -78,7 +102,6 @@ export default function Game({char, setChar, area ='plaza'}) {
           setTextInput('')
         }
         catch{
-          console.log('emoticon')
           setDisplayedText(textInput.toString())
           setTextInput('')
         }
@@ -94,9 +117,11 @@ export default function Game({char, setChar, area ='plaza'}) {
           className="game-canvas"
           width={1500}
           height={720}
-          style={{ backgroundImage: `url(../images/areas/${area==''?'plaza':area}.png)`, backgroundSize: 'cover' }}
+          style={{backgroundImage: `url(../images/areas/${area==''?'plaza':area}.png)`, backgroundSize: 'cover' }}
         ></canvas>
+
         <GameCharacter position={characterPosition} message={displayedText} show ={show} flip={flip}/>
+        {players&&loaded?players.map((player)=><Player key={player.id} player={player}/>):null}
 
         <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>

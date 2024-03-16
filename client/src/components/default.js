@@ -16,8 +16,8 @@ export const userDefault ={
     "id": 17,
     "level": 8,
     "max_hp": 100,
-    "y": 750,
-    "x": 450,
+    "y": 630,
+    "x": 800,
     "mp": 157}]
 }
 

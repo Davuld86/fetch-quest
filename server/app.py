@@ -349,9 +349,15 @@ class Server(Resource):
 @socketio.on("connect")
 def connected():
     """event listener when client connects to the server"""
-    print(f'requestID: {request.sid}')
-    print("client has connected")
+    print(f'requestID: {request.sid} has connected')
     emit("connected",{"data":f"id: {request.sid} is connected"})
+
+@socketio.on('disconnect')
+def disconnected(data):
+    print(f'requestID: {request.sid} has left')
+    print(f'user: {data.username} has left')
+    emit('disconnected',{'data':f'id{request.sid} is disconnected'})
+
 
 @socketio.on('message')
 def handle_message(data):
@@ -391,13 +397,26 @@ def handle_delete(data):
 
 @socketio.on("move")
 def handle_move(data):
-    print(str(data))
-    emit("data",{'data':data,'id':request.sid},broadcast=True)
+    user = GameServer.query.filter(GameServer.user_id==data['user_id']).first()
+    character = Character.query.filter(Character.user_id==data['user_id']).first()
+    for attribute in data:
+        setattr(character,attribute,data[attribute])
+    db.session.add(character)
+    db.session.commit()
+    emit("moved",user.to_dict(),broadcast=True)
 
 @socketio.on('join_server')
 def join_server(data):
-    print(str(data))
-    emit('join_server', data, broadcast=True)
+    check_user = GameServer.query.filter(GameServer.user_id==data['user_id']).first()
+    if check_user:
+        print(data)
+    else:
+        serv = GameServer(
+            user_id = data['user_id']
+        )
+        db.session.add(serv)
+        db.session.commit()
+        emit('join_server',serv.to_dict(), broadcast=True)
 
 @socketio.on('leave_server')
 def join_server(data):

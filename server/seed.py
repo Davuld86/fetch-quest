@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import app, db
-from models import Message, Inbox, Friend, Item, Enemy, Move
+from models import *
 
 msg = [
         {'user_id':1, 'inbox_id':1 , 'content':'hi'},
@@ -87,7 +87,47 @@ if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        Item.query.delete()
+
+
+        Inbox.query.delete()
+        Message.query.delete()
+        db.session.query(GameServer).delete()
+        db.session.commit()
+
+        '''Message.query.delete()
+        Inbox.query.delete()
+
+        Friend.query.delete()
+        for friend in friends:
+            new_friend = Friend(
+                user_id_1 = friend['user_id_1'],
+                user_id_2 = friend['user_id_2'],
+                status= friend['status']
+            )
+            db.session.add(new_friend)
+            print(new_friend)
+        db.session.commit()
+
+
+        db.session.commit()
+        for box in inbox:
+            new_box = Inbox(
+                user_id = box['user_id'],
+                sender_id = box['sender_id']
+            )
+            db.session.add(new_box)
+        db.session.commit()
+        for message in msg:
+            new_message = Message(
+                user_id = message['user_id'],
+                inbox_id = message['inbox_id'],
+                content = message['content']
+            )
+            db.session.add(new_message)
+            db.session.commit()
+
+
+             Item.query.delete()
         for item in items:
             new_item = Item(
                 name = item['name'],
@@ -129,41 +169,6 @@ if __name__ == '__main__':
             )
             db.session.add(new_move)
         db.session.commit()
-
-        Inbox.query.delete()
-        Message.query.delete()
-
-        '''Message.query.delete()
-        Inbox.query.delete()
-
-        Friend.query.delete()
-        for friend in friends:
-            new_friend = Friend(
-                user_id_1 = friend['user_id_1'],
-                user_id_2 = friend['user_id_2'],
-                status= friend['status']
-            )
-            db.session.add(new_friend)
-            print(new_friend)
-        db.session.commit()
-
-
-        db.session.commit()
-        for box in inbox:
-            new_box = Inbox(
-                user_id = box['user_id'],
-                sender_id = box['sender_id']
-            )
-            db.session.add(new_box)
-        db.session.commit()
-        for message in msg:
-            new_message = Message(
-                user_id = message['user_id'],
-                inbox_id = message['inbox_id'],
-                content = message['content']
-            )
-            db.session.add(new_message)
-            db.session.commit()
 '''
 
 
