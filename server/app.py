@@ -353,9 +353,8 @@ def connected():
     emit("connected",{"data":f"id: {request.sid} is connected"})
 
 @socketio.on('disconnect')
-def disconnected(data):
+def disconnected():
     print(f'requestID: {request.sid} has left')
-    print(f'user: {data.username} has left')
     emit('disconnected',{'data':f'id{request.sid} is disconnected'})
 
 
@@ -408,9 +407,7 @@ def handle_move(data):
 @socketio.on('join_server')
 def join_server(data):
     check_user = GameServer.query.filter(GameServer.user_id==data['user_id']).first()
-    if check_user:
-        print(data)
-    else:
+    if not check_user:
         serv = GameServer(
             user_id = data['user_id']
         )
@@ -424,8 +421,7 @@ def join_server(data):
 
 @socketio.on("all_chat")
 def handle_all_chat(data):
-    print(f'requestID: {request.sid} says: {str(data)}')
-    emit("data",{'data':data,'id':request.sid},broadcast=True)
+    emit("all_chat",{'data':data,'id':request.sid},broadcast=True)
 
 # Views
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')

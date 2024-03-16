@@ -11,8 +11,10 @@ export default function Game({char, setChar, area ='plaza'}) {
     const [show, setShow] = useState(true)
     const [textInput, setTextInput] = useState('');
     const [displayedText, setDisplayedText] = useState('');
+
     const [loaded, setLoaded] = useState(false)
     const [players, setPlayers] = useState([])
+    const [chats, setChat] = useState([])
 
     let Filter = require('bad-words')
     let filter = new Filter()
@@ -41,7 +43,9 @@ export default function Game({char, setChar, area ='plaza'}) {
       })
 
       socket.on('all_chat', (data)=>{
-        console.log(data)
+
+        setChat([...chats,data])
+
       })
 
       socket.on('moved', (data)=>{
@@ -49,9 +53,6 @@ export default function Game({char, setChar, area ='plaza'}) {
         let d = [...p, data]
         if(data.user.id != char.user_id){
           setPlayers(d.filter((player)=>player.user.character[0].area===area&& player.user.id!=char.user_id))
-        }
-        else{
-
         }
       })
 
@@ -62,6 +63,7 @@ export default function Game({char, setChar, area ='plaza'}) {
       }
     },[socket, displayedText, players])
 
+    //all chat message handling
     useEffect(() => {
       if (displayedText) {
         const timer = setTimeout(() => {
@@ -71,7 +73,35 @@ export default function Game({char, setChar, area ='plaza'}) {
       }
     }, [displayedText])
 
+    useEffect(() => {
+      if (chats[0]) {
+        const timer = setTimeout(() => {
+          setChat(chats.slice(1));
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }, [chats])
 
+    useEffect(()=>{},[players])
+
+    function handleInputSubmit(){
+      if(textInput!=''){
+        let txt = textInput
+        try{
+          txt = filter.clean(textInput)
+          setDisplayedText(filter.clean(textInput.toString()))
+          setTextInput('')
+        }
+        catch{
+          setDisplayedText(textInput.toString())
+          setTextInput('')
+        }
+
+        socket.emit('all_chat',{id: char.user_id, message: txt})
+      }
+    }
+
+//player move message handling
     function handleCanvasClick(event){
       const x = event.clientX - 75;
       const y = event.clientY - 25;
@@ -88,27 +118,14 @@ export default function Game({char, setChar, area ='plaza'}) {
         y:characterPosition.y,
         area: area
       })
-      socket.emit('move',{user_id:char.user_id, x: char.x, y:char.y,area:char.area})
+      socket.emit('move',{user_id:char.user_id, x: x, y: y,area:area})
     }
 
     function handleInputChange(event){
       setTextInput(event.target.value);
     }
 
-    function handleInputSubmit(){
-      if(textInput!=''){
-        try{
-          setDisplayedText(filter.clean(textInput.toString()))
-          setTextInput('')
-        }
-        catch{
-          setDisplayedText(textInput.toString())
-          setTextInput('')
-        }
 
-      }
-
-    }
 
     return (
         <div style={{display:'grid', justifyContent:'center', overflow:'hidden'}}>
@@ -121,9 +138,9 @@ export default function Game({char, setChar, area ='plaza'}) {
         ></canvas>
 
         <GameCharacter position={characterPosition} message={displayedText} show ={show} flip={flip}/>
-        {players&&loaded?players.map((player)=><Player key={player.id} player={player}/>):null}
+        {players&&loaded?players.map((player)=><Player key={player.id} player={player} chat={chats} setChat={setChat} />):null}
 
-        <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)' }}>
+        <div className='message-box' style={{ position: 'absolute', bottom: '0', left: '50%', transform: 'translateX(-50%)', zIndex:'11' }}>
           <form onSubmit={(e)=>{e.preventDefault(); handleInputSubmit()}}>
           <input
           type="text" value={textInput} onChange={handleInputChange} placeholder="Type here..."  className="text-input"  maxLength='140'

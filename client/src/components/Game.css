@@ -2,7 +2,7 @@
     border:5px solid black;
   }
 
-  .character {
+.character {
     transition: top 0.3s, left 0.3s;
     display: flex;
     flex-direction: column-reverse;
@@ -10,13 +10,22 @@
     max-height: 100px;
     max-width: 90px;
     border: none;
-
-
+    z-index: 10;
+}
+.other-players {
+    transition: top 0.3s, left 0.3s;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    max-height: 100px;
+    max-width: 90px;
+    border: none;
+    z-index: 9;
 }
 .char-img{
     max-width: 90px;
     max-height: 90px;
-    z-index: 2;
+    z-index: 7;
 }
 
 .shadow{
