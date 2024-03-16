@@ -42,7 +42,7 @@ function closeBattle(character, user){
 
   return (
     <div>
-        <h1>Battle!</h1>
+        <h1>Secret Battle Page!</h1>
         <div style={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
           {enemies? enemies.map((enemy)=>(<button key={enemy.id} onClick={()=>startBattle(enemy.id)}>Fight {enemy.name}</button>)):null}
         </div>

@@ -13,8 +13,8 @@ export default function NavBar() {
         <Link to='/'> <img src={'../images/logo.png'}/> </Link>
         {user?
         <Fragment>
-        <Link to='/play'> <h4>Play</h4> </Link>
-        <Link to='/store'> <h4>Shop</h4> </Link>
+        <Link to='/game'> <h4>Play Game</h4> </Link>
+        <Link to='/store'> <h4>Bandit's Bazaar </h4> </Link>
         </Fragment>
         :null}
         {<Link to={user? `/edit-character/${user.id}`:'/register'}><h4>{user?'Edit Character':'Register'}</h4></Link>}

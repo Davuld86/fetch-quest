@@ -1,0 +1,22 @@
+
+.about{
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    font-family: cursive;
+    position: absolute;
+    left:25%
+}
+
+.about h1 {
+    display: flex;
+    justify-content: center;
+}
+.about p {
+    display: flex;
+    justify-content: center;
+}
+.about h5 {
+    display: flex;
+    justify-content: center;
+}

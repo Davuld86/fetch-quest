@@ -16,12 +16,18 @@ export default function ChatContainer({inbox}) {
              fetch(`/api/messages`)
         .then((res)=>{
           if(res.ok){
-            res.json().then((d)=>{setMessages(d.filter(
+            res.json().then(
+                (d)=>{
+            if(d){
+                 setMessages(
+                d.filter(
                 (message=>
                     (message.sent_from==user.id && message.sent_to==inbox.owner_id)
                     ||
                     (message.sent_to ==user.id && message.sent_from==inbox.owner_id)))
-                )})
+                )
+            }
+           })
           }
         })
         }

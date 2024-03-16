@@ -96,7 +96,6 @@ export default function Game({char, setChar, area ='plaza'}) {
           setDisplayedText(textInput.toString())
           setTextInput('')
         }
-
         socket.emit('all_chat',{id: char.user_id, message: txt})
       }
     }

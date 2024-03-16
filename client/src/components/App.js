@@ -26,6 +26,7 @@ import PotionShop from "./PotionShop";
 import ClothesShop from "./ClothesShop";
 import { charDefault, userDefault } from "./default";
 import {io} from 'socket.io-client'
+import About from "./About";
 
 
 const socket = io('http://127.0.0.1:5555/', {
@@ -82,7 +83,7 @@ function App() {
     {friends?<FriendContainer/>:null}
       <Switch>
         <Route exact path='/'><Home/></Route>
-        <Route exact path='/play'><PlayHome/></Route>
+        <Route exact path='/about'><About/></Route>
         <Route path='/register'><Register/></Route>
         <Route path='/account/:uid'><Account/></Route>
         <Route path='/edit-character/:uid'><EditCharacter/></Route>

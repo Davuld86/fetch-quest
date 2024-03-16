@@ -44,8 +44,8 @@ export default function Account() {
             })
         }
     }).then(setLoading(false))
-
     },[location])
+
     function openInbox(pageUser){
         fetch(`/api/inbox/${user.id}/${pageUser.id}`,{
             method:'POST',
