@@ -68,7 +68,7 @@ function handleMove(move){
     setCharacter({...character, mp : (character.mp-move.cost>=character.max_mp?character.max_mp:character.mp-move.cost)})
     setShowMoves(false)
     setLog(`You attack with: ${move.name}`)
-    if(Math.random() <= (move.accuracy/100)){
+    if(Math.random() <= (move.accuracy/100)|| character.job=='archer'){
        playerAnim()
        setTimeout(function(){
         playerDamageCalc(move)
