@@ -5,10 +5,10 @@ GAME:
 MESSAGES:
 
 WEBSOCKET:
-    disconnecting from server cleanly
     add to battle
 
 OTHER:
   make better backgrounds
   move merchants into place
   Change job desc
+  battle anims
