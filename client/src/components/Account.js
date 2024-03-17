@@ -46,15 +46,18 @@ export default function Account() {
     }).then(setLoading(false))
     },[location])
 
-    function openInbox(pageUser){
-        fetch(`/api/inbox/${user.id}/${pageUser.id}`,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-        }).then((res)=>{
-            if(res.ok){
-                res.json().then((d)=>{setUser({...user, chats:[d,...user.chats]})})
-            }
-        })
+    function openInbox(){
+        let check = user.chats.filter((ch)=> ch.owner_id == pageUser.id)
+        if(!check){
+            fetch(`/api/inbox/${user.id}/${pageUser.id}`,{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                    }).then((res)=>{
+                        if(res.ok){
+                            res.json().then((d)=>{setUser({...user, chats:[d,...user.chats]})})
+                        }
+                    })
+        }
     }
 
     function handleFriend(friend){
@@ -97,7 +100,7 @@ export default function Account() {
                     <Link to={`/base/${window.location.pathname.slice(9)}`}><button>Go to Treehouse</button></Link>
                    {user?
                    <Fragment>
-                   {user.id!= pageUser.id?<Link to={'/messages'}><button onClick={()=>openInbox(pageUser)}>Message</button></Link>:null}
+                   {user.id!= pageUser.id?<Link to={'/messages'}><button onClick={openInbox}>Message</button></Link>:null}
                     {user.id==pageUser.id?<Link to={`/account-settings/${user.id}`}><button>Edit Account</button></Link>:null}
                    {stat.status? user.id!=pageUser.id? <button value={stat} onClick={(e)=>handleFriend(stat)}>{stat.status=='Friends'?'Friends': stat.status=='Add Friend'?'Add Friend':'Pending'}</button>:null :null}
                     </Fragment>

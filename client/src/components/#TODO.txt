@@ -2,12 +2,13 @@ TO DO:
 
 GAME:
 
-    click on player and add friend/ goto house/ message
-
 MESSAGES:
 
-
 WEBSOCKET:
-    add to GAME
-    add to messages
+    disconnecting from server cleanly
     add to battle
+
+OTHER:
+  make better backgrounds
+  move merchants into place
+  Change job desc

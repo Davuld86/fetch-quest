@@ -38,14 +38,8 @@ export default function Game({char, setChar, area ='plaza'}) {
         setPlayers([...players,data])
       })
 
-      socket.on('leave_server',(data) => {
-        console.log(data)
-      })
-
       socket.on('all_chat', (data)=>{
-
         setChat([...chats,data])
-
       })
 
       socket.on('moved', (data)=>{
@@ -54,6 +48,11 @@ export default function Game({char, setChar, area ='plaza'}) {
         if(data.user.id != char.user_id){
           setPlayers(d.filter((player)=>player.user.character[0].area===area&& player.user.id!=char.user_id))
         }
+      })
+
+      socket.on('left_server', (data)=>{
+        let p = players.filter((player)=> player.user.id != data.id)
+        setPlayers(p)
       })
 
       return () => {

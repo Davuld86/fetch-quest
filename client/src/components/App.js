@@ -24,9 +24,10 @@ import CrystalCave from "./CrystalCave";
 import FunitureShop from "./FurnitureShop";
 import PotionShop from "./PotionShop";
 import ClothesShop from "./ClothesShop";
+import About from "./About";
 import { charDefault, userDefault } from "./default";
 import {io} from 'socket.io-client'
-import About from "./About";
+
 
 
 const socket = io('http://127.0.0.1:5555/', {

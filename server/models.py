@@ -206,5 +206,6 @@ class GameServer(db.Model, SerializerMixin):
 
     serialize_only = ('id', 'user.character','user.username', 'user.id')
     id = db.Column(db.Integer, primary_key=True)
+    request_id = db.Column(db.String)
     user_id  = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User')

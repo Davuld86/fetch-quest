@@ -4,7 +4,7 @@
 import asyncio
 
 # Remote library imports
-from flask import request, session, make_response, jsonify
+from flask import request, session, abort, make_response, jsonify
 from flask_restful import Resource
 from difflib import SequenceMatcher
 from flask_socketio import emit
@@ -354,8 +354,15 @@ def connected():
 
 @socketio.on('disconnect')
 def disconnected():
-    print(f'requestID: {request.sid} has left')
-    emit('disconnected',{'data':f'id{request.sid} is disconnected'})
+    try:
+        print(f'requestID: {request.sid} has left')
+        user = GameServer.query.filter(GameServer.request_id == request.sid).first()
+        db.session.delete(user)
+        db.session.commit()
+        emit('disconnected',{'data':f'id{request.sid} is disconnected'})
+    except:
+        print('૮₍˃ ⤙˂ ₎ა')
+        abort('write error',500)
 
 
 @socketio.on('message')
@@ -409,19 +416,28 @@ def join_server(data):
     check_user = GameServer.query.filter(GameServer.user_id==data['user_id']).first()
     if not check_user:
         serv = GameServer(
-            user_id = data['user_id']
+            user_id = data['user_id'],
+            request_id =request.sid,
         )
         db.session.add(serv)
         db.session.commit()
         emit('join_server',serv.to_dict(), broadcast=True)
 
 @socketio.on('leave_server')
-def join_server(data):
-    print(str(data))
+def leave_server(data):
+    print(data)
+    user = GameServer.query.filter(GameServer.user_id == data['user_id']).first()
+    db.session.delete(user)
+    db.session.commit()
+    emit('left_server',{'id':data['user_id']}, broadcast=True)
 
 @socketio.on("all_chat")
 def handle_all_chat(data):
     emit("all_chat",{'data':data,'id':request.sid},broadcast=True)
+
+@socketio.on_error()
+def handle_error(e):
+    print('An error occurred:', e)
 
 # Views
 api.add_resource(CheckSession, '/api/check_session', endpoint= 'check_session')

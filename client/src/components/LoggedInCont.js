@@ -19,10 +19,15 @@ useEffect(()=>{
     socket.on('login', (data) => {
       console.log(data);
     })
+    socket.on('leave_server', (data) => {
+      console.log(data);
+    })
 
-    return function cleanup() {
-      socket.disconnect();
-    }
+    return () => {
+        socket.off("data", () => {
+          console.log("data event was removed");
+        })
+      }
   },[socket])
 
 
@@ -49,7 +54,7 @@ function handleLogin(formData){
 }
 
 function handleLogout(){
-    socket.emit('disconnected', {user_id:user.id, username:user.username})
+    socket.emit('leave_server', {user_id:user.id, username:user.username})
     fetch('/api/logout',{
         method:'DELETE',
         headers:{
