@@ -19,6 +19,8 @@ export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, sh
   const [defeat, setDefeat] = useState(false)
   const [log, setLog] = useState(null)
   const [showMoves, setShowMoves] = useState(true)
+  const [pos, setPos] = useState(100)
+  const [epos, setEPos] = useState(0)
 
 
   useEffect(()=>{
@@ -37,6 +39,7 @@ export default function Battle({enemy_id, bg='../images/bg.png', closeBattle, sh
 
   function enemyAttack(){
     setLog(`${enemy.name} attacks!`)
+    enemyAnim()
     setTimeout(function(){
       enemyDamageCalc()
       setShowMoves(true)
@@ -66,7 +69,8 @@ function handleMove(move){
     setShowMoves(false)
     setLog(`You attack with: ${move.name}`)
     if(Math.random() <= (move.accuracy/100)){
-      setTimeout(function(){
+       playerAnim()
+       setTimeout(function(){
         playerDamageCalc(move)
         setUserTurn((p)=>!p)
         },1500)
@@ -100,12 +104,25 @@ function handleMove(move){
     }
   }
 
+  //move player in attacking motion
   function playerAnim(){
-    //move player in attacking motion
+    setPos(300)
+    setTimeout(function(){setEPos(100)},100)
+
+    setTimeout(function(){
+    setEPos(0)
+    setPos(100)
+    },200)
+
   }
 
   function enemyAnim(){
-    //move enemy in attacking motion
+    setEPos(-200)
+    setTimeout(function(){setPos(0)},100)
+    setTimeout(function(){
+    setPos(100)
+    setEPos(0)
+    },200)
   }
 
 
@@ -230,14 +247,14 @@ if(showBattle==true){
 
 
           <div className='battle-character'>
-            <img  alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
+            <img style={{left:`${pos}px`}}  alt="Character" className='battleRaccoon' src={`../images/characters/${character.job}_${character.color}.png`} />
             {userTurn&&showMoves?<BattleItems items={items.filter((item)=>item.category=='battle')} handleItem={handleItem}/>:null}
 
             {showMoves?<button className='runButton' onClick={()=>closeBattle(character,user)}><img src='../images/run_icon.png' style={{width:'50px'}}></img>Run!</button>:null}
             {moves&&userTurn&&showMoves?<Moves moves={moves} handleMove={handleMove} /> :null}
           </div>
           <div className='battle-enemy'>
-          <img alt="Enemy" src={enemy.image}/>
+          <img alt="Enemy" style={{left:`${epos}px`}} src={enemy.image}/>
 
           </div>
 

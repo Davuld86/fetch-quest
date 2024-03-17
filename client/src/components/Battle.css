@@ -8,23 +8,22 @@
     max-width: inherit;
     max-height: inherit;
     z-index: 0;
-}
-
-.battleRaccoon{
-    left: 100px;
+    transition: left 0.2s ease 0s;
 }
 
 .battle-enemy{
     position: absolute;
     max-width: 400px;
     max-height: 400px;
-    left: 663px;
+    left: 650px;
     top: 235px;
+    transition: left 0.2s ease 0s;
 }
 .battle-enemy img{
     position:inherit;
     max-width: inherit;
     max-height: inherit;
+    transition: left 0.2s ease 0s;
 }
 
 .battle-screen{

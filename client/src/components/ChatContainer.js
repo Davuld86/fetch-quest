@@ -71,7 +71,9 @@ export default function ChatContainer({inbox}) {
                 let f = user.chats.filter((chat)=> chat.owner_id != inbox.owner_id)
                 f= [inbox, ...f]
                 setUser({...user, chats:f})
+                setMessages([...messages,])
         }
+
     }
 
     function handleDelete(message_id){
