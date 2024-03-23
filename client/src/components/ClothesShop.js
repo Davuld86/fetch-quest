@@ -21,7 +21,7 @@ useEffect(()=>{
 if(char){
   return (
     <div>
-      <Merchant store='clothes' positionX={1400} positionY={350} />
+      <Merchant store='clothes' positionX={1360} positionY={350} size={150}/>
       <ScreenTrigger link ={'/game'} width={300} height={100} x={700} y={700} xPos={1100} yPos={480}/>
         <Game char={char} setChar={setChar} area='clothes-shop'/>
     </div>

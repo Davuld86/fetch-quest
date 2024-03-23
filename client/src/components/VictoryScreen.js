@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react'
-import { UserContext } from './App'
+import { SocketContext, UserContext } from './App'
+
 
 export default function VictoryScreen({enemy, character, setCharacter,exitBattle}) {
     const [user, setUser] = useContext(UserContext)
+    const socket = useContext(SocketContext)
     let lvl = false
     let n = character.level
     let diff = 0
@@ -44,17 +46,9 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
         let u = {...user, coins:user.coins+enemy.coins}
         setUser(u)
         setCharacter(ch)
-        fetch(`/api/user/${u.id}`, {
-            method: 'PATCH',
-            headers: {'Content-Type':'application/json'},
-            body:(JSON.stringify({coins: u.coins}))
-        })
-        fetch(`/api/character/${ch.id}`,{
-            method:'PATCH',
-            headers:{
-                'Content-Type':'application/json'
-            },
-        body:(JSON.stringify({
+        let data ={
+            user_id: ch.user_id,
+            coins: u.coins,
             exp: ch.exp,
             level: ch.level,
             max_hp: ch.max_hp,
@@ -62,8 +56,9 @@ export default function VictoryScreen({enemy, character, setCharacter,exitBattle
             atk: ch.atk,
             matk: ch.matk,
             defense: ch.defense,
-        }))
-    })
+
+        }
+        socket.emit('exit_battle',data)
         exitBattle(ch, u)
     }
 

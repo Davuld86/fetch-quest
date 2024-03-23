@@ -55,6 +55,14 @@ export default function Game({char, setChar, area ='plaza'}) {
         setPlayers(p)
       })
 
+      socket.on('battle_exit', (data)=>{
+        let p = players.filter((player)=> player.user.id!=data.user.id && player.user.id!=char.user_id)
+        let d = [...p, data]
+        if(data.user.id != char.user_id){
+          setPlayers(d.filter((player)=>player.user.character[0].area===area&& player.user.id!=char.user_id))
+        }
+      })
+
       return () => {
         socket.off("data", () => {
           console.log("data event was removed");

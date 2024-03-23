@@ -10,3 +10,7 @@ html{
     border: 3px solid black;
     margin: 2%;
 }
+
+body{
+    background-color: rgb(8, 26, 2);
+}

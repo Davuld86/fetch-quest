@@ -18,9 +18,10 @@
 }
 
 .job-description{
-    display: flex;
-    flex-direction: column;
+    display: grid;
     align-items: center;
+    align-content: flex-start;
+    justify-items: center;
 }
 
 .job-description p{

@@ -435,6 +435,21 @@ def leave_server(data):
 def handle_all_chat(data):
     emit("all_chat",{'data':data,'id':request.sid},broadcast=True)
 
+@socketio.on('exit_battle')
+def handle_exit_battle(data):
+    user = GameServer.query.filter(GameServer.user_id==data['user_id']).first()
+    character = Character.query.filter(Character.user_id==data['user_id']).first()
+    for attribute in data:
+        if attribute=='coins':
+            setattr(user,attribute,data['coins'])
+        else:
+            setattr(character,attribute,data[attribute])
+
+    db.session.add(character)
+    db.session.add(user)
+    db.session.commit()
+    emit('battle_exit',user.to_dict(),broadcast=True)
+
 @socketio.on_error()
 def handle_error(e):
     print('An error occurred:', e)

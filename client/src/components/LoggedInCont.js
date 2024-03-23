@@ -32,6 +32,7 @@ useEffect(()=>{
 
 
 function handleLogin(formData){
+    toggleDropDown(false)
     socket.emit('login', {username: formData.username,password: formData.password})
     fetch('/api/login', {
         method:'POST',

@@ -23,7 +23,7 @@ export default function Graveyard() {
         <div>
             <OWEnemy positionX={230} positionY={600} enemy_id='skeleton' flip={true}/>
             <OWEnemy positionX={900} positionY={260} enemy_id='spirit'/>
-            <ScreenTrigger link ={'/game'} width={100} height={200} x={1470} y={500} char={char} setChar={setChar} xPos={180} yPos={400} />
+            <ScreenTrigger link ={'/game'} width={100} height={200} x={1470} y={500} char={char} setChar={setChar} xPos={200} yPos={400} />
             <ScreenTrigger link ={'/game/boneyard'} width={200} height={200} x={50} y={180} char={char} setChar={setChar} xPos={1342} yPos={500} />
             <Game char={char} setChar={setChar} area='graveyard'/>
         </div>

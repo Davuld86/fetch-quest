@@ -5,7 +5,7 @@ import PlayerMenu from './PlayerMenu'
 export default function Player({player, chat, setChat}) {
     const c=player.user.character[0]
     const [msg, setMsg] = useState(chat.filter((ch)=> ch.data.id == player.user.id))
-    const [x, setX] = useState(c.x)
+    const [x, setX] = useState(c?c.x:400)
     const [flip, setFlip] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
 
