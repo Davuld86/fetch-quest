@@ -53,9 +53,9 @@ export default function Register() {
   }
 else {
   return (
-    <div>
+    <div style={{backgroundColor:'aliceblue'}}>
       <h1>Register</h1>
-    <div style={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
+    <div style={{display:'flex', justifyContent:'space-evenly', alignItems:'center', backgroundColor:'aliceblue'}}>
 
         <div className='avatar'>
           <ColorCharacter setColor={setColor} job={job}/>

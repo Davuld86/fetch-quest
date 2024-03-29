@@ -25,7 +25,7 @@ import FunitureShop from "./FurnitureShop";
 import PotionShop from "./PotionShop";
 import ClothesShop from "./ClothesShop";
 import About from "./About";
-import { charDefault, userDefault } from "./default";
+import {charDefault, userDefault } from "./default";
 import {io} from 'socket.io-client'
 
 
@@ -62,6 +62,7 @@ function App() {
     useEffect(()=>{
       socket.on("connected", (data) => {
       })
+
       socket.on("disconnected", (data) => {
         console.log(data)
       })

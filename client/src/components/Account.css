@@ -1,5 +1,9 @@
 .character-container{
+    margin-left: 20px;
     display: flex;
+}
+.character-container img{
+    margin-left: 50px;
 }
 
 .user-pfp{

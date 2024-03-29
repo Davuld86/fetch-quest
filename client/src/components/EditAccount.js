@@ -49,7 +49,7 @@ if(submitted){
 if (user){
 if(user.id == parseInt(id)){
     return (
-    <div className='profile-page'>
+    <div className='profile-page' style={{backgroundColor:'aliceblue'}}>
         {box? <DialogueBox title={'Delete Account'} text={'This action cannot be undone.'} onYes={handleDelete} onNo={()=>toggleBox(false)}/>:null}
         <h1>Edit Profile</h1>
         <h2>Username: {user.username}</h2>

@@ -11,8 +11,6 @@ from flask_socketio import SocketIO
 from sqlalchemy import MetaData
 
 
-# Local imports
-
 # Instantiate app, set attributes
 app = Flask(__name__)
 app.secret_key =b'453c0d1d0bf917dacd07fb260ed9bc0f'
@@ -35,4 +33,6 @@ api = Api(app)
 
 # Instantiate CORS
 CORS(app,resources={r"/*":{"origins":"*"}})
+
+#Instantiate SocketIO
 socketio = SocketIO(app,cors_allowed_origins="*")

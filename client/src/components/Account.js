@@ -48,7 +48,7 @@ export default function Account() {
 
     function openInbox(){
         let check = user.chats.filter((ch)=> ch.owner_id == pageUser.id)
-        if(!check){
+        if(check==''){
             fetch(`/api/inbox/${user.id}/${pageUser.id}`,{
                         method:'POST',
                         headers:{'Content-Type':'application/json'},
@@ -91,7 +91,7 @@ export default function Account() {
 
     else if (pageUser){
             return (
-                <div>
+                <div style={{backgroundColor:'aliceblue', paddingBottom:'100px'}}>
                     <h1>User: {pageUser.username}</h1>
                     <img src={`${pageUser.pfp}`} className='user-pfp'/>
                     <h3>Bio:</h3>

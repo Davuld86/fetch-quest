@@ -96,7 +96,7 @@ else if(char){
 
     }
     return (
-        <div>
+        <div style={{backgroundColor:'aliceblue', paddingBottom:'20px'}}>
         <div className='edit-character-page'>
             <div className='avatar'>
             <h2>Change Color</h2>

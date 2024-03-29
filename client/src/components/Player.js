@@ -31,7 +31,7 @@ export default function Player({player, chat, setChat}) {
             setFlip(false)
           }
           setX(player.user.character[0].x)
-      },[player.user.character[0].x])
+      },[player?player.user.character[0].x:x])
 
     const characterStyle = {
     width: '90px',

@@ -30,7 +30,7 @@ export default function Messages() {
     }
     if(user){
          return (
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex', backgroundColor:'aliceblue'}}>
             <div style={{display:'flex', flexDirection:'column'}}>
                 <h2>Direct Messages</h2>
                     {user.chats[0]?user.chats.map((chat)=> <Inbox key={chat.owner_id} chat={chat} setBox={setBox} removeBox={removeBox}/>):null}

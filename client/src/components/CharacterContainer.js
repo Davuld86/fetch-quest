@@ -5,7 +5,7 @@ export default function CharacterContainer({character}) {
   return (
     <div className='character-container'>
       <div className='character-stats'>
-      <h3>Job: {character.job}</h3>
+      <h3>Job: {character.job[0].toUpperCase()+character.job.slice(1)}</h3>
       <h3>Level: {character.level}</h3>
       <h3>HP: {character.hp} / {character.max_hp}</h3>
       <h3>MP: {character.mp} / {character.max_mp}</h3>
